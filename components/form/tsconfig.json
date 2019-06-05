@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "strict": false,
+        "jsx": "preserve",
+        "importHelpers": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "strictNullChecks": false,
+        "types": [
+            "webpack-env"
+        ],
+    },
+    "include": [
+        "**/*.ts",
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "paths": {
+        "@/*": [
+          "./../../src/*"
+        ]
+    },
+}

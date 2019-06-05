@@ -1,0 +1,6 @@
+{
+  "form-string/variant": {
+    "description": "String value.",
+    "type": "string"
+  }
+}

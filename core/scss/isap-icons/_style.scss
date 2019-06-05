@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "untitled-font-1";
+  src:url("isap-icons/fonts/isap-font-icons.eot");
+  src:url("isap-icons/fonts/isap-font-icons.eot?#iefix") format("embedded-opentype"),
+    url("isap-icons/fonts/isap-font-icons.woff") format("woff"),
+    url("isap-icons/fonts/isap-font-icons.ttf") format("truetype"),
+    url("isap-icons/fonts/isap-font-icons.svg#untitled-font-1") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.isap-icon {
+  font-family: "untitled-font-1" !important;
+}
+
+.isap-toolbox-icon {
+  padding: 0.1rem 0.3rem;
+  border-radius: 50% !important;
+}
+
+.isap-icon-filerarraw-close:before {
+  content: "\61";
+}
+.isap-icon-filerarraw-open:before {
+  content: "\62";
+}
+.isap-icon-add:before {
+  content: "\63";
+}
+.isap-icon-cardview:before {
+  content: "\64";
+}
+.isap-icon-delete:before {
+  content: "\65";
+}
+.isap-icon-detial:before {
+  content: "\66";
+}
+.isap-icon-edit:before {
+  content: "\67";
+}
+.isap-icon-export:before {
+  content: "\68";
+}
+.isap-icon-listview:before {
+  content: "\69";
+}
+.isap-icon-more:before {
+  content: "\6a";
+  // content: "\F040";
+}
+.isap-icon-sort:before {
+  content: "\6b";
+}
+.isap-icon-view:before {
+  content: "\6c";
+}

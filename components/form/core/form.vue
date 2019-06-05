@@ -1,0 +1,76 @@
+<template>
+    <div :class="{ row: true, 'col-md-12': inner ? true : false, inner: inner ? true : false }">
+
+        <template v-for="(inf, index) in this.parsedInterface">
+            <template v-if="(inf.attrs||{}).uiHidden === 'true'" />
+            <template v-else-if="$slots[inf.name] || $scopedSlots[inf.name]">
+                <slot :name="inf.name" :$attrs="bindAttrs(inf, index)" :$listeners="bindListeners(inf, index)" :data="innateValue" />
+            </template>
+            <template v-else-if="(inf.attrs||{}).uiType ? true : false">
+                <element :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" :is="inf.attrs.uiType" />
+            </template>
+            <template v-else-if="inf.type === 'string'">
+                <iv-form-string :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
+            </template>
+            <template v-else-if="inf.type === 'boolean'">
+                <iv-form-switch :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
+            </template>
+            <template v-else-if="inf.type === 'number'">
+                <iv-form-number :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
+            </template>
+            <template v-else-if="inf.type === 'Date'">
+                <iv-form-datetime :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
+            </template>
+            <template v-else>
+                <template v-for="type in parsedType(inf.type) || []">
+                    <iv-form-selection
+                        v-if="type.type === 'enum'"
+                        :key="inf.name"
+                        v-bind="bindAttrs(inf, index, type)"
+                        v-on="bindListeners(inf, index)"
+                    />
+                    <iv-form v-else
+                        :ref="inf.name"
+                        :key="inf.name"
+                        :inner="true"
+                        :interface="type.data.result"
+                        :value="innateValue[inf.name]"
+                        @update:*="emitUpdate(inf.name+'.'+$event.key, $event.value)"
+                        >
+                        <template v-for="slot in relatedSlots(inf.name, false)" :slot="slot.name">
+                            <slot :name="slot.originalName" />
+                        </template>
+                        <template v-for="slot in relatedSlots(inf.name, true)" v-slot:[slot.name]="scope">
+                            <slot :name="slot.originalName" v-bind="scope" />
+                        </template>
+
+                        <!-- <template v-for="(_, slot) of $slots">
+                            <slot :name="slot" />
+                        </template>
+                        <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+                            <slot :name="slot" v-bind="scope" />
+                        </template> -->
+                    </iv-form>
+
+                </template>
+            </template>
+
+            <template v-if="checkLineBreak(index)">
+                <div :key="'breaker-'+index" class="w-100" />
+            </template>
+        </template>
+    <!-- </element> -->
+    </div>
+</template>
+
+
+<script lang="ts" src="./form.vue.ts" />
+
+<style lang="scss" scoped>
+.inner {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+</style>

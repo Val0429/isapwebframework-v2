@@ -1,0 +1,9 @@
+{
+    "form-string": {
+      "attributes": [
+        "variant",
+      ],
+      "subtags": [],
+      "description": "Val component: <form-string>"
+    }
+}

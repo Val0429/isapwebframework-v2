@@ -1,0 +1,17 @@
+/// font awesome support
+@import "~font-awesome/css/font-awesome.min.css";
+
+/// isap icon support
+@import "isap-icons/_style.scss";
+
+/// bootstrap
+@import "./../../src/config/default/variables.scss";
+@import "variables/bootstrap-variables";
+
+// Import Bootstrap style
+@import "~bootstrap/dist/css/bootstrap.css";
+
+/// global font
+body {
+    font-family: 微軟正黑體 !important;
+}

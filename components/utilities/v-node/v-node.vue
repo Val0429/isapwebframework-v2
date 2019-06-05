@@ -1,0 +1,1 @@
+<script lang="ts" src="./v-node.vue.ts" />
