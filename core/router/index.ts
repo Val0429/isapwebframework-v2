@@ -55,7 +55,7 @@ export function RegisterRouter(config: IRegisterRouter) {
     }
 }
 let loginRoute: IRegisterRouterInput;
-export function RegisterLogin(config: IRegisterRouter) {
+export function RegisterLoginRouter(config: IRegisterRouter) {
     return (component?) => {
         let { path, name, icon, disableContainer } = config;
         let input: IRegisterRouterInput = {
