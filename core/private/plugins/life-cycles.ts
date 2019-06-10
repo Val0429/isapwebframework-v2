@@ -6,6 +6,9 @@ export const LifeCyclesPlugin = {
         Vue._isap_life_cycles_installed = true;
 
         Vue.mixin({
+            created() {
+                this.$emit('created', true);
+            },
             mounted() {
                 this.$emit('mounted', true);
             }

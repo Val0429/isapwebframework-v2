@@ -37,11 +37,6 @@ export class FormServerObject extends Vue {
     })
     value!: any | any[];
 
-    @Watch('$server')
-    onServerReady() {
-        console.log('ready!');
-    }
-
     @Emit()
     input(data) {
         function transform(data) {

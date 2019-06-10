@@ -1,5 +1,7 @@
 import { Vue, Component, Prop, Model, Emit, Watch, Inject, iSAPServerBase } from "@/../core";
 import { IServerTree } from 'components/interfaces';
+import { BehaviorSubject } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
 
 export type ITreeUnit<T> = T & {
     children?: ITreeUnit<T>[];
@@ -99,24 +101,30 @@ export class Tree extends Vue {
         return result;
     }
 
+
+    private sjCreated: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    private created() { this.sjCreated.next(true); }
+    private fetching: boolean = false;
     private async fetchGetResult() {
         if (!this.server) return;
+        await this.sjCreated.pipe( filter(v=>v) ).pipe( first() ).toPromise();
+        if (this.fetching) return;
+        this.fetching = true;
+
         let serverInstance = this.server.server || this.$server;
-        if (!serverInstance) {
-            /// todo: workaround
-            setTimeout(() => this.fetchGetResult(), 0);
-            return;
-        }
         let { path, groupBy, objectId } = this.server;
         /// try connect
-        let result: IGetResult = await serverInstance.R(path, {
-            paging: {
-                all: true
-            },
-            ...(groupBy ? {groupBy} : {}),
-            ...(objectId ? {objectId} : {}),
-        }) as any;
-        this.result = this.transferToITreeUnit(result.results);
+        try {
+            let result: IGetResult = await serverInstance.R(path, {
+                paging: {
+                    all: true
+                },
+                ...(groupBy ? {groupBy} : {}),
+                ...(objectId ? {objectId} : {}),
+            }) as any;
+            this.result = this.transferToITreeUnit(result.results);
+        } catch(e) { throw e }
+        finally { this.fetching = false; }
     }
 }
 export default Tree;

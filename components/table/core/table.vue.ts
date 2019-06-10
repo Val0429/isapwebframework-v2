@@ -1,7 +1,8 @@
 import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult } from "@/../core";
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import lang from '@/../core/i18n';
 import { IServer } from 'components/interfaces';
+import { filter, first } from 'rxjs/operators';
 
 /// ui set
 const uiLabel = "uiLabel";
@@ -180,24 +181,29 @@ export class Table extends Vue {
             this.pSelected.length > 0 ? this.pSelected[0] : null);
     };
 
+    private sjCreated: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    private created() { this.sjCreated.next(true); }
+    private fetching: boolean = false;
     private async fetchGetResult() {
         if (!this.server) return;
+        await this.sjCreated.pipe( filter(v=>v) ).pipe( first() ).toPromise();
+        if (this.fetching) return;
+        this.fetching = true;
+
         let serverInstance = this.server.server || this.$server;
-        if (!serverInstance) {
-            /// todo: workaround
-            setTimeout( () => this.fetchGetResult(), 0);
-            return;
-        }
         let path = this.server.path;
         /// try connect
-        let result: IGetResult = await serverInstance.R(path, {
-            paging: {
-                pageSize: this.innatePageSize,
-                page: this.currentPage,
-            },
-            ...(this.params || {})
-        }) as any;
-        this.result = result;
+        try {
+            let result: IGetResult = await serverInstance.R(path, {
+                paging: {
+                    pageSize: this.innatePageSize,
+                    page: this.currentPage,
+                },
+                ...(this.params || {})
+            }) as any;
+            this.result = result;
+        } catch(e) { throw e }
+        finally { this.fetching = false; }
     }
 
     private showLabel(inf: IMetaResult): string {
