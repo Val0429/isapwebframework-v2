@@ -7,7 +7,10 @@ import { Form } from './../../form';
 import { StepProgress } from './../../step-progress';
 
 @Component({
-    components: { VuePerfectScrollbar }
+    components: { VuePerfectScrollbar },
+    provide() {
+        return { modalParent: this }
+    }    
 })
 export class Modal extends Vue {
     @Prop({ type: String })

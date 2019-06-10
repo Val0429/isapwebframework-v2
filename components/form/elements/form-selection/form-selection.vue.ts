@@ -1,4 +1,4 @@
-import { Vue, Component, Prop, Model, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, Model, Watch, Inject } from "vue-property-decorator";
 import $ from 'jquery';
 
 interface FormSelectionOption {
@@ -38,6 +38,8 @@ export class FormSelection extends Vue {
     }
 
     /// private helpers
+    @Inject({ default: null }) modalParent: any;
+
     private created() {
         this.doMount = this.doMount.bind(this);
     }
@@ -45,7 +47,8 @@ export class FormSelection extends Vue {
         let me = $(`#${this.id}`) as any;
         me.select2({
             theme: "bootstrap",
-            placeholder: this.placeholder || this._("mb_PleaseSelect")
+            placeholder: this.placeholder || this._("mb_PleaseSelect"),
+            dropdownParent: !this.modalParent ? null : $(this.modalParent.$el)
         })
         .on('change', this.doOnChange);
     }
