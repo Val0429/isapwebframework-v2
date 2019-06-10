@@ -30,6 +30,7 @@ export class RouteTransition extends Vue {
             return final;
         }, false);
 
+
         // let path = this.$parent.$route.path;
         // return router.reduce( (final, route) => {
         //     if (final) return final;
