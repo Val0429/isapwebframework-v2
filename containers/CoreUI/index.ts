@@ -7,7 +7,7 @@ import SidebarHeader from './lib/components/Sidebar/SidebarHeader.vue';
 import SidebarNav from './lib/components/Sidebar/SidebarNav.vue';
 import SidebarNavItem from './lib/components/Sidebar/SidebarNavItem.vue';
 import SidebarNavTitle from './lib/components/Sidebar/SidebarNavTitle.vue';
-import { SidebarNavDivider } from './lib/node_modules/@coreui/vue';
+import { SidebarNavDivider } from './node_modules/@coreui/vue';
 export { SidebarHeader, SidebarNav, SidebarNavTitle, SidebarNavDivider, SidebarNavItem };
 
 /**

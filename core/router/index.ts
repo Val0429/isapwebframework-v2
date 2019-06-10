@@ -133,7 +133,7 @@ const sjDefaultRoute: BehaviorSubject<any> = new BehaviorSubject(null);
 export default new Promise<Router>( (resolve) => {
     setTimeout( () => {
         let router = new Router({
-            mode: 'hash',
+            mode: 'history',
             linkActiveClass: 'open active',
             base: process.env.BASE_URL,
             routes
