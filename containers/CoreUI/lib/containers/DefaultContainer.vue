@@ -144,6 +144,9 @@ export default {
 .container-fluid {
   min-height: calc(100vh - 165px);
 }
+.main {
+  overflow: hidden;
+}
 </style>
 
 <style lang="css">
