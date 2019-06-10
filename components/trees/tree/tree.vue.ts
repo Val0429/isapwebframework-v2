@@ -51,8 +51,10 @@ export class Tree extends Vue {
     private result: ITreeUnit<any> = null;
     /// server watcher
     @Watch('server', {immediate: true})
-    private async onServerChanged(value: IServerTree) {
+    private async onServerChanged(value: IServerTree, oldValue: IServerTree) {
         if (value) {
+            /// detect diff
+            if (oldValue && value.server === oldValue.server && value.path === oldValue.path && value.groupBy === oldValue.groupBy && value.objectId === oldValue.objectId) return;
             this.fetchGetResult();
         }
     }
@@ -102,7 +104,7 @@ export class Tree extends Vue {
     }
 
 
-    private sjCreated: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    private sjCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private created() { this.sjCreated.next(true); }
     private fetching: boolean = false;
     private async fetchGetResult() {

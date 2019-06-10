@@ -111,8 +111,10 @@ export class Table extends Vue {
 
     /// server watcher
     @Watch('server', {immediate: true})
-    private async onServerChanged(value: IServer) {
+    private async onServerChanged(value: IServer, oldValue: IServer) {
         if (value) {
+            /// detect diff
+            if (oldValue && value.server === oldValue.server && value.path === oldValue.path) return;
             this.fetchGetResult();
         }
     }
@@ -181,7 +183,7 @@ export class Table extends Vue {
             this.pSelected.length > 0 ? this.pSelected[0] : null);
     };
 
-    private sjCreated: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    private sjCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private created() { this.sjCreated.next(true); }
     private fetching: boolean = false;
     private async fetchGetResult() {
