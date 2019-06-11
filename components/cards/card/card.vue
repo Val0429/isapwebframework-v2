@@ -19,7 +19,7 @@
             @show="innateVisible = true; $emit('update:visible', true);"
             @hide="innateVisible = false; $emit('update:visible', false);"
             :id="'collapse-' + _uid">
-            <b-card-body>
+            <b-card-body :class="{ 'no-padding': noBodyPadding }">
                 <slot />
             </b-card-body>
 
@@ -58,6 +58,10 @@
         @include transform-origin(50% 50% 0);
         @include rotate(90);
     }
+}
+
+.no-padding {
+    padding: 0 !important;
 }
 
 .title {

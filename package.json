@@ -11,7 +11,7 @@
     "@coreui/coreui": "2.1.4",
     "@coreui/vue": "2.1.2",
     "bootstrap": "4.3.1",
-    "bootstrap-vue": "2.0.0-rc.12",
+    "bootstrap-vue": "2.0.0-rc.22",
     "core-js": "2.6.5",
     "font-awesome": "4.7.0",
     "isomorphic-ws": "4.0.1",
@@ -23,7 +23,8 @@
     "vue-class-component": "7.0.2",
     "vue-fragment": "1.5.1",
     "vue-property-decorator": "8.1.0",
-    "vue-router": "3.0.3"
+    "vue-router": "3.0.3",
+    "vue-rx": "6.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "3.7.0",

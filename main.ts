@@ -18,6 +18,10 @@ import "@/components";
 
 
 /// plugins /////////////////////////////////
+/// install vuerx support
+import VueRx from 'vue-rx';
+Vue.use(VueRx);
+
 /// install language support
 import { LangPlugin } from './core/i18n';
 Vue.use(LangPlugin);

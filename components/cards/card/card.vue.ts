@@ -18,6 +18,10 @@ export class Card extends Vue {
     @Prop({ type: Object as () => ICard, required: false, default: () => ({}) })
     data!: ICard;
 
+    /// private props
+    @Prop({ type: Boolean, default: false, required: false })
+    noBodyPadding: boolean;
+
     /// private helpers
     private innateVisible: boolean = true;
     @Watch("visible", { immediate: true })

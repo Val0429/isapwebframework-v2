@@ -4,6 +4,8 @@ import { filter, first } from 'rxjs/operators';
 import { ICard } from 'components/cards/card/card.vue';
 import { Form } from '../../form';
 import { StepProgress } from '../../step-progress';
+import { Tab } from '../../tab';
+import { Observe } from './../../../core/utilities';
 
 
 @Component
@@ -21,16 +23,31 @@ export class AutoCard extends Vue {
     private isMounted: boolean = false;
     private doMounted() {
         this.isMounted = true;
+        let node = (this.$refs.node as any);
+        (this.$observables.thisForm as any).next( node.findElement(Form) );
+        (this.$observables.thisStep as any).next( node.findElement(StepProgress) );
+        let tab = node.findElement(Tab);
+        if (tab) {
+            (this.$observables.thisTab as any).next( node.findElement(Tab) );
+            tab.innateCard = true;
+        }
     }
 
-    private get thisForm() {
-        if (!this.$refs.node) return;
-        return (this.$refs.node as any).findElement(Form);
-    }
-    private get thisStep() {
-        if (!this.$refs.node) return;
-        return (this.$refs.node as any).findElement(StepProgress);
-    }
+    @Observe({
+        value: () => new BehaviorSubject<Vue>(null)
+    })
+    thisForm: BehaviorSubject<Vue>;
+
+    @Observe({
+        value: () => new BehaviorSubject<Vue>(null)
+    })
+    thisStep: BehaviorSubject<Vue>;
+
+    @Observe({
+        value: () => new BehaviorSubject<Vue>(null)
+    })
+    thisTab: BehaviorSubject<Vue>;
+
     private excludeKeys(obj: any, ...keys: string[]) {
         return Object.keys(obj).filter( (key) => {
             return keys.indexOf(key) < 0;

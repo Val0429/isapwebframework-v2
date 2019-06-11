@@ -90,11 +90,9 @@ export class StepProgress extends Vue {
 
     public currentStep: number = 1;
     private increaseCurrentStep() {
-        this.animeDirection = AnimationDirection.LTR;
         ++this.currentStep;
     }
     private decreaseCurrentStep() {
-        this.animeDirection = AnimationDirection.RTL;
         --this.currentStep;
     }
     private done: boolean = false;
@@ -105,26 +103,6 @@ export class StepProgress extends Vue {
             ++steps;
         }
         return steps;
-    }
-
-    private stepAttrs(step: number) {
-        return {
-            variant: step <= this.currentStep ? 'success' : 'light'
-        }
-    }
-
-    /// handle animation
-    private beforeEnter() {
-        let el = arguments[0];
-        el.children[0].style.width = 'inherit';
-    }
-    private beforeLeave() {
-        let el = arguments[0];
-        el.children[0].style.width = `${el.offsetWidth}px`;
-    }
-    private animeDirection: AnimationDirection = AnimationDirection.LTR;
-    private get animeName() {
-        return this.animeDirection === AnimationDirection.LTR ? "slide-first" : "slide-second";
     }
     //////////////////////////////////////////////////////////////////////////////////////
 }
