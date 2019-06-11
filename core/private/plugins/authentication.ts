@@ -6,6 +6,8 @@ import { AlertResponse } from '@/../components/modal/alert-response';
 import config from '@/config/default/serverConfig';
 import { versionCompare } from '@/../core/utilities';
 import { BehaviorSubject } from 'rxjs';
+import data from '@/package.json';
+const kSessionId = `${data.name}:sessionId`;
 
 declare module "vue/types/vue" {
     export interface Vue {
@@ -45,7 +47,7 @@ export const AuthPlugin = {
 
             methods: {
                 $login: async function(this: Vue, auth?: ILogin) {
-                    let storedSessionId = localStorage.getItem('sessionId');
+                    let storedSessionId = localStorage.getItem(kSessionId);
                     if (!auth && !storedSessionId) throw "sessionIdNotExists";
                     if (!auth) auth = { sessionId: storedSessionId } as any;
 
@@ -55,7 +57,7 @@ export const AuthPlugin = {
                         data = await this.$server.C("/users/login", auth);
                     } catch(e) {
                         /// if session invalid, delete it
-                        if ((auth as any).sessionId) localStorage.removeItem('sessionId');
+                        if ((auth as any).sessionId) localStorage.removeItem(kSessionId);
                         throw e;
                     }
                     let { user: rUser, sessionId } = data;
@@ -84,7 +86,7 @@ export const AuthPlugin = {
                     Object.assign(AuthPluginData.permissions, apis.APIs);
                     sjPermissions.next(AuthPluginData.permissions);
                     /// store sessionId
-                    localStorage.setItem('sessionId', sessionId);
+                    localStorage.setItem(kSessionId, sessionId);
 
                     return data;
                 }
