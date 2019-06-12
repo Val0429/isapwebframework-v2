@@ -27,14 +27,10 @@ export const AuthPluginData = {
     server: null, user: null, permissions: null
 };
 Vue.set(AuthPluginData, "server", Server.getDefault());
+// Vue.set(AuthPluginData, "user", null);
+// Vue.set(AuthPluginData, "permissions", null);
 Vue.set(AuthPluginData, "user", {});
 Vue.set(AuthPluginData, "permissions", {});
-
-// export const AuthPluginData = {
-//     server: Server.getDefault(),
-//     user: {},
-//     permissions: {}
-// }
 
 export const sjPermissions: BehaviorSubject<any> = new BehaviorSubject(null);
 
@@ -53,7 +49,28 @@ export const AuthPlugin = {
             },
 
             methods: {
+                $logout: async function(this: Vue, logoutPath?: string) {
+                    logoutPath = logoutPath || "/users/logout";
+
+                    /// 1) request logout
+                    let data = await this.$server.R(logoutPath as any);
+
+                    /// 2) clean auth
+                    /// clean user
+                    // Vue.set(AuthPluginData, 'user', null);
+                    Vue.set(AuthPluginData, 'user', {});
+                    /// assign permissions
+                    // Vue.set(AuthPluginData, 'permissions', null);
+                    Vue.set(AuthPluginData, 'permissions', {});
+                    sjPermissions.next(AuthPluginData.permissions);
+
+                    /// 3) clean local storage
+                    localStorage.removeItem(kSessionId);
+                },
+
                 $login: async function(this: Vue, auth?: ILogin) {
+                    let router = FindLoginRouter();
+                    let loginPath: any = router.permission || "/users/login";
                     let storedSessionId = localStorage.getItem(kSessionId);
                     if (!auth && !storedSessionId) throw "sessionIdNotExists";
                     if (!auth) auth = { sessionId: storedSessionId } as any;
@@ -61,7 +78,7 @@ export const AuthPlugin = {
                     /// 1) request login
                     let data: any;
                     try {
-                        data = await this.$server.C("/users/login", auth);
+                        data = await this.$server.C(loginPath, auth);
                     } catch(e) {
                         /// if session invalid, delete it
                         if ((auth as any).sessionId) localStorage.removeItem(kSessionId);
@@ -86,11 +103,15 @@ export const AuthPlugin = {
 
                     /// 3) assign
                     /// assign user
+                    // Vue.set(AuthPluginData, "user", {});
                     Object.keys(AuthPluginData.user).forEach(k => Vue.delete(AuthPluginData.user, k));
                     Object.assign(AuthPluginData.user, rUser);
+                    // Vue.set(AuthPluginData, "user", rUser);
                     /// assign permissions
+                    // Vue.set(AuthPluginData, "permissions", {});
                     Object.keys(AuthPluginData.permissions).forEach(k => delete AuthPluginData.permissions[k]);
                     Object.assign(AuthPluginData.permissions, apis.APIs);
+                    // Vue.set(AuthPluginData, "permissions", apis.APIs);
                     sjPermissions.next(AuthPluginData.permissions);
                     /// store sessionId
                     localStorage.setItem(kSessionId, sessionId);

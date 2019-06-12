@@ -6,7 +6,7 @@
     >
         <b-form-file
             v-bind="$attrs"
-            v-bind:value="value"
+            v-bind:value="innateValue"
             v-bind:placeholder="placeholder"
             v-bind:drop-placeholder="dropPlaceholder"
             v-on:input="$emit('input', $event)"

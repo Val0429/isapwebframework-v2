@@ -165,6 +165,7 @@ function initGuards(router: Router) {
             if (permission === false) return next();
             /// 2.3) fetch permissions
             if (isObjectEmpty(AuthPluginData.permissions)) {
+            // if (!AuthPluginData.permissions) {
                 try {
                     let data = await new Vue().$login();
                 } catch(e) {

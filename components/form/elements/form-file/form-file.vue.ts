@@ -18,6 +18,10 @@ export class FormFile extends Vue {
     @Model('input', { required: false })
     value!: string | string[];
 
+    private get innateValue() {
+        return this.value instanceof File ? this.value : null;
+    }
+
     private static subscription;
     created() {
         /// do only once

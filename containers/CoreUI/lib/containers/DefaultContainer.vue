@@ -11,9 +11,11 @@
       </b-link>
       <SidebarToggler class="d-md-down-none" display="lg" />
 
-      <slot name="header">
-          Use &lt;template #header /&gt; to define Header.
-      </slot>
+      <div class="header-container">
+        <slot name="header">
+            Use &lt;template #header /&gt; to define Header.
+        </slot>
+      </div>
 
       <!-- <b-navbar-nav class="d-md-down-none">
         <b-nav-item class="px-3" to="/dashboard">Dashboard</b-nav-item>
@@ -34,7 +36,7 @@
         <DefaultHeaderDropdownAccnt/>
       </b-navbar-nav> -->
 
-      <b-navbar-nav class="ml-auto" />
+      <!-- <b-navbar-nav class="ml-auto" /> -->
 
       <!-- <AsideToggler class="d-none d-lg-block" /> -->
       <!--<AsideToggler class="d-lg-none" mobile />-->
@@ -146,6 +148,9 @@ export default {
 }
 .main {
   overflow: hidden;
+}
+.header-container {
+  flex: 1;
 }
 .footer {
   margin-top: 20px;

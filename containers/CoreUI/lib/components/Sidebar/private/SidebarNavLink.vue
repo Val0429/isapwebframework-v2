@@ -58,7 +58,6 @@ export class SidebarNavLink extends Vue {
     data: IData;
 
     /// badge, variant
-
     /// private helpers
     private get isExternalLink() {
         return Boolean(/^http/.test(this.url));
@@ -76,10 +75,11 @@ export class SidebarNavLink extends Vue {
         /// 3) default: true | undefined, check login status
         if (permission === true || permission === undefined) {
             if (isObjectEmpty(this.$permissions)) return true;
+            //if (!this.$permissions) return true;
             return false;
         }
         /// 4) check permission
-        return !(this.$permissions[permission as string] || {})['Get'];
+        return !((this.$permissions || {})[permission as string] || {})['Get'];
     }
 
     private isInvalid() {
