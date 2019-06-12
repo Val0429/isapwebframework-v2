@@ -24,20 +24,14 @@ export class RouteTransition extends Vue {
         if (router.length === 0) return false;
 
         let path = this.$parent.$route.path;
-        return router.reduce( (final, route) => {
+        // console.log('child route?', path, router);
+        let result = router.reduce( (final, route) => {
             if (final) return final;
-            if (path.length > route.path.length) return true;
+            if (path.indexOf(route.path) === 0 && path.length > route.path.length) return true;
             return final;
         }, false);
-
-
-        // let path = this.$parent.$route.path;
-        // return router.reduce( (final, route) => {
-        //     if (final) return final;
-        //     if (path.length > route.path.length && path.index)
-        //     return final;
-        // }, false);
-        // return this.$parent.$route.path.length > router[0].path.length;
+        // console.log('result?', result);
+        return result;
     }
     //////////////////////////////////////////////////////////////////////////////////////
 }

@@ -24,6 +24,7 @@ export class AutoCard extends Vue {
     private doMounted() {
         this.isMounted = true;
         let node = (this.$refs.node as any);
+        if (!node) return;  /// possible to happen before created
         (this.$observables.thisForm as any).next( node.findElement(Form) );
         (this.$observables.thisStep as any).next( node.findElement(StepProgress) );
         let tab = node.findElement(Tab);

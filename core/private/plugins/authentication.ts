@@ -24,10 +24,17 @@ interface ILogin {
 }
 
 export const AuthPluginData = {
-    server: Server.getDefault(),
-    user: {},
-    permissions: {}
-}
+    server: null, user: null, permissions: null
+};
+Vue.set(AuthPluginData, "server", Server.getDefault());
+Vue.set(AuthPluginData, "user", {});
+Vue.set(AuthPluginData, "permissions", {});
+
+// export const AuthPluginData = {
+//     server: Server.getDefault(),
+//     user: {},
+//     permissions: {}
+// }
 
 export const sjPermissions: BehaviorSubject<any> = new BehaviorSubject(null);
 

@@ -40,6 +40,7 @@ export class Tab extends Vue {
     private onInnateActiveChanged(value) {
         /// check $refs.node
         let node = (this.$refs.node[value] as any);
+        if (!node) return;  /// possible to happen before created
         (this.$observables.thisForm as any).next( node.findElement(Form) );
         (this.$observables.thisStep as any).next( node.findElement(StepProgress) );
     }

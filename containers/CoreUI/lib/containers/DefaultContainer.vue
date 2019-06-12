@@ -65,7 +65,7 @@
         <!-- <DefaultAside/> -->
       </AppAside>
     </div>
-    <TheFooter>
+    <TheFooter class="footer">
       <!--footer-->
       <slot name="footer">
           Use &lt;template #footer /&gt; to define Footer.
@@ -146,6 +146,9 @@ export default {
 }
 .main {
   overflow: hidden;
+}
+.footer {
+  margin-top: 20px;
 }
 </style>
 

@@ -7,11 +7,27 @@
         <template v-for="slot in excludeKeys($scopedSlots, 'default', 'footer')" :slot="slot" slot-scope="scope"><slot :name="slot" v-bind="scope"/></template>
 
         <template name="default">
-            <iv-v-node
-                @mounted="doMounted"
-                ref="node"
-                :node="$slots.default || $scopedSlots.default"
-                />
+            <element :is="thisTab ? 'b-card' : 'div'" no-body>
+                <iv-v-node
+                    @mounted="doMounted"
+                    ref="node"
+                    :node="$slots.default || $scopedSlots.default"
+                    />
+            </element>
+        </template>
+
+        <template v-if="thisForm" slot="footer-before"><slot name="footer-before" /></template>
+        <template v-else-if="thisStep" slot="footer-before"><slot :name="thisStep.currentStep+'-footer-before'" /></template>
+        <template v-else-if="thisTab" slot="footer-before">
+            <slot v-if="thisTab.thisForm" :name="(thisTab.innateActive+1)+'-footer-before'" />
+            <slot v-else-if="thisTab.thisStep" :name="(thisTab.innateActive+1)+'-'+thisTab.thisStep.currentStep+'-footer-before'" />
+        </template>
+
+        <template v-if="thisForm" slot="footer-after"><slot name="footer-after" /></template>
+        <template v-else-if="thisStep" slot="footer-after"><slot :name="thisStep.currentStep+'-footer-after'" /></template>
+        <template v-else-if="thisTab" slot="footer-after">
+            <slot v-if="thisTab.thisForm" :name="(thisTab.innateActive+1)+'-footer-after'" />
+            <slot v-else-if="thisTab.thisStep" :name="(thisTab.innateActive+1)+'-'+thisTab.thisStep.currentStep+'-footer-after'" />
         </template>
 
         <template #footer>
@@ -48,9 +64,15 @@
 <script lang="ts" src="./auto-card.vue.ts" />
 
 <style lang="scss" scoped>
-.no-padding {
-    /deep/ .card-body {
-        padding: 0 !important;
-    }
+/deep/ .no-padding .card {
+    margin-bottom: 0 !important;
+}
+
+/deep/ .nav-tabs {
+    padding-top: 6px;
+}
+
+/deep/ .nav-tabs .nav-link.active, /deep/ .nav-tabs .nav-link:hover {
+    border-top: 1px solid $gray-300 !important;
 }
 </style>
