@@ -6,6 +6,7 @@ import { Mutex } from './../utility/mutex';
 import { request } from './../utility/request';
 import WSSocket from 'isomorphic-ws';
 import config from '@/config/default/serverConfig';
+const debug = require('@/config/default/debug');
 
 /// bridge Log /////////////////////
 import * as Print from './../../utilities/print';
@@ -245,15 +246,18 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
     protected sjLogined: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private ssl: boolean;
     constructor(config: W) {
-        this.config = config;
-        typeof config.ssl === 'boolean' ? this.ssl = config.ssl :
-            this.ssl = /https/.test(window.location.protocol);
+        if (!debug.prodMode) this.config = Object.assign({}, config);
+        let { hostname, port, protocol } = window.location;
+        this.config.ip = this.config.ip || hostname;
+        this.config.port = this.config.port || +port;
+        this.config.ssl = typeof this.config.ssl === "boolean" ? this.config.ssl : /^https/.test(protocol);
     }
 
     private makeUrl(uri: string, ws: boolean = false): string {
+        let { ip, port, ssl } = this.config;
         let protocol = ws ? 'ws' : 'http';
-        if (this.ssl) protocol += "s";
-        return `${protocol}://${this.config.ip}:${this.config.port}${uri}`;
+        if (ssl) protocol += "s";
+        return `${protocol}://${ip}:${port}${uri}`;
     }
 
     /// caches of result / errors //////////////////////////////////

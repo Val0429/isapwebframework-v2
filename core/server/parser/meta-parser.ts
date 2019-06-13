@@ -18,10 +18,11 @@ export interface IEnumMetaResult {
     attrs?: IMetaAttrs;
 }
 export class EnumParser {
-    result: IEnumMetaResult[] = [];
+    result: IEnumMetaResult[] = null;
     constructor(meta: string, name?: string) {
         let inf = this.getEnumByName(meta, name);
         if (!inf) return;
+        this.result = [];
         this.parseEnumInnerString(inf);
     }
     private getEnumByName(meta: string, name?: string): string | undefined {

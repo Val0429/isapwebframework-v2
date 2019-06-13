@@ -16,7 +16,8 @@ export class StepProgress extends Vue {
     doSubmit() {
         let result = {};
         for (let i=1; i<=this.steps; i++) {
-            result[i] = this.findForm(i).getResult();
+            let form = this.findForm(i);
+            if (form) result[i] = form.getResult();
         }
         return result;
     }

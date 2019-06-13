@@ -44,10 +44,12 @@
         @Prop({ type: Object, required: false, default: () => ({}) })
         value!: any;
 
-        /// private props - don't use
-        @Prop({ type: Boolean, required: false, default: false })
-        inner!: boolean;
-
+        /// united emitter
+        @Emit("submit")
+        private doSubmit() {
+            return this.deepClone(this.innateValue);
+        }
+        
         /// public method ///////////////////////////
         public set(key: string, value: any) {
             Vue.set(this.innateValue, key, value);
@@ -76,6 +78,10 @@
         //////////////////////////////////////////////////////////////////////////////////////
 
         /// private //////////////////////////////////////////////////////////////////////////
+        /// private props - don't use
+        @Prop({ type: Boolean, required: false, default: false })
+        inner!: boolean;
+
         /// private helper
         private get parsedInterface() {
             if (typeof this.interface === 'string') {
@@ -97,11 +103,6 @@
             default: null
         }) root: any;
 
-        /// united emitter
-        @Emit("submit")
-        private doSubmit() {
-            return this.deepClone(this.innateValue);
-        }
         private emitUpdate(name: string, value: any) {
             if (name.indexOf(".") < 0) this.$emit(`update:${name}`, value);
             else this.$emit(`update:${name.replace(/\./g, ':')}`, value);
@@ -326,7 +327,8 @@
 
             /// test enum
             let parse = new EnumParser(type);
-            if (parse.result.length !== 0) {
+            // if (parse.result.length !== 0) {
+            if (parse.result) {
                 rtn = {
                     type: EParsedType.Enum,
                     isArray: false
