@@ -45,10 +45,8 @@ interface IRegisterRouterInput {
 const routes: RouteConfig[] = [];
 export function RegisterRouter(config: IRegisterRouter) {
     return (component?) => {
-        let { path, name, icon, disableContainer, redirect, meta, permission } = config;
-
         let input: IRegisterRouterInput = {
-            path, name, icon, component, disableContainer, redirect, meta, permission
+            ...config, component
         }
         routeCache.push(input);
         resolveRoute(input);
@@ -57,9 +55,8 @@ export function RegisterRouter(config: IRegisterRouter) {
 let loginRoute: IRegisterRouterInput;
 export function RegisterLoginRouter(config: IRegisterRouter) {
     return (component?) => {
-        let { path, name, icon, disableContainer } = config;
         let input: IRegisterRouterInput = {
-            path, name, icon, component, disableContainer
+            ...config, component
         }
         loginRoute = input;
 
