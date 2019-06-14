@@ -3,7 +3,7 @@
         <iv-card :data="{ label: _(tView) }">
             <template #toolbox>
                 <!-- <toolbox-view /> -->
-                <iv-toolbox-edit v-if="canEdit" :disabled="selectedRows.length !== 1" @click="edit(selectedRows[0])" />
+                <iv-toolbox-edit v-if="canEdit || canPreview" :disabled="selectedRows.length !== 1" @click="edit(selectedRows[0])" />
                 <!-- <toolbox-info /> -->
                 <iv-toolbox-delete v-if="canDelete" :disabled="selectedRows.length === 0" @click="doDelete(selectedRows)" />
                 <!-- <toolbox-more /> -->
@@ -13,7 +13,7 @@
                 <!-- <toolbox-export /> -->
                 <iv-toolbox-add v-if="canAdd" @click="add" />
                 
-                <iv-toolbox-divider v-if="canAdd || canEdit || canDelete" />
+                <iv-toolbox-divider v-if="canAdd || canEdit || canPreview || canDelete" />
             </template>
 
             <iv-table
@@ -31,9 +31,9 @@
                 <!-- Pass on all scoped slots -->
                 <template v-for="slot in Object.keys($scopedSlots)" :slot="slot" slot-scope="scope"><slot :name="slot" v-bind="scope"/></template>
 
-                <template v-if="canEdit || canDelete" #actions$="{$attrs}">
+                <template v-if="canEdit || canPreview || canDelete" #actions$="{$attrs}">
                     <iv-toolbox-more>
-                        <iv-toolbox-edit v-show="canEdit" @click.stop="edit($attrs.row)" />
+                        <iv-toolbox-edit v-show="canEdit || canPreview" @click.stop="edit($attrs.row)" />
                         <iv-toolbox-delete v-show="canDelete" @click.stop="doDelete($attrs.row)" />
                     </iv-toolbox-more>
                 </template>
@@ -87,6 +87,11 @@ export class List extends Vue {
         default: true
     })
     canEdit!: boolean;
+    @Prop({
+        type: Boolean,
+        default: true
+    })
+    canPreview!: boolean;
     @Prop({
         type: Boolean,
         default: true

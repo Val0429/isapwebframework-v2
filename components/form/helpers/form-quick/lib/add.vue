@@ -1,10 +1,10 @@
 <template>
     <div>
         <iv-auto-card
-            :label="type === 'add' ? _(tAdd) : _(tEdit)"
+            :label="type === 'add' ? _(tAdd) : type==='edit' ? _(tEdit) : _(tPreview)"
         >
             <iv-form
-                :interface="type === 'add' ? addInterface : editInterface"
+                :interface="type === 'add' ? addInterface : type==='edit' ? editInterface : previewInterface"
                 :value="value"
                 @submit="doSubmit($event)"
                 @update:*="emitUpdate"
@@ -16,8 +16,18 @@
                 <template v-for="slot in Object.keys($scopedSlots)" :slot="slot" slot-scope="scope"><slot :name="slot" v-bind="scope"/></template>
             </iv-form>
 
+            <template #footer v-if="type === 'preview'"><span style="margin: 0; width: 0;" /></template>
+
             <template #footer-before>
                 <b-button size="lg" variant="secondary" @click="back">{{ _("wb_Back") }}</b-button>
+            </template>
+            <template #footer-after>
+                <b-button
+                    v-if="type !== 'add' && canEdit && canPreview"
+                    @click="toggleLock"
+                    size="lg">
+                    <i :class="{ fa: true, 'fa-lock': type === 'preview', 'fa-unlock': type === 'edit' }" />
+                </b-button>
             </template>
         </iv-auto-card>
 
@@ -29,7 +39,8 @@ import { Vue, Component, iSAPServerBase, Emit, Prop } from "@/../core";
 
 enum EType {
     Add = "add",
-    Edit = "edit"
+    Edit = "edit",
+    Preview = "preview"
 };
 
 @Component
@@ -71,6 +82,12 @@ export class Add extends Vue {
 
     @Prop({
         type: String,
+        required: false
+    })
+    previewInterface!: string;
+
+    @Prop({
+        type: String,
     })
     tAdd!: string;
 
@@ -78,6 +95,24 @@ export class Add extends Vue {
         type: String,
     })
     tEdit!: string;
+
+    @Prop({
+        type: String,
+    })
+    tPreview!: string;
+
+    @Prop({
+        type: Boolean,
+    })
+    canAdd!: boolean;
+    @Prop({
+        type: Boolean,
+    })
+    canEdit!: boolean;
+    @Prop({
+        type: Boolean,
+    })
+    canPreview!: boolean;
 
     /// private helper
     /// emitter
@@ -96,6 +131,10 @@ export class Add extends Vue {
         if (key.indexOf(".") < 0) this.$emit(`update:${key}`, value);
         else this.$emit(`update:${key.replace(/\./g, ':')}`, value);
         this.$emit(`update:*`, { key, value });
+    }
+
+    private toggleLock() {
+        this.$emit('update:type', this.type === EType.Preview ? EType.Edit : EType.Preview);
     }
 }
 export default Add;

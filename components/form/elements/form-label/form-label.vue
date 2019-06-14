@@ -21,6 +21,7 @@
     border-radius: 4px;
     border: 1px solid rgb(209, 212, 215);
     min-height: 2.2rem;
+    margin-bottom: 0 !important;
 }
 </style>
 
