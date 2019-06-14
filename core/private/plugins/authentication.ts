@@ -101,7 +101,7 @@ export const AuthPlugin = {
                         if ((auth as any).sessionId) localStorage.removeItem(kSessionId);
                         throw e;
                     }
-                    let { user: rUser, sessionId } = data;
+                    let { sessionId } = data;
 
                     /// 2) request APIs
                     let apis: any = await this.$server.R("/apis" as any, { sessionId });
@@ -122,7 +122,7 @@ export const AuthPlugin = {
                     /// assign user
                     // Vue.set(AuthPluginData, "user", {});
                     Object.keys(AuthPluginData.user).forEach(k => Vue.delete(AuthPluginData.user, k));
-                    Object.assign(AuthPluginData.user, rUser);
+                    Object.assign(AuthPluginData.user, data);
                     // Vue.set(AuthPluginData, "user", rUser);
                     /// assign permissions
                     // Vue.set(AuthPluginData, "permissions", {});
