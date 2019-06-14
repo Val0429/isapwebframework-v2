@@ -15,6 +15,7 @@ declare module "vue/types/vue" {
         $user: any;
         $permissions: any;
         $login: (auth?: ILogin) => any;
+        $logout: (logoutPath?: string) => void;
     }
 }
 
