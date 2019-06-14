@@ -5,7 +5,6 @@
         v-bind:label-for="id"
     >
         <select
-            name="artists[]"
             v-bind="$attrs"
             v-bind:id="id"
             style="width: 100%"
