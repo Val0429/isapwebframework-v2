@@ -151,7 +151,6 @@ function initGuards(router: Router) {
             let toPath = to.path;
             /// 1) allow login page
             if (loginPath === toPath) return next();
-
             /// 2) for others, check permission
             /// 2.1) check route permission
             let routers = FindRouter({ path: toPath });

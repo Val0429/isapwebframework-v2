@@ -16,6 +16,7 @@ declare module "vue/types/vue" {
         $permissions: any;
         $login: (auth?: ILogin) => any;
         $logout: (logoutPath?: string) => void;
+        $goHome: () => void;
     }
 }
 
@@ -67,10 +68,16 @@ export const AuthPlugin = {
 
                     /// 2) clean auth
                     /// clean user
-                    // Vue.set(AuthPluginData, 'user', null);
+                    Object.keys(AuthPluginData.user).forEach(key => {
+                        //Vue.set(AuthPluginData.user, key, undefined);
+                        delete AuthPluginData.user[key];
+                    });
                     Vue.set(AuthPluginData, 'user', {});
                     /// assign permissions
-                    // Vue.set(AuthPluginData, 'permissions', null);
+                    Object.keys(AuthPluginData.permissions).forEach(key => {
+                        // Vue.set(AuthPluginData.permissions, key, undefined);
+                        delete AuthPluginData.permissions[key];
+                    });
                     Vue.set(AuthPluginData, 'permissions', {});
                     sjPermissions.next(AuthPluginData.permissions);
 
@@ -127,6 +134,10 @@ export const AuthPlugin = {
                     localStorage.setItem(kSessionId, sessionId);
 
                     return data;
+                },
+
+                $goHome: function(this: Vue) {
+                    this.$router.push('//');
                 }
             },
 
