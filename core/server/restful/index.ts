@@ -306,7 +306,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
                     if ((res as any).statusCode !== 200) return reject({ res, body });
                     if (help) return resolve(body);
                     /// handle sessionId
-                    body = JSON.parse(body);
+                    body = body ? JSON.parse(body) : {};
                     if (body.sessionId && /login/.test(key as string)) {
                         this.sessionId = body.sessionId;
                         this.sjLogined.next(true);
@@ -369,7 +369,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
                     if ((res as any).statusCode !== 200) return reject({ res, body });
                     if (help) return resolve(body);
                     /// handle sessionId
-                    body = JSON.parse(body);
+                    body = body ? JSON.parse(body) : {};
                     if (body.sessionId && /login/.test(key as string)) {
                         this.sessionId = body.sessionId;
                         this.sjLogined.next(true);

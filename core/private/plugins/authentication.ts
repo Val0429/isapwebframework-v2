@@ -53,8 +53,17 @@ export const AuthPlugin = {
                 $logout: async function(this: Vue, logoutPath?: string) {
                     logoutPath = logoutPath || "/users/logout";
 
-                    /// 1) request logout
-                    let data = await this.$server.R(logoutPath as any);
+                    main: do {
+                        try {
+                            /// 1) request logout
+                            let data = await this.$server.R(logoutPath as any, {});
+                            break main;
+                        } catch(e) {
+                            if ((e.res || {}).statusCode === 401) break main;
+                            throw e;
+                        }
+    
+                    } while(0);
 
                     /// 2) clean auth
                     /// clean user
