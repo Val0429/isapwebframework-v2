@@ -1,35 +1,72 @@
 <template>
     <div>
-        <iv-auto-card
-            :label="type === 'add' ? _(tAdd) : type==='edit' ? _(tEdit) : _(tPreview)"
-        >
-            <iv-form
-                :interface="type === 'add' ? addInterface : type==='edit' ? editInterface : previewInterface"
-                :value="value"
-                @submit="doSubmit($event)"
-                @update:*="emitUpdate"
+        <iv-auto-transition :step="type === 'preview' ? 2 : 1" type="iv-fade-slide">
+            <iv-auto-card
+                v-if="type === 'add' || type === 'edit'"
+                key="edit"
+                :label="type === 'add' ? _(tAdd) : type==='edit' ? _(tEdit) : _(tPreview)"
             >
-                <!-- Pass on all named slots -->
-                <slot v-for="slot in Object.keys($slots)" :name="slot" :slot="slot"/>
+                <iv-form
+                    :interface="type === 'add' ? addInterface : type==='edit' ? editInterface : previewInterface"
+                    :value="value"
+                    @submit="doSubmit($event)"
+                    @update:*="emitUpdate"
+                >
+                    <!-- Pass on all named slots -->
+                    <slot v-for="slot in Object.keys($slots)" :name="slot" :slot="slot"/>
 
-                <!-- Pass on all scoped slots -->
-                <template v-for="slot in Object.keys($scopedSlots)" :slot="slot" slot-scope="scope"><slot :name="slot" v-bind="scope"/></template>
-            </iv-form>
+                    <!-- Pass on all scoped slots -->
+                    <template v-for="slot in Object.keys($scopedSlots)" :slot="slot" slot-scope="scope"><slot :name="slot" v-bind="scope"/></template>
+                </iv-form>
 
-            <template #footer v-if="type === 'preview'"><span style="margin: 0; width: 0;" /></template>
+                <template #footer v-if="type === 'preview'"><span style="margin: 0; width: 0;" /></template>
 
-            <template #footer-before>
-                <b-button size="lg" variant="secondary" @click="back">{{ _("wb_Back") }}</b-button>
-            </template>
-            <template #footer-after>
-                <b-button
-                    v-if="type !== 'add' && canEdit && canPreview"
-                    @click="toggleLock"
-                    size="lg">
-                    <i :class="{ fa: true, 'fa-lock': type === 'preview', 'fa-unlock': type === 'edit' }" />
-                </b-button>
-            </template>
-        </iv-auto-card>
+                <template #footer-before>
+                    <b-button size="lg" variant="secondary" @click="back">{{ _("wb_Back") }}</b-button>
+                </template>
+                <template #footer-after>
+                    <b-button
+                        v-if="type !== 'add' && canEdit && canPreview"
+                        @click="toggleLock"
+                        size="lg">
+                        <i :class="{ fa: true, 'fa-lock': type === 'preview', 'fa-unlock': type === 'edit' }" />
+                    </b-button>
+                </template>
+            </iv-auto-card>
+
+            <iv-auto-card
+                v-if="type === 'preview'"
+                key="preview"
+                :label="type === 'add' ? _(tAdd) : type==='edit' ? _(tEdit) : _(tPreview)"
+            >
+                <iv-form
+                    :interface="type === 'add' ? addInterface : type==='edit' ? editInterface : previewInterface"
+                    :value="value"
+                    @submit="doSubmit($event)"
+                    @update:*="emitUpdate"
+                >
+                    <!-- Pass on all named slots -->
+                    <slot v-for="slot in Object.keys($slots)" :name="slot" :slot="slot"/>
+
+                    <!-- Pass on all scoped slots -->
+                    <template v-for="slot in Object.keys($scopedSlots)" :slot="slot" slot-scope="scope"><slot :name="slot" v-bind="scope"/></template>
+                </iv-form>
+
+                <template #footer v-if="type === 'preview'"><span style="margin: 0; width: 0;" /></template>
+
+                <template #footer-before>
+                    <b-button size="lg" variant="secondary" @click="back">{{ _("wb_Back") }}</b-button>
+                </template>
+                <template #footer-after>
+                    <b-button
+                        v-if="type !== 'add' && canEdit && canPreview"
+                        @click="toggleLock"
+                        size="lg">
+                        <i :class="{ fa: true, 'fa-lock': type === 'preview', 'fa-unlock': type === 'edit' }" />
+                    </b-button>
+                </template>
+            </iv-auto-card>
+        </iv-auto-transition>
 
     </div>
 </template>
