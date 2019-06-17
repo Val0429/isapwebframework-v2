@@ -1,4 +1,5 @@
 /// install style
+import "@/scss/styles.scss";
 import "./core/scss/style.scss";
 
 import Vue from 'vue'
