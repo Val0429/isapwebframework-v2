@@ -5,4 +5,4 @@
     </iv-form-quick>
 </template>
 
-<script lang="ts" src="./test.vue.ts" />
+<script lang="ts" src="./template.vue.ts" />

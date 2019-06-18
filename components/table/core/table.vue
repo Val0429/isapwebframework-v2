@@ -105,6 +105,10 @@ div.dataTables_wrapper div.dataTables_filter input {
   width: auto;
 }
 
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #F3F3F3;
 }
