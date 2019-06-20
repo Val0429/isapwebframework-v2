@@ -60,6 +60,9 @@ export class FormQuick extends Vue {
     private canEdit: boolean = true;
     private canPreview: boolean = false;
     private canDelete: boolean = true;
+    private get server() {
+        return (this.$parent as any).server || this.$server;
+    }
     private mounted() {
         let parent: any = this.$parent;
         this.canAdd = typeof parent.canAdd === 'boolean' ? parent.canAdd : this.canAdd;
@@ -79,7 +82,7 @@ export class FormQuick extends Vue {
             try {
                 let parent = this.$parent as any;
                 data = parent.postAdd ? (await parent.postAdd(data) || data) : data;
-                let result = await (this.$parent as any).server.C((this.$parent as any).path as any, data);
+                let result = await this.server.C((this.$parent as any).path as any, data);
                 this.doAddSuccess();
             } catch(e) {
                 alert(e.body);
@@ -91,7 +94,7 @@ export class FormQuick extends Vue {
             try {
                 let parent = this.$parent as any;
                 data = parent.postEdit ? (await parent.postEdit(data) || data) : data;
-                let result = await (this.$parent as any).server.U((this.$parent as any).path as any, {...data, objectId: data.objectId } );
+                let result = await this.server.U((this.$parent as any).path as any, {...data, objectId: data.objectId } );
                 this.doAddSuccess();
             } catch(e) {
                 alert(e.body);
