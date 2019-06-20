@@ -25,8 +25,8 @@ export interface IFormQuick {
     /// 20) i18n - view / edit / add
     tView: string;
     tAdd: string;
-    tPreview: string;
-    tEdit: string;
+    tPreview?: string;
+    tEdit?: string;
 
     /// 30) possibility - edit / add / delete
     canAdd?: boolean;
@@ -58,7 +58,7 @@ export class FormQuick extends Vue {
     /// private helpers
     private canAdd: boolean = true;
     private canEdit: boolean = true;
-    private canPreview: boolean = true;
+    private canPreview: boolean = false;
     private canDelete: boolean = true;
     private mounted() {
         let parent: any = this.$parent;
@@ -78,7 +78,7 @@ export class FormQuick extends Vue {
         (async () => {
             try {
                 let parent = this.$parent as any;
-                data = parent.postAdd ? await parent.postAdd(data) : data;
+                data = parent.postAdd ? (await parent.postAdd(data) || data) : data;
                 let result = await (this.$parent as any).server.C((this.$parent as any).path as any, data);
                 this.doAddSuccess();
             } catch(e) {
@@ -90,7 +90,7 @@ export class FormQuick extends Vue {
         (async () => {
             try {
                 let parent = this.$parent as any;
-                data = parent.postEdit ? await parent.postEdit(data) : data;
+                data = parent.postEdit ? (await parent.postEdit(data) || data) : data;
                 let result = await (this.$parent as any).server.U((this.$parent as any).path as any, {...data, objectId: data.objectId } );
                 this.doAddSuccess();
             } catch(e) {
@@ -102,7 +102,7 @@ export class FormQuick extends Vue {
         let parent = this.$parent as any;
         let goView = this.canPreview ? EFormQuick.Preview : EFormQuick.Edit;
         let func = goView === EFormQuick.Preview ? parent.prePreview : parent.preEdit;
-        row = func ? await func(row) : row;
+        row = func ? (await func(row) || row) : row;
         this.editRow = { ...row, objectId: row.objectId };
         this.view = goView;
     }
