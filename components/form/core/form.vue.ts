@@ -47,7 +47,7 @@
         /// united emitter
         @Emit("submit")
         private doSubmit() {
-            return this.deepClone(this.innateValue);
+            return this.getResult();
         }
         
         /// public method ///////////////////////////
