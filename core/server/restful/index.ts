@@ -246,7 +246,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
     protected sjLogined: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private ssl: boolean;
     constructor(config: W) {
-        if (!debug.prodMode) this.config = Object.assign({}, config);
+        this.config = !debug.prodMode ? Object.assign({}, config) : {} as any;
         let { hostname, port, protocol } = window.location;
         this.config.ip = this.config.ip || hostname;
         this.config.port = this.config.port || +port;

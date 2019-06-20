@@ -1,4 +1,5 @@
 let config = require('./src/config/default/debug');
+let package = require('./src/package.json');
 
 module.exports = {
     pages: {
@@ -7,7 +8,7 @@ module.exports = {
             template: 'public/index.html',
             filename: 'index.html',
             favicon: 'public/favicon.ico',
-            title: config.title,
+            title: package.description,
             chunks: ['chunk-vendors', 'chunk-common', 'index'],
         },
     },
