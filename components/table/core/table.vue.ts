@@ -3,6 +3,9 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import lang from '@/../core/i18n';
 import { IServer } from 'components/interfaces';
 import { filter, first } from 'rxjs/operators';
+import { IGetResult } from './lib/core';
+import TableHeader from './lib/table-header.vue';
+import TableBody from './lib/table-body.vue';
 
 /// ui set
 const uiLabel = "uiLabel";
@@ -20,16 +23,6 @@ interface IParsedType {
     type?: EParsedType;
     isArray?: boolean;
     data?: string[];
-}
-
-interface IGetResult {
-    paging: {
-        page: number;
-        pageSize: number;
-        total: number;
-        totalPages: number;
-    },
-    results: any[];
 }
 
 /// definition of <slot /> $attrs
@@ -91,6 +84,7 @@ export class Table extends Vue {
     }
 
     /// private helpers ////////////////////////////////////////////////////////////////
+    private keyUiLabel: string = uiLabel;
     /// UI Helper
     private _currentPage: number = 1;
     private get paging() { return this.result.paging || {} as any };
@@ -208,11 +202,6 @@ export class Table extends Vue {
         finally { this.fetching = false; }
     }
 
-    private showLabel(inf: IMetaResult): string {
-        let name = (inf.attrs || {})[uiLabel] || inf.name;
-        return name;
-    }
-
     /// bind several attrs together
     private bindAttrs(item: any, inf?: IMetaResult, index?: number) {
         let attrs = (inf || {} as any).attrs || {};
@@ -263,7 +252,7 @@ export class Table extends Vue {
     }
 
     /// interface parser
-    get parsedInterface() {
+    get parsedInterface(): IMetaResult[] {
         //return this.interface ? new MetaParser(this.interface, null).result : []
         if (this.interface) return new MetaParser(this.interface, null).result;
         if (!this.result || this.result.results.length === 0) return [];

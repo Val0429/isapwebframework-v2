@@ -6,11 +6,7 @@
                 <thead>
                     <tr role="row">
                         <th v-if="selectable" role="row" class="selection-cell" />
-                        <template v-for="(inf, key) in parsedInterface">
-                            <th :key="key" v-if="(inf.attrs||{}).uiHidden !== 'true'">
-                                {{ showLabel(inf) }}
-                            </th>
-                        </template>
+                        <iv-inner-table-header :key="key" v-for="(inf, key) in parsedInterface" :meta="inf" :keyUiLabel="keyUiLabel" />
                         <th class="actions-cell" />
                     </tr>
                 </thead>
@@ -19,29 +15,14 @@
                         <td v-if="selectable" class="selection-cell" @click.stop="selectRow(item, true)">
                             <b-form-checkbox v-if="pSelected.length > 0" :checked="getSelectedIndex(item) >= 0" style="padding-left: 0; pointer-events: none;" />
                         </td>
-                        <template v-for="(inf, key) in parsedInterface">
-                            <td :key="key"
-                                v-if="(inf.attrs||{}).uiHidden !== 'true' && getRowSpan(result.results, index, inf) > 0"
-                                :rowspan="getRowSpan(result.results, index, inf)">
-                                <template v-if="$slots[inf.name]">
-                                    <slot :name="inf.name" />
-                                </template>
-                                <template v-else-if="$scopedSlots[inf.name]">
-                                    <slot :name="inf.name" :$attrs="bindAttrs(item, inf, index)" :$listeners="bindListeners(item, inf, index)" />
-                                </template>
-                                <template v-else>
-                                    <template v-if="(inf.attrs||{}).uiType ? true : false">
-                                        <element :key="inf.name" :is="inf.attrs.uiType" v-bind="bindAttrs(item, inf, index)" v-on="bindListeners(item, inf, index)" />
-                                    </template>
-                                    <template v-else-if="inf.type === 'Date'">
-                                        <iv-cell-date :key="inf.name" :value="item[inf.name]" v-bind="bindAttrs(item, inf, index)" v-on="bindListeners(item, inf, index)" />
-                                    </template>
-                                    <template v-else>
-                                        <iv-cell-string :key="inf.name" :value="item[inf.name]" v-bind="bindAttrs(item, inf, index)" v-on="bindListeners(item, inf, index)" />
-                                    </template>
-                                </template>
-                            </td>
-                        </template>
+                        <iv-inner-table-body :key="key" v-for="(inf, key) in parsedInterface" :meta="inf" :indexOfRows="index" :result="result">
+                            <template v-for="(_, slot) of $slots">
+                                <slot :name="slot" />
+                            </template>
+                            <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+                                <slot :name="slot" v-bind="scope" />
+                            </template>
+                        </iv-inner-table-body>
                         <td class="actions-cell">
                             <slot name="actions$" :$attrs="bindAttrs(item)" />
                         </td>
@@ -109,24 +90,24 @@ div.dataTables_wrapper div.dataTables_filter input {
     vertical-align: middle;
 }
 
-.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+/deep/ .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #F3F3F3;
 }
 
-.table-hover tbody tr.selected td, .table-hover tbody tr.selected th {
+/deep/ .table-hover tbody tr.selected td, .table-hover tbody tr.selected th {
     background-color: #E8E8E8;
 }
 
-.table-bordered {
+/deep/ .table-bordered {
     border-left: 0;
     border-right: 0;
     border-top-color: white;
 
-    th {
+    /deep/ th {
         border-bottom-width: 2px;
     }
 
-    th, td {
+    /deep/ th, td {
         border-left: 0;
         border-right: 0;
         border-top-color: #cecece;
