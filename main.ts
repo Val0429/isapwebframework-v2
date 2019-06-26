@@ -1,5 +1,4 @@
 /// install style
-import "@/scss/styles.scss";
 import "./core/scss/style.scss";
 
 import Vue from 'vue'
@@ -71,3 +70,4 @@ import Container from '@/config/default/container';
     }).$mount('#app')
 })();
 
+import "@/scss/styles.scss";
