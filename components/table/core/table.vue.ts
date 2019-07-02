@@ -144,7 +144,15 @@ export class Table extends Vue {
         if (!Array.isArray(value)) value = [value];
         for (let o of value) this.pSelected.push(o);
     }
-
+    
+    /// params watcher
+    @Watch('params', {immediate: true})
+    private async onParamsChanged(value: any, oldValue: any) {
+        if (value) {
+            /// params change will refresh data from server            
+            this.fetchGetResult();
+        }
+    }
     /// private methods
     private pSelected = [];
     private getSelectedIndex(row) {
