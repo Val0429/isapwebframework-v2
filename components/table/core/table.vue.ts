@@ -206,6 +206,8 @@ export class Table extends Vue {
                 ...(this.params || {})
             }) as any;
             this.result = result;
+            this.pSelected = [];
+            this.$emit("selected", this.pSelected);
         } catch(e) { throw e }
         finally { this.fetching = false; }
     }
