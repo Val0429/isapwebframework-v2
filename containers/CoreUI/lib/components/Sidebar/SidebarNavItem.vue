@@ -77,13 +77,22 @@ export default class SidebarNavItem extends Vue {
         let icon = this.icon;
         if (!icon) {
             let routers = FindRouter({ path: this.url });
-            if (routers.length === 0) return;
+            if (routers.length === 0) return classes;
             icon = routers[routers.length-1].icon;
         }
-        if (!icon) return;
+        if (!icon) return classes;
         if (/^isap/.test(icon)) classes.push('isap-icon');
         classes.push(icon);
         return classes;
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.nav-item /deep/ .nav-item {
+    text-indent: 8px;
+}
+/deep/ .nav-icon {
+    min-width: 1.3rem;
+}
+</style>

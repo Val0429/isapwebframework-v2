@@ -18,6 +18,16 @@ export class Card extends Vue {
     @Prop({ type: Object as () => ICard, required: false, default: () => ({}) })
     data!: ICard;
 
+    /// public method
+    public open() {
+        this.doUpdateVisible(true);
+        this.innateVisible = true;
+    }
+    public close() {
+        this.doUpdateVisible(false);
+        this.innateVisible = false;
+    }
+
     /// private props
     @Prop({ type: Boolean, default: false, required: false })
     noBodyPadding: boolean;
@@ -29,5 +39,10 @@ export class Card extends Vue {
         this.innateVisible = newval;
     }
     private showHideIcon: boolean;
+
+    @Emit('update:visible')
+    private doUpdateVisible(value: boolean) {
+        return value;
+    }
 }
 export default Card;

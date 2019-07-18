@@ -1,5 +1,5 @@
 <template>
-    <iv-card :label="label" :data="data" :noBodyPadding="!!thisTab">
+    <iv-card ref="card" :label="label" :data="data" :visible="visible" :noBodyPadding="!!thisTab">
         <!-- Pass on all named slots -->
         <slot v-for="slot in excludeKeys($slots, 'default', 'footer')" :name="slot" :slot="slot"/>
 

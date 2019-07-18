@@ -57,7 +57,7 @@
         <SidebarMinimizer/>
       </AppSidebar>
       <main class="main">
-        <Breadcrumb :list="list"/>
+        <Breadcrumb class="bread-crumb" :list="list"/>
           <div class="container-fluid">
             <router-view></router-view>
           </div>
@@ -135,16 +135,24 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .app {
   overflow: hidden;
   height: 100vh;
+}
+.bread-crumb {
+  position: fixed;
+  z-index: 1020;
+  width: 100%;
 }
 .scroll-area {
   position: relative;
 }
 .container-fluid {
-  min-height: calc(100vh - 165px);
+  box-sizing: border-box;
+  // min-height: calc(100vh - 165px);
+  margin-top: 4rem;
+  margin-bottom: 50px;
 }
 .main {
   overflow: hidden;
@@ -153,7 +161,11 @@ export default {
   flex: 1;
 }
 .footer {
-  margin-top: 20px;
+  position: fixed;
+  bottom: 0;
+  z-index: 1020;
+  width: 100%;
+  height: 35px;
 }
 </style>
 

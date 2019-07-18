@@ -13,11 +13,19 @@ export class AutoCard extends Vue {
     @Prop({ type: String })
     label: string;
 
-    @Prop({ type: Boolean, required: false })
+    @Prop({ type: Boolean, required: false, default: true })
     visible: boolean;
 
     @Prop({ type: Object as () => ICard, required: false })
     data!: ICard;
+
+    /// public method
+    public open() {
+        this.isMounted && (this.$refs.card as any).open();
+    }
+    public close() {
+        this.isMounted && (this.$refs.card as any).close();
+    }
 
     /// private helpers //////////////////////////////
     private isMounted: boolean = false;
