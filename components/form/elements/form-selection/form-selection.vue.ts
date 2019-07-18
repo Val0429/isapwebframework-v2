@@ -27,9 +27,11 @@ export class FormSelection extends Vue {
     value!: string | string[];
 
     /// options watcher
-    @Watch('options', {immediate: true})
-    private async onOptionsChanged(data: FormSelectionOption[]) {
+    @Watch('options', {immediate: false})
+    private async onOptionsChanged(data: FormSelectionOption[], old: FormSelectionOption[]) {
         let me = $(`#${this.id}`) as any;
+        /// make sure the two object is really changed
+        if (JSON.stringify(old) === JSON.stringify(data)) return;
         setTimeout( () => {
             me.select2().off('change', this.doOnChange);
             me.select2("destroy");
@@ -48,10 +50,13 @@ export class FormSelection extends Vue {
         me.select2({
             theme: "bootstrap",
             placeholder: this.placeholder || this._("mb_PleaseSelect"),
-            allowClear: true,
+            allowClear: this.multiple ? false : true,
             dropdownParent: !this.modalParent ? null : $(this.modalParent.$el)
         })
-        .on('change', this.doOnChange);
+        .on('change', this.doOnChange)
+        /// prevent dialog open when clear
+        .on('select2:unselecting', () => me.data('unselecting', true))
+        .on('select2:opening', (e) => { if (me.data('unselecting')) { me.removeData('unselecting'); e.preventDefault(); } });
     }
     private doOnChange() {
         let me = $(`#${this.id}`) as any;
