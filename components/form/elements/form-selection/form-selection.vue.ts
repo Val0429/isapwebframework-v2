@@ -26,6 +26,12 @@ export class FormSelection extends Vue {
     @Model('input', { type: [String, Array], required: false })
     value!: string | string[];
 
+    @Watch('value', {immediate: true})
+    private onValueChanged(data) {
+        let me = $(`#${this.id}`) as any;
+        me.val(data).trigger('change.select2');
+    }
+
     /// options watcher
     @Watch('options', {immediate: false})
     private async onOptionsChanged(data: FormSelectionOption[], old: FormSelectionOption[]) {
