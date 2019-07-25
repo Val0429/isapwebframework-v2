@@ -15,6 +15,9 @@ export class FormFile extends Vue {
     @Prop({ type: String, required: false })
     invalid!: string;
 
+    @Prop({ type: Boolean, required: false, default: false })
+    multiple: boolean;
+
     @Model('input', { required: false })
     value!: string | string[];
 

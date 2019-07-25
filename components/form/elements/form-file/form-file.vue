@@ -9,6 +9,7 @@
             v-bind:value="innateValue"
             v-bind:placeholder="placeholder"
             v-bind:drop-placeholder="dropPlaceholder"
+            v-bind:multiple="multiple"
             v-on:input="$emit('input', $event)"
         />
 
