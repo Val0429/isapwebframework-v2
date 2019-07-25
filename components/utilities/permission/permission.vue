@@ -1,6 +1,5 @@
 <template>
     <div v-if="isAllowed">
-        {{ isAllowed }}
         <slot />
     </div>
 </template>
