@@ -2,6 +2,9 @@ import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-d
 
 @Component
 export class Permission extends Vue {
+    @Prop({ type: String, required: false, default: null })
+    url: string | string[];
+
     @Prop({ type: [String, Array], required: false, default: null })
     allow: string | string[];
 
@@ -9,6 +12,16 @@ export class Permission extends Vue {
     deny: string | string[];
 
     private get isAllowed(): boolean {
+        /// url check
+        if (this.url) {
+            let url = Array.isArray(this.url) ? this.url : [this.url];
+            return url.reduce<boolean>((final, value) => {
+                if (!final || !(this.$permissions[value] || {})['Get']) return false;
+                return final;
+            }, true);
+        }
+
+        /// role check
         let roles = ((this.$user.user || {}).roles || []).map( value => value.name );
         if (roles.length === 0) return false;
         if (this.allow) {

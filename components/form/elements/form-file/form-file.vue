@@ -29,6 +29,12 @@
 
 <style lang="css">
 .custom-file-input:lang(en) ~ .custom-file-label::after {
+    position: absolute;
     content: var(--browse-text) !important;
+}
+.custom-file-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>
