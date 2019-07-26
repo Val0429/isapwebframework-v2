@@ -20,6 +20,9 @@ let sj401 = new Subject<ISubjectError>();
 sj401.pipe(throttleTime(2000)).subscribe(showModal);
 
 Server.getDefault().sjError.subscribe( (e) => {
+    /// no response
+    if (!e.error.res) return showModal(e);
+    /// 401 route
     if (e.error.res.statusCode === 401) return sj401.next(e);
     showModal(e);
 })
