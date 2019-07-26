@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isAllowed">
+    <div v-if="isAllowed()">
         <slot />
     </div>
     <div v-else-if="$slots.else">

@@ -11,7 +11,7 @@ export class Permission extends Vue {
     @Prop({ type: [String, Array], required: false, default: null })
     deny: string | string[];
 
-    private get isAllowed(): boolean {
+    private isAllowed(): boolean {
         /// url check
         if (this.url) {
             let url = Array.isArray(this.url) ? this.url : [this.url];
