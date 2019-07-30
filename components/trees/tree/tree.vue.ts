@@ -1,3 +1,9 @@
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import { Vue, Component, Prop, Model, Emit, Watch, Inject, iSAPServerBase } from "@/../core";
 import { IServerTree } from 'components/interfaces';
 import { BehaviorSubject } from 'rxjs';

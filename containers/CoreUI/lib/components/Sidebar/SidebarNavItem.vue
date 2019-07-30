@@ -12,6 +12,12 @@
 
 
 <script lang="ts">
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { SidebarNavItem as SidebarNavItemCore } from '@coreui/vue';
 import SidebarNavLinkCore from './private/SidebarNavLink.vue';

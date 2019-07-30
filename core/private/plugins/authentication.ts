@@ -1,3 +1,9 @@
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import { Vue } from 'vue-property-decorator';
 import Server from '@/config/default/server';
 import { filter } from 'rxjs/operators';

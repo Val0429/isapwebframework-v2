@@ -1,3 +1,9 @@
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult } from "@/../core";
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import lang from '@/../core/i18n';

@@ -9,6 +9,12 @@
 </template>
 
 <script lang="ts">
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 

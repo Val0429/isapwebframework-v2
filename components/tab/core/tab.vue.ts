@@ -1,3 +1,9 @@
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import { Vue, Component, Prop, Model, Emit, Watch, Inject, Observe } from "@/../core";
 import { Form } from '@/../components/form';
 import { StepProgress } from '@/../components/step-progress';

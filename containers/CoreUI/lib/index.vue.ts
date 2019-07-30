@@ -1,3 +1,9 @@
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import { Vue, Component } from "vue-property-decorator";
 import DefaultContainer from "./containers/DefaultContainer.vue";
 // import DefaultAside from "./containers/DefaultAside.vue";

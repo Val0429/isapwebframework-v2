@@ -1,3 +1,9 @@
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import Server from '@/config/default/server';
 import { ModalResponse } from '@/../components/modal/modal-response';
 import lang from './../../i18n/core';

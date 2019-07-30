@@ -1,3 +1,9 @@
+/*
+ * Created on Tue Jul 30 2019
+ * Author: Val Liu
+ * Copyright (c) 2019, iSAP Solution
+ */
+
 import Vue from 'vue';
 import Router from 'vue-router';
 import { RouteConfig } from 'vue-router';
