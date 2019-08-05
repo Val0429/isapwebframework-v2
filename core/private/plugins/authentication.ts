@@ -65,7 +65,7 @@ export const AuthPlugin = {
                     main: do {
                         try {
                             /// 1) request logout
-                            let data = await this.$server.R(logoutPath as any, {});
+                            let data = await this.$server.C(logoutPath as any, {});
                             break main;
                         } catch (e) {
                             if ((e.res || {}).statusCode === 401) break main;
