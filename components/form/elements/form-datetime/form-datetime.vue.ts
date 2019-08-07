@@ -21,10 +21,10 @@ export class FormDatetime extends Vue {
     label!: string;
 
     @Model('input', {
-        type: Date,
+        type: [Date, String],
         required: false,
     })
-    value!: Date;
+    value!: Date | string;
 
     @Prop({
         type: String,
@@ -39,12 +39,14 @@ export class FormDatetime extends Vue {
     /// private helpers
     private get inputDate(): string {
         if (!this.value) return '';
-        return `${this.value.getFullYear()}-${this.padLeft(this.value.getMonth()+1, 2)}-${this.padLeft(this.value.getDate(), 2)}`;
+        let date = this.value instanceof Date ? this.value : new Date(this.value);
+        return `${date.getFullYear()}-${this.padLeft(date.getMonth()+1, 2)}-${this.padLeft(date.getDate(), 2)}`;
     }
 
     private get inputTime(): string {
         if (!this.value) return '';
-        return `${this.padLeft(this.value.getHours(), 2)}:${this.padLeft(this.value.getMinutes(), 2)}:${this.padLeft(this.value.getSeconds(), 2)}`;
+        let date = this.value instanceof Date ? this.value : new Date(this.value);
+        return `${this.padLeft(date.getHours(), 2)}:${this.padLeft(date.getMinutes(), 2)}:${this.padLeft(date.getSeconds(), 2)}`;
     }
 
     private dateChanged(dateText: string) {

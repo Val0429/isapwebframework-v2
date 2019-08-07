@@ -16,10 +16,10 @@ export class FormDate extends Vue {
     label!: string;
 
     @Model('input', {
-        type: Date,
+        type: [Date, String],
         required: false,
     })
-    value!: Date;
+    value!: Date | string;
 
     @Prop({
         type: String,
