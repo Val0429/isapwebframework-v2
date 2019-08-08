@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" v-if="!hidePaging">
             <div class="col-sm-12 col-md-6">
                 <div class="row" style="align-items: center">
                     <div class="dataTables_length" id="DataTables_Table_0_length" style="margin-left: 1rem; display: flex; align-items: center">

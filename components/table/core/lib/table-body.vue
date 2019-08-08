@@ -40,7 +40,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, IMetaResult, Prop, Component } from "@/../core";
+import { Vue, IMetaResult, Prop, Component, Inject } from "@/../core";
 import { IGetResult } from './core';
 @Component
 export class TableBody extends Vue {
@@ -62,6 +62,10 @@ export class TableBody extends Vue {
     })
     result: IGetResult;
 
+    @Inject({
+        default: null
+    }) root: any;
+
     private get row() {
         return this.result.results[this.indexOfRows];
     }
@@ -81,8 +85,7 @@ export class TableBody extends Vue {
             value = value[meta.name];
         }
 
-        /// table bind value check here
-        return {
+        let all = {
             paging: this.result.paging,
             rows: this.result.results,
             row: item,
@@ -91,7 +94,29 @@ export class TableBody extends Vue {
             ...(inf ? { key: inf.name, value } : {} ),
             
             ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
+        };
+
+        /// try convert value
+        let converter = (this.meta.attrs || {})["uiConverter"];
+        if (converter) {
+            let parent = (this.root || {}).$parent || this.$parent;
+
+            if (/[a-zA-z]/.test(converter[0])) {
+                /// execute as Scope Function
+                value = parent[converter](value, all);
+                all.value = value;
+
+            } else {
+                /// execute as Function
+                value = function(value, all) {
+                    return eval(converter)(value, all);
+                }.call(parent, value, all);
+                all.value = value;
+            }
         }
+
+        /// table bind value check here
+        return all;
     }
     private bindListeners() {
         let inf = this.meta;
@@ -118,7 +143,7 @@ export class TableBody extends Vue {
                 name: key.replace(regex, "")
             });
         }
-        console.log('related', name, slots, rtn);
+        // console.log('related', name, slots, rtn);
         return rtn;
     }
 

@@ -1,6 +1,6 @@
 {
-  "name": "hello-world",
-  "version": "0.1.0",
+  "name": "isap-web-framework",
+  "version": "1.0.0",
   "frameworkversion": "2.00.00",
   "private": true,
   "scripts": {

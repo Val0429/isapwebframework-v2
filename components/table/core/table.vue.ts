@@ -21,6 +21,8 @@ const uiAttrs = "uiAttrs";
 const uiType = "uiType";
 /// rowspan: true | false
 const uiTableMergeRow = "uiTableMergeRow";
+/// easier convert value
+const uiConverter = "uiConverter";
 
 enum EParsedType {
     Enum = "enum"
@@ -46,7 +48,11 @@ interface ISlotOutputAttrs {
     value: any;
 }
 
-@Component
+@Component({
+    provide() {
+        return { root: this }
+    }
+})
 export class Table extends Vue {
     /// direct props ////////////////////////////
     @Prop({
@@ -81,6 +87,9 @@ export class Table extends Vue {
 
     @Prop({ type: Number, default: 10 })
     pageSize!: number;
+
+    @Prop({ type: Boolean, default: false })
+    hidePaging: boolean;
 
     @Emit('selected')
     onSelected(rows: any | any[]) { return rows; }

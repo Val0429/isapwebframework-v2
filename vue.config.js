@@ -12,6 +12,13 @@ module.exports = {
             chunks: ['chunk-vendors', 'chunk-common', 'index'],
         },
     },
+    configureWebpack: {
+        resolve: {
+            alias: {
+                'vue$': 'vue/dist/vue.esm.js'
+            }
+        }
+    },
     productionSourceMap: false,
     css: {
         sourceMap: !config.prodMode,
