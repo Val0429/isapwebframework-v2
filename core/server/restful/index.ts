@@ -350,7 +350,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
 
 
     async R<K extends keyof T['Get'], U extends ApisExtractInput<T['Get'][K]>, V extends ApisExtractOutput<T['Get'][K]>, P extends ApisExtractLoginRequired<T['Get'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data?: U, help?: boolean, spec: 'GET' | 'DELETE' = 'GET'): Promise<V> {
-        await this.waitForLogin();
+        // await this.waitForLogin();
 
         if (!data) data = {} as any;
         /// apply sessionId
