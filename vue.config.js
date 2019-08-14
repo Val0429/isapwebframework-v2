@@ -1,5 +1,6 @@
 let config = require('./src/config/default/debug');
 let package = require('./src/package.json');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     pages: {
@@ -17,7 +18,10 @@ module.exports = {
             alias: {
                 'vue$': 'vue/dist/vue.esm.js'
             }
-        }
+        },
+        plugins: [
+            new CopyWebpackPlugin([ { from: 'src/public/', to: '' } ])
+        ]
     },
     productionSourceMap: false,
     css: {
