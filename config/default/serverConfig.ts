@@ -11,6 +11,9 @@ export interface Config {
     port?: number;
     ssl?: boolean;
 
+    /// for release only
+    prodPort?: number;
+
     /// only allow server framework > THIS to do login
     serverFrameworkVersionGreaterThan: string;
     /// hide server error popup?
