@@ -20,7 +20,7 @@ module.exports = {
             }
         },
         plugins: [
-            new CopyWebpackPlugin([ { from: 'src/public/', to: '' } ])
+            new CopyWebpackPlugin([ { from: 'src/public/', to: 'public' } ])
         ]
     },
     productionSourceMap: false,
