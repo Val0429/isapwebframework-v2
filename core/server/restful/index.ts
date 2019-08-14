@@ -252,11 +252,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
     protected sjLogined: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private ssl: boolean;
     constructor(config: W) {
-        this.config = !debug.prodMode ? Object.assign({}, config) : { port: (config as any).prodPort } as any;
-        let { hostname, port, protocol } = window.location;
-        this.config.ip = this.config.ip || hostname;
-        this.config.port = this.config.port || +port;
-        this.config.ssl = typeof this.config.ssl === "boolean" ? this.config.ssl : /^https/.test(protocol);
+        this.config = config;
     }
 
     private makeUrl(uri: string, ws: boolean = false): string {
@@ -437,7 +433,16 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
 
     private static defaultServer: iSAPServerBase<any> = null;
     public static getDefault<T>(this: { new(...args): T }): T {
-        return ((this as any).defaultServer || ((this as any).defaultServer = new this(config)));
+        let conf: IiSAPServerBaseConfig = !debug.prodMode ? Object.assign({}, config) : { port: config.prodPort } as any;
+        let { hostname, port, protocol } = window.location;
+        conf.ip = conf.ip || hostname;
+        conf.port = conf.port || +port;
+        conf.ssl = typeof config.ssl === "boolean" ? config.ssl : /^https/.test(protocol);
+
+        return ((this as any).defaultServer || ((this as any).defaultServer = new this(conf)));
+    }
+    public static sharedInstance<T>(this: { new(...args): T }): T {
+        return (this as any).getDefault();
     }
 
     protected waitForLogin(): Promise<boolean> {
