@@ -11,7 +11,7 @@ export interface Config {
     port?: number;
     ssl?: boolean;
 
-    /// for release only
+    /// for release only. use case for one server host two clients, you will need to specify different port.
     prodPort?: number;
 
     /// only allow server framework > THIS to do login
