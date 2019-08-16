@@ -5,6 +5,7 @@
         v-bind:label-for="'input-' + _uid"
     >
         <b-form-file
+            :accept="accept"
             v-bind="$attrs"
             v-bind:value="innateValue"
             v-bind:placeholder="placeholder"

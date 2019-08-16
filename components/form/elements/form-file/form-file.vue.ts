@@ -4,7 +4,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Model, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, Model, Watch } from 'vue-property-decorator';
 import lang from '@/../core/i18n';
 
 @Component
@@ -24,6 +24,9 @@ export class FormFile extends Vue {
     @Prop({ type: Boolean, required: false, default: false })
     multiple: boolean;
 
+    @Prop({ type: String, required: false, default: 'image/*' })
+    accept: string;
+
     @Model('input', { required: false })
     value!: string | string[];
 
@@ -35,11 +38,9 @@ export class FormFile extends Vue {
     created() {
         /// do only once
         if (FormFile.subscription) return;
-        FormFile.subscription = lang.getObservable()
-            .subscribe( (value) => {
-                document.documentElement.style
-                    .setProperty('--browse-text', `"${lang.translate("wb_Browse")}"`);
-            });
+        FormFile.subscription = lang.getObservable().subscribe((value) => {
+            document.documentElement.style.setProperty('--browse-text', `"${lang.translate('wb_Browse')}"`);
+        });
     }
 }
 export default FormFile;
