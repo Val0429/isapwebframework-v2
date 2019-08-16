@@ -6,20 +6,11 @@
             <template v-else-if="$slots[inf.name] || $scopedSlots[inf.name]">
                 <slot :name="inf.name" :$attrs="bindAttrs(inf, index)" :$listeners="bindListeners(inf, index)" :data="innateValue" />
             </template>
-            <template v-else-if="(inf.attrs||{}).uiType ? true : false">
-                <element :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" :is="inf.attrs.uiType" />
+            <template v-else-if="isSimpleArrayType(inf)">
+                <element :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" is="iv-form-multiple" :elementType="getElementType(inf)" />
             </template>
-            <template v-else-if="inf.type === 'string'">
-                <iv-form-string :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
-            </template>
-            <template v-else-if="inf.type === 'boolean'">
-                <iv-form-switch :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
-            </template>
-            <template v-else-if="inf.type === 'number'">
-                <iv-form-number :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
-            </template>
-            <template v-else-if="inf.type === 'Date'">
-                <iv-form-datetime :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
+            <template v-else-if="getElementType(inf)">
+                <element :is="getElementType(inf)" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
             </template>
             <template v-else>
                 <template v-for="type in parsedType(inf.type) || []">

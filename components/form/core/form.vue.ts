@@ -18,9 +18,12 @@ const uiValidation = "uiValidation"; /// custom element supported
 const uiInvalidMessage = "uiInvalidMessage";
 /// group columns together
 const uiColumnGroup = "uiColumnGroup"; /// custom element supported
+/// will return array
+const uiMultiple = "uiMultiple";
 
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
 import { MetaParser, EnumParser, IMetaResult } from "@/../core/server/parser/meta-parser";
+import { getComponentByName } from '@/../components';
 
 enum EParsedType {
     Enum = "enum",
@@ -153,7 +156,11 @@ export class Form extends Vue {
             invalid: attrs.uiInvalidMessage,
             value: this.innateValue[inf.name],
 
-            ...(parsedType ? { multiple: parsedType.isArray, options: parsedType.data } : {}),
+            ...(parsedType ? {
+                multiple: !attrs[uiMultiple] ? parsedType.isArray : attrs[uiMultiple] === 'true' ? true : false,
+                options: parsedType.data } : {
+                    multiple: !attrs[uiMultiple] ? false : attrs[uiMultiple] === 'true' ? true : false
+                }),
 
             ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
         };
@@ -314,6 +321,30 @@ export class Form extends Vue {
             });
         }
         return rtn;
+    }
+
+    /// handle default type
+    private isSimpleArrayType(inf: IMetaResult): boolean {
+        if ((inf.isArray || (inf.attrs||{})[uiMultiple] === 'true') && typeof inf.type === 'string' &&
+            (inf.type as string).indexOf("{") < 0
+        ) {
+            let comp = getComponentByName( this.getElementType(inf) );
+            if (comp.options.props.multiple) return false;
+            return true;
+        }
+        return false;
+    }
+    private getElementType(inf: IMetaResult): string {
+        let uiType = (inf.attrs||{}).uiType;
+        if (uiType) return uiType;
+        return this.getDefaultType(inf);
+    }
+    private getDefaultType(inf: IMetaResult): string {
+        return inf.type === 'string' ? 'iv-form-string'
+             : inf.type === 'boolean' ? 'iv-form-switch'
+             : inf.type === 'number' ? 'iv-form-number'
+             : inf.type === 'Date' ? 'iv-form-datetime'
+             : null;
     }
 
     /// interface parser

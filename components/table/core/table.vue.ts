@@ -283,7 +283,7 @@ export class Table extends Vue {
         if (!this.result || this.result.results.length === 0) return [];
         let ref = this.result.results[0];
         return Object.keys(ref).map( (name, index) => {
-            return { name, type: 'string', optional: false, index }
+            return { name, type: 'string', optional: false, index, isArray: false /* todo. made for form, table later */ }
         });
     }
     ////////////////////////////////////////////////////////////////////////////////////

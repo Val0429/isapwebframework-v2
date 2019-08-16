@@ -31,5 +31,10 @@
 .select2-container--open {
     z-index: 10000;
 }
+
+.select2-selection__rendered > .select2-search--inline:only-child,
+.select2-selection__rendered > .select2-search--inline:only-child > .select2-search__field {
+    width: 100% !important;
+}
 </style>
 
