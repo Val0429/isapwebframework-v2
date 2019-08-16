@@ -36,6 +36,8 @@ export default class LangObject implements IBaseLang {
     wb_Close = '關閉';
     wb_Back = '返回';
 
+    mb_FormMultipleClickToAdd = '點擊來新增資料';
+
     mb_VersionLimitation = '版本限制';
     mb_VersionNotEnough = "ServerFramework 版本需求應大於 v{version}。";
     mb_PermissionDenied = "權限不足";
