@@ -131,12 +131,17 @@ export class Form extends Vue {
             if (this.innateValue[inf.name] === undefined) {
                 if (inf.type instanceof MetaParser) {
                     /// handle iv-form-multiple
-                    if ( inf.isArray || (inf.attrs||{})[uiMultiple] === 'true' ) Vue.set(this.innateValue, inf.name, []);
+                    if (this.getIsMultiple(inf)) Vue.set(this.innateValue, inf.name, undefined);
                     else Vue.set(this.innateValue, inf.name, {});
                 } else Vue.set(this.innateValue, inf.name, undefined);
             }
         }
         this.resetState();
+    }
+
+    private getIsMultiple(inf: IMetaResult): boolean {
+        let multiple = (inf.attrs||{})[uiMultiple];
+        return multiple ? (multiple === "true" ? true : false) : inf.isArray;
     }
 
     /// bind several attrs together
@@ -159,9 +164,9 @@ export class Form extends Vue {
             value: this.innateValue[inf.name],
 
             ...(parsedType ? {
-                multiple: !attrs[uiMultiple] ? parsedType.isArray : attrs[uiMultiple] === 'true' ? true : false,
+                multiple: this.getIsMultiple(inf),
                 options: parsedType.data } : {
-                    multiple: !attrs[uiMultiple] ? false : attrs[uiMultiple] === 'true' ? true : false
+                    multiple: this.getIsMultiple(inf)
                 }),
 
             ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
@@ -327,7 +332,7 @@ export class Form extends Vue {
 
     /// handle default type
     private isSimpleArrayType(inf: IMetaResult): boolean {
-        if (inf.isArray || (inf.attrs||{})[uiMultiple] === 'true') {
+        if (this.getIsMultiple(inf)) {
             if (inf.type instanceof MetaParser) {
                 return true;
             } else if (

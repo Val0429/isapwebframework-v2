@@ -113,12 +113,14 @@ export class MetaParser {
         let minfstart = meta.match( new RegExp(`interface\\s+${name}(?:<[^>]+>)?\\s*{`) );
         if (!minfstart) return;
         let infstart = (minfstart.index||0)+minfstart[0].length;
-        let infend;
+        let infend: number;
         let prec = 0;
         for (var i=infstart; i<meta.length ;++i) {
             if (meta[i] === '{') ++prec;
             if (meta[i] === '}') { --prec; if (prec>=0) continue; infend = ++i; break;}
         }
+        /// include array token []
+        if (meta.length > infend+1 && meta[infend] === '[' && meta[infend+1] === ']') infend+=2;
         return meta.substring(infstart, infend);
     }
 
@@ -135,11 +137,6 @@ export class MetaParser {
         if (!minf) return;
         let inf = minf[1];
         return this.getInterfaceByName(inf);
-        // let minfstart = input.match( new RegExp(`interface\\s+${inf}(?:<[^>]+>)?\\s*{`) );
-        // if (!minfstart) return;
-        // let infstart = (minfstart.index||0)+minfstart[0].length;
-        // let infend; for (var i=infstart; i<input.length ;++i) { if (input[i] === '}') {infend = i; break;} }
-        // return input.substring(infstart, infend);
     }
 
     private parseInputInterfaceInnerString(interfaceInnerString: string) {
@@ -200,6 +197,9 @@ export class MetaParser {
                         let type = o.substring(startpoint, i);
                         if (/^interface /.test(type)) {
                             result!.type = new MetaParser(type, null);
+                            let regex = /\[\]$/;
+                            result.isArray = regex.test(type);
+                            
                         } else {
                             /// parse array
                             let regex = /([^[]+)(\[\])?$/;
