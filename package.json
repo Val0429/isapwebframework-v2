@@ -24,7 +24,8 @@
     "vue-fragment": "1.5.1",
     "vue-property-decorator": "8.1.0",
     "vue-router": "3.0.3",
-    "vue-rx": "6.2.0"
+    "vue-rx": "6.2.0",
+    "vuedraggable": "^2.23.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "3.7.0",

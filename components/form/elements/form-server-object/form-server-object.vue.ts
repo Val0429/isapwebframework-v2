@@ -45,7 +45,12 @@ export class FormServerObject extends Vue {
 
     @Emit()
     input(data) {
-        function transform(data) {
+        const transform = (data) => {
+            if (data === null || data === undefined) {
+                if (!this.multiple) return null;
+                return [];
+            }
+            if (Array.isArray(data) && !this.multiple) return data[0];
             if (!Array.isArray(data)) {
                 return data.objectId;
             }

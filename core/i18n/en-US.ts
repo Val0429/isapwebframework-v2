@@ -35,6 +35,8 @@ export default class LangObject {
     wb_Close = 'Close';
     wb_Back = 'Back';
 
+    mb_FormMultipleClickToAdd = 'Click to Add';
+
     mb_VersionLimitation = 'Version Limitation';
     mb_VersionNotEnough = "ServerFramework version should be greater than v{version}.";
     mb_PermissionDenied = "Permission Denied";

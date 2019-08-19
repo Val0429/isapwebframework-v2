@@ -18,9 +18,12 @@ const uiValidation = "uiValidation"; /// custom element supported
 const uiInvalidMessage = "uiInvalidMessage";
 /// group columns together
 const uiColumnGroup = "uiColumnGroup"; /// custom element supported
+/// will return array
+const uiMultiple = "uiMultiple";
 
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
 import { MetaParser, EnumParser, IMetaResult } from "@/../core/server/parser/meta-parser";
+import { getComponentByName } from '@/../components';
 
 enum EParsedType {
     Enum = "enum",
@@ -126,8 +129,11 @@ export class Form extends Vue {
         /// initialize key/value
         for (let inf of this.parsedInterface) {
             if (this.innateValue[inf.name] === undefined) {
-                if (inf.type instanceof MetaParser) Vue.set(this.innateValue, inf.name, {});
-                else Vue.set(this.innateValue, inf.name, undefined);
+                if (inf.type instanceof MetaParser) {
+                    /// handle iv-form-multiple
+                    if ( inf.isArray || (inf.attrs||{})[uiMultiple] === 'true' ) Vue.set(this.innateValue, inf.name, []);
+                    else Vue.set(this.innateValue, inf.name, {});
+                } else Vue.set(this.innateValue, inf.name, undefined);
             }
         }
         this.resetState();
@@ -143,7 +149,6 @@ export class Form extends Vue {
             let parsed = this.parsedType(inf.type);
             if (parsed) parsedType = parsed[0] as any;
         }
-
         return {
             class: { [`col-md-${splits}`]: true },
             state: this.showState(inf),
@@ -153,7 +158,11 @@ export class Form extends Vue {
             invalid: attrs.uiInvalidMessage,
             value: this.innateValue[inf.name],
 
-            ...(parsedType ? { multiple: parsedType.isArray, options: parsedType.data } : {}),
+            ...(parsedType ? {
+                multiple: !attrs[uiMultiple] ? parsedType.isArray : attrs[uiMultiple] === 'true' ? true : false,
+                options: parsedType.data } : {
+                    multiple: !attrs[uiMultiple] ? false : attrs[uiMultiple] === 'true' ? true : false
+                }),
 
             ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
         };
@@ -314,6 +323,39 @@ export class Form extends Vue {
             });
         }
         return rtn;
+    }
+
+    /// handle default type
+    private isSimpleArrayType(inf: IMetaResult): boolean {
+        if (inf.isArray || (inf.attrs||{})[uiMultiple] === 'true') {
+            if (inf.type instanceof MetaParser) {
+                return true;
+            } else if (
+                typeof inf.type === 'string' && (inf.type as string).indexOf("{") < 0
+            ) {
+                let comp = getComponentByName( this.getElementType(inf) );
+                if (comp.options.props.multiple) return false;
+                console.log('multiple2!', inf.name, inf);
+                return true;
+            }
+        }
+        return false;
+    }
+    private getMultipleElementType(inf: IMetaResult): string | MetaParser {
+        if (inf.type instanceof MetaParser) return inf.type;
+        return this.getElementType(inf);
+    }
+    private getElementType(inf: IMetaResult): string {
+        let uiType = (inf.attrs||{}).uiType;
+        if (uiType) return uiType;
+        return this.getDefaultType(inf);
+    }
+    private getDefaultType(inf: IMetaResult): string {
+        return inf.type === 'string' ? 'iv-form-string'
+             : inf.type === 'boolean' ? 'iv-form-switch'
+             : inf.type === 'number' ? 'iv-form-number'
+             : inf.type === 'Date' ? 'iv-form-datetime'
+             : null;
     }
 
     /// interface parser

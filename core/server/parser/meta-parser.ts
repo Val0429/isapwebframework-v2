@@ -16,6 +16,7 @@ export interface IMetaResult {
     /// location of this meta. default start with 0.
     index: number;                                                 
     attrs?: IMetaAttrs;
+    isArray: boolean;
 }
 
 export interface IEnumMetaResult {
@@ -144,7 +145,7 @@ export class MetaParser {
     private parseInputInterfaceInnerString(interfaceInnerString: string) {
         let o = interfaceInnerString;
         let result: IMetaResult | undefined;
-        let createResult = () => result = { name: '', type: '', optional: false, index: 0 };
+        let createResult = () => result = { name: '', type: '', optional: false, index: 0, isArray: false };
         createResult();
 
         /// take properties one by one
@@ -200,7 +201,11 @@ export class MetaParser {
                         if (/^interface /.test(type)) {
                             result!.type = new MetaParser(type, null);
                         } else {
-                            result!.type = type;
+                            /// parse array
+                            let regex = /([^[]+)(\[\])?$/;
+                            let matches = type.match(regex);
+                            matches[2] && (result.isArray = true);
+                            result!.type = matches[1];
                         }
                         break;
                     }

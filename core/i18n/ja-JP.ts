@@ -36,6 +36,8 @@ export default class LangObject implements IBaseLang {
     wb_Close = '閉じる';
     wb_Back = '戻る';
 
+    mb_FormMultipleClickToAdd = 'クリックしてデータを追加';
+
     mb_VersionLimitation = 'バージョン制限';
     mb_VersionNotEnough = "ServerFrameworkのバージョンは v{version} より大きくなければなりません。";
     mb_PermissionDenied = "アクセス拒否";
