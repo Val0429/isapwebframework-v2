@@ -4,27 +4,59 @@
             <slot :name="meta.name" />
         </template>
         <template v-else-if="$scopedSlots[meta.name]">
-            <slot :name="meta.name" :$attrs="bindAttrs()" :$listeners="bindListeners()" />
+            <slot
+                :name="meta.name"
+                :$attrs="bindAttrs()"
+                :$listeners="bindListeners()"
+            />
         </template>
         <template v-else>
             <template v-if="(meta.attrs||{}).uiType ? true : false">
-                <element :key="meta.name" :is="meta.attrs.uiType" v-bind="bindAttrs()" v-on="bindListeners()" />
+                <element
+                    :key="meta.name"
+                    :is="meta.attrs.uiType"
+                    v-bind="bindAttrs()"
+                    v-on="bindListeners()"
+                />
             </template>
             <template v-else-if="meta.type === 'Date'">
-                <iv-cell-date :key="meta.name" v-bind="bindAttrs()" v-on="bindListeners()" />
+                <iv-cell-date
+                    :key="meta.name"
+                    v-bind="bindAttrs()"
+                    v-on="bindListeners()"
+                />
             </template>
             <template v-else>
-                <iv-cell-string :key="meta.name" v-bind="bindAttrs()" v-on="bindListeners()" />
+                <iv-cell-string
+                    :key="meta.name"
+                    v-bind="bindAttrs()"
+                    v-on="bindListeners()"
+                />
             </template>
         </template>
     </td>
     <fragment v-else-if="meta">
-        <iv-inner-table-body :key="key" v-for="(meta2, key) in meta.type.result" :meta="meta2" :indexOfRows="indexOfRows" :result="result">
-            <template v-for="slot in relatedSlots(meta2.name, false)" :slot="slot.name">
+        <iv-inner-table-body
+            :key="key"
+            v-for="(meta2, key) in meta.type.result"
+            :meta="meta2"
+            :indexOfRows="indexOfRows"
+            :result="result"
+        >
+            <template
+                v-for="slot in relatedSlots(meta2.name, false)"
+                :slot="slot.name"
+            >
                 <slot :name="slot.originalName" />
             </template>
-            <template v-for="slot in relatedSlots(meta2.name, true)" v-slot:[slot.name]="scope">
-                <slot :name="slot.originalName" v-bind="scope" />
+            <template
+                v-for="slot in relatedSlots(meta2.name, true)"
+                v-slot:[slot.name]="scope"
+            >
+                <slot
+                    :name="slot.originalName"
+                    v-bind="scope"
+                />
             </template>
         </iv-inner-table-body>
     </fragment>
@@ -41,7 +73,7 @@
  */
 
 import { Vue, IMetaResult, Prop, Component, Inject } from "@/../core";
-import { IGetResult } from './core';
+import { IGetResult } from "./core";
 @Component
 export class TableBody extends Vue {
     @Prop({
@@ -64,7 +96,8 @@ export class TableBody extends Vue {
 
     @Inject({
         default: null
-    }) root: any;
+    })
+    root: any;
 
     private get row() {
         return this.result.results[this.indexOfRows];
@@ -73,13 +106,15 @@ export class TableBody extends Vue {
     private bindAttrs() {
         let inf = this.meta;
         let item = this.result.results[this.indexOfRows];
-        let attrs = (inf || {} as any).attrs || {};
+        let attrs = (inf || ({} as any)).attrs || {};
 
         /// try get value
         let me: Vue = this;
         let value = this.row;
         let metas = [];
-        do { metas.unshift((me as any).meta) } while ( (me = me.$parent, (me as any).meta) );
+        do {
+            metas.unshift((me as any).meta);
+        } while (((me = me.$parent), (me as any).meta));
         for (let meta of metas) {
             if (!value) break;
             value = value[meta.name];
@@ -91,9 +126,9 @@ export class TableBody extends Vue {
             row: item,
             index: this.indexOfRows,
 
-            ...(inf ? { key: inf.name, value } : {} ),
-            
-            ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
+            ...(inf ? { key: inf.name, value } : {}),
+
+            ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {})
         };
 
         /// try convert value
@@ -105,7 +140,6 @@ export class TableBody extends Vue {
                 /// execute as Scope Function
                 value = parent[converter](value, all);
                 all.value = value;
-
             } else {
                 /// execute as Function
                 value = function(value, all) {
@@ -128,11 +162,16 @@ export class TableBody extends Vue {
         };
     }
     private strToJSON(input: string) {
-        var relaxed = input.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
-        return JSON.parse(relaxed);
+        var regex = /([{,]\s*(['"])?)([a-z0-9A-Z_]+)(['"])?:/g;
+        var relaxed = input.replace(regex, (a,b,c,d) => `${b}"${d}":`);
+        let result = JSON.parse(relaxed);
+        return result;
     }
 
-    private relatedSlots(name: string, isScoped?: boolean): { originalName: string, name: string }[] {
+    private relatedSlots(
+        name: string,
+        isScoped?: boolean
+    ): { originalName: string; name: string }[] {
         let slots = isScoped ? this.$scopedSlots : this.$slots;
         let rtn = [];
         let regex = new RegExp(`^${this.meta.name}\.`);
@@ -146,8 +185,7 @@ export class TableBody extends Vue {
         // console.log('related', name, slots, rtn);
         return rtn;
     }
-
 }
-Vue.component('iv-inner-table-body', TableBody);
+Vue.component("iv-inner-table-body", TableBody);
 export default TableBody;
 </script>
