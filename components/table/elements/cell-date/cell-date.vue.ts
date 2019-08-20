@@ -36,9 +36,9 @@ export class CellDate extends Vue {
 
     DateToString(dateTime: Date, format: string): string {
         let _formats: string[] = ['dddd', 'ddd', 'DD', 'D', 'hh', 'h', 'HH', 'H', 'mm', 'm', 'MMMM', 'MMM', 'MM', 'M', 'ss', 's', 'A', 'a', 'YYYY', 'YY', 'ZZ', 'Z'];
-        let _days: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        let _months: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        let _timeNames: string[] = ['am', 'pm', 'AM', 'PM'];
+        let _days: string[] = [this._('mb_DateTime_ShortWeekDay0'), this._('mb_DateTime_ShortWeekDay1'), this._('mb_DateTime_ShortWeekDay2'), this._('mb_DateTime_ShortWeekDay3'), this._('mb_DateTime_ShortWeekDay4'), this._('mb_DateTime_ShortWeekDay5'), this._('mb_DateTime_ShortWeekDay6'), this._('mb_DateTime_NormalWeekDay0'), this._('mb_DateTime_NormalWeekDay1'), this._('mb_DateTime_NormalWeekDay2'), this._('mb_DateTime_NormalWeekDay3'), this._('mb_DateTime_NormalWeekDay4'), this._('mb_DateTime_NormalWeekDay5'), this._('mb_DateTime_NormalWeekDay6')];
+        let _months: string[] = [this._('mb_DateTime_ShortMonth01'), this._('mb_DateTime_ShortMonth02'), this._('mb_DateTime_ShortMonth03'), this._('mb_DateTime_ShortMonth04'), this._('mb_DateTime_ShortMonth05'), this._('mb_DateTime_ShortMonth06'), this._('mb_DateTime_ShortMonth07'), this._('mb_DateTime_ShortMonth08'), this._('mb_DateTime_ShortMonth09'), this._('mb_DateTime_ShortMonth10'), this._('mb_DateTime_ShortMonth11'), this._('mb_DateTime_ShortMonth12'), this._('mb_DateTime_NormalMonth01'), this._('mb_DateTime_NormalMonth02'), this._('mb_DateTime_NormalMonth03'), this._('mb_DateTime_NormalMonth04'), this._('mb_DateTime_NormalMonth05'), this._('mb_DateTime_NormalMonth06'), this._('mb_DateTime_NormalMonth07'), this._('mb_DateTime_NormalMonth08'), this._('mb_DateTime_NormalMonth09'), this._('mb_DateTime_NormalMonth10'), this._('mb_DateTime_NormalMonth11'), this._('mb_DateTime_NormalMonth12')];
+        let _timeNames: string[] = [this._('mb_DateTime_LowerAM'), this._('mb_DateTime_LowerPM'), this._('mb_DateTime_UpperAM'), this._('mb_DateTime_UpperPM')];
 
         let regex: RegExp = this.Array2RegExp(_formats);
 
