@@ -1,6 +1,6 @@
 <template>
     <div>
-        <iv-card :data="{ label: _(tView) }">
+        <iv-card :label="_(tView)">
             <template #toolbox>
                 <!-- <toolbox-view /> -->
                 <iv-toolbox-edit v-if="canEdit || canPreview" :disabled="selectedRows.length !== 1" @click="edit(selectedRows[0])" />
