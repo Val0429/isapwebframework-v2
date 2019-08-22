@@ -1,6 +1,6 @@
 <template>
     <div>
-        <iv-card :label="_(tView)">
+        <iv-card :label="tViewText()">
             <template #toolbox>
                 <!-- <toolbox-view /> -->
                 <iv-toolbox-edit v-if="canEdit || canPreview" :disabled="selectedRows.length !== 1" @click="edit(selectedRows[0])" />
@@ -103,6 +103,13 @@ export class List extends Vue {
     @Emit() edit(row) { return row; }
 
     /// private helpers
+    private textParser(text: string): string {
+        const regex = /^_\(\'([^']+)\'\)$/;
+        if (!regex.test(text)) return text;
+        return this._( text.replace(regex, (a,b) => b) as any );
+    }
+    private tViewText(): string { return this.textParser(this.tView) };
+
     private reload() {
         (this.$refs.table as any).reload();
     }

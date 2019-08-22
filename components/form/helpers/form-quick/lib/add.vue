@@ -4,7 +4,7 @@
             <iv-auto-card
                 v-if="type === 'add' || type === 'edit'"
                 key="edit"
-                :label="type === 'add' ? _(tAdd) : type==='edit' ? _(tEdit) : _(tPreview)"
+                :label="type === 'add' ? tAddText() : type==='edit' ? tEditText() : tPreviewText()"
             >
                 <iv-form
                     :interface="type === 'add' ? addInterface : type==='edit' ? editInterface : previewInterface"
@@ -37,7 +37,7 @@
             <iv-auto-card
                 v-if="type === 'preview'"
                 key="preview"
-                :label="type === 'add' ? _(tAdd) : type==='edit' ? _(tEdit) : _(tPreview)"
+                :label="type === 'add' ? tAddText() : type==='edit' ? tEditText() : tPreviewText()"
             >
                 <iv-form
                     :interface="type === 'add' ? addInterface : type==='edit' ? editInterface : previewInterface"
@@ -152,6 +152,14 @@ export class Add extends Vue {
     canPreview!: boolean;
 
     /// private helper
+    private textParser(text: string): string {
+        const regex = /^_\(\'([^']+)\'\)$/;
+        if (!regex.test(text)) return text;
+        return this._( text.replace(regex, (a,b) => b) as any );
+    }
+    private tAddText(): string { return this.textParser(this.tAdd) };
+    private tEditText(): string { return this.textParser(this.tEdit) };
+    private tPreviewText(): string { return this.textParser(this.tPreview) };
     /// emitter
     @Emit() private back() { return; }
     @Emit() private add(data) { return data; }
