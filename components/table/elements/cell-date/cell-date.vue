@@ -1,6 +1,6 @@
 <template>
     <fragment>
-    {{ value ? new Date(value).toLocaleString() : '' }}
+        {{ valueString() }}
     </fragment>
 </template>
 
