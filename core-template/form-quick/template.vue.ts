@@ -1,6 +1,7 @@
 import { EFormQuick, IFormQuick } from '@/../components/form/helpers/form-quick';
 import { Vue, Component, Prop, Model } from "vue-property-decorator";
 
+@Component
 export class Test extends Vue implements IFormQuick {
     path: string = "/announcements";
     tView: string = "View";
