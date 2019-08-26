@@ -125,6 +125,11 @@ export class Table extends Vue {
             /// detect diff
             if (oldValue && value.server === oldValue.server && value.path === oldValue.path) return;
             this.fetchGetResult();
+            /// reset selected, only if path changed
+            if (this.pSelected.length > 0) {
+                this.pSelected = [];
+                this.$emit("selected", this.pSelected);
+            }
         }
     }
 
@@ -221,8 +226,6 @@ export class Table extends Vue {
                 ...(this.params || {})
             }) as any;
             this.result = result;
-            this.pSelected = [];
-            this.$emit("selected", this.pSelected);
         } catch(e) { throw e }
         finally { this.fetching = false; }
     }
