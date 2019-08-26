@@ -72,18 +72,24 @@ export class EnumParser {
                 }
 
             } else if (/[a-z0-9'"]/i.test(letter) || /[^\u0000-\u00ff]/.test(letter)) {
-            /// 2) matched alphabet
+                const regularizeQuote = (input) => {
+                    if (typeof input !== 'string') return input;
+                    return input.replace(/(^|[^\\])\\(['"])/g, (a, b, c) => b+c);
+                }
+
+                /// 2) matched alphabet
                 let declaration = o.substring(i, o.length);
                 /// for pure interface
                 let matches = declaration.match(/([^=]+)(\?)?[\s\t]*=[\s\t]*([^,]+)/i);
                 /// remove comma
-                let mchs = matches![1].match(/['"]?([^'"]+)['"]?/);
-                result!.text = mchs && mchs.length > 1 ? mchs[1] : matches![1];
-                mchs = matches![3].match(/['"]?([^'"]+)['"]?/);
-                result!.id = mchs && mchs.length > 1 ?
-                    (mchs[0]==mchs[1] && /^[0-9]+$/.test(mchs[1]) ? +mchs[1] : mchs[1]) :
-                    matches![3];
-                this.result.push(result!);
+                let mchs = matches[1].match(/(['"]?)(.*)\1/);
+                result.text = regularizeQuote( mchs && mchs.length > 2 ? mchs[2] : matches[1] );
+                mchs = matches[3].match(/(['"]?)(.*)\1/);
+                result.id = regularizeQuote( mchs && mchs.length > 2 ?
+                    mchs[0]==mchs[2] && /^[0-9]+$/.test(mchs[2]) ? +mchs[2] : mchs[2] :
+                        matches[3] );
+
+                this.result.push(result);
                 i += (matches![0].length +1);
                 result = undefined;
             }
