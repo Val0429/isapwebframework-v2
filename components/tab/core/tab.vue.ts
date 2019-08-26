@@ -37,7 +37,7 @@ export class Tab extends Vue {
     }
 
     /// private helper
-    private innateActive: number = 0;
+    private innateActive: number = 1;
     @Watch('active')
     private onActiveChanged(value) {
         this.innateActive = value;
@@ -45,7 +45,7 @@ export class Tab extends Vue {
     @Watch('innateActive')
     private onInnateActiveChanged(value) {
         /// check $refs.node
-        let node = (this.$refs.node[value] as any);
+        let node = (this.$refs.node[value-1] as any);
         if (!node) return;  /// possible to happen before created
         (this.$observables.thisForm as any).next( node.findElement(Form) );
         (this.$observables.thisStep as any).next( node.findElement(StepProgress) );
