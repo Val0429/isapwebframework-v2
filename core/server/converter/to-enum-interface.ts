@@ -10,7 +10,7 @@ type Input = {
 
 export function toEnumInterface(input: Input, isArray?: boolean): string {
     let tmpary: string[] = Object.keys(input).map( (key) => {
-        let isNumeric = /[0-9]+/.test(key);
+        let isNumeric = /^[0-9]+$/.test(key);
         return isNumeric ? `'${input[key]}' = ${key},` :
             `'${input[key]}' = '${key}',`;
     });

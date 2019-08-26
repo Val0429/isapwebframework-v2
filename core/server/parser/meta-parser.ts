@@ -81,7 +81,7 @@ export class EnumParser {
                 result!.text = mchs && mchs.length > 1 ? mchs[1] : matches![1];
                 mchs = matches![3].match(/['"]?([^'"]+)['"]?/);
                 result!.id = mchs && mchs.length > 1 ?
-                    (mchs[0]==mchs[1] ? +mchs[1] : mchs[1]) :
+                    (mchs[0]==mchs[1] && /^[0-9]+$/.test(mchs[1]) ? +mchs[1] : mchs[1]) :
                     matches![3];
                 this.result.push(result!);
                 i += (matches![0].length +1);
