@@ -8,6 +8,8 @@ import { Vue, Component, Prop, Model } from "vue-property-decorator";
 import CustomView from './lib/list.vue';
 import CustomAdd from './lib/add.vue';
 import { iSAPServerBase } from "@/../core/server";
+import { Observe } from '@/../core/utilities';
+import { BehaviorSubject } from 'rxjs';
 
 export enum EFormQuick {
     View = "view",
@@ -135,6 +137,13 @@ export class FormQuick extends Vue {
         if (key.indexOf(".") < 0) this.$emit(`update:${key}`, value);
         else this.$emit(`update:${key.replace(/\./g, ':')}`, value);
         this.$emit(`update:*`, { key, value });
+    }
+
+    /// rxjs form keeper
+    @Observe({  value: () => new BehaviorSubject<any>({})  })
+    result: Vue;
+    private doFormMounted() {
+        (this.$refs.add as any).$observables.result.subscribe( this.$observables.result );
     }
 }
 export default FormQuick;

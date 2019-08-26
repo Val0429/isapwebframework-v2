@@ -2,14 +2,16 @@
     <div>
         <iv-auto-transition :step="type === 'preview' ? 2 : 1" type="iv-fade-slide">
             <iv-auto-card
-                v-if="type === 'add' || type === 'edit'"
+                v-show="type === 'add' || type === 'edit'"
                 key="edit"
                 :label="type === 'add' ? tAddText() : type==='edit' ? tEditText() : tPreviewText()"
             >
                 <iv-form
                     :interface="type === 'add' ? addInterface : type==='edit' ? editInterface : previewInterface"
                     :value="value"
+                    ref="form"
                     @submit="doSubmit($event)"
+                    @mounted="doFormMounted"
                     @update:*="emitUpdate"
                 >
                     <!-- Pass on all named slots -->
@@ -73,6 +75,8 @@
 
 <script lang="ts">
 import { Vue, Component, iSAPServerBase, Emit, Prop } from "@/../core";
+import { Observe } from '@/../core/utilities';
+import { BehaviorSubject } from 'rxjs';
 
 enum EType {
     Add = "add",
@@ -180,6 +184,13 @@ export class Add extends Vue {
 
     private toggleLock() {
         this.$emit('update:type', this.type === EType.Preview ? EType.Edit : EType.Preview);
+    }
+
+    /// rxjs form keeper
+    @Observe({  value: () => new BehaviorSubject<any>({})  })
+    result: Vue;
+    private doFormMounted() {
+        (this.$observables.result as any).next( this.$refs.form );
     }
 }
 export default Add;

@@ -125,7 +125,7 @@ export class Form extends Vue {
     @Observe({
         value: () => new BehaviorSubject<any>({})
     })
-    result: BehaviorSubject<any>;
+    result: any;
     private updateResult(name?: string, value?: any) {
         if (!this.$observables || !this.$observables.result) return;
         let obj = this.getResult();

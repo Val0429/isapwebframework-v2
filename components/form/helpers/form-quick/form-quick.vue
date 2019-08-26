@@ -44,6 +44,7 @@
                 :canEdit="canEdit"
                 :canPreview="canPreview"
                 @update:*="emitUpdate"
+                @mounted="doFormMounted"
             >
                 <template v-for="slot in relatedSlots('add', false)" :slot="slot.name">
                     <slot :name="slot.originalName" />
