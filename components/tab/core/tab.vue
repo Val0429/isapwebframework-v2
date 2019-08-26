@@ -13,3 +13,10 @@
 
 
 <script src="./tab.vue.ts" />
+
+
+<style lang="scss" scoped>
+/deep/ .nav-link.active {
+    cursor: default !important;
+}
+</style>
