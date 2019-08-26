@@ -164,13 +164,24 @@ export class Form extends Vue {
         let groupNumber = this.checkUiGroupNumbers(inf, index) || 1;
         let splits = Math.floor(12 / groupNumber);
         let attrs = inf.attrs || {};
+        let uiAttrs = attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {};
+        let uiAttrsClass = uiAttrs.class;
+        delete uiAttrs.class;
 
         if (!parsedType && typeof inf.type === 'string' && /^\(?enum/.test(inf.type)) {
             let parsed = this.parsedType(inf.type);
             if (parsed) parsedType = parsed[0] as any;
         }
         return {
-            class: { [`col-md-${splits}`]: true },
+            class: {
+                [`col-md-${splits}`]: true,
+                ...(
+                    !uiAttrsClass ? {} :
+                    typeof uiAttrsClass === 'object' ? uiAttrsClass :
+                    typeof uiAttrsClass === 'string' ? uiAttrsClass.split(" ").reduce( (final, value) => { final[value] = true; return final; }, {}) :
+                    {}
+                )
+            },
             state: this.showState(inf),
             label: this.showLabel(inf),
             placeholder: attrs.uiPlaceHolder,
@@ -184,7 +195,7 @@ export class Form extends Vue {
                     multiple: this.getIsMultiple(inf)
                 }),
 
-            ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
+            ...(uiAttrs),
         };
     }
     private bindListeners(inf: IMetaResult, index: number) {
