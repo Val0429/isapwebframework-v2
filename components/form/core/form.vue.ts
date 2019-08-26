@@ -24,6 +24,8 @@ const uiMultiple = "uiMultiple";
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
 import { MetaParser, EnumParser, IMetaResult } from "@/../core/server/parser/meta-parser";
 import { getComponentByName } from '@/../components';
+import { Observe } from '@/../core/utilities';
+import { BehaviorSubject } from 'rxjs';
 
 enum EParsedType {
     Enum = "enum",
@@ -116,6 +118,18 @@ export class Form extends Vue {
         if (name.indexOf(".") < 0) this.$emit(`update:${name}`, value);
         else this.$emit(`update:${name.replace(/\./g, ':')}`, value);
         this.$emit(`update:*`, { key: name, value });
+        this.updateResult(name, value);
+    }
+
+    /// rxjs result keeper
+    @Observe({
+        value: () => new BehaviorSubject<any>({})
+    })
+    result: BehaviorSubject<any>;
+    private updateResult(name?: string, value?: any) {
+        if (!this.$observables || !this.$observables.result) return;
+        let obj = this.getResult();
+        (this.$observables.result as any).next( obj );
     }
 
     /// reset button
@@ -137,6 +151,7 @@ export class Form extends Vue {
             }
         }
         this.resetState();
+        setTimeout(() => this.updateResult(), 0);
     }
 
     private getIsMultiple(inf: IMetaResult): boolean {

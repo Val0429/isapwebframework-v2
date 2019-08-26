@@ -32,6 +32,10 @@ Vue.use(VueRx);
 import { LangPlugin } from './core/i18n';
 Vue.use(LangPlugin);
 
+/// install form support
+import { FormPlugin } from './core/private/plugins/form';
+Vue.use(FormPlugin);
+
 /// install life cycle support
 import { LifeCyclesPlugin } from './core/private/plugins/life-cycles';
 Vue.use(LifeCyclesPlugin);
