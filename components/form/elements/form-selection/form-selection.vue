@@ -13,7 +13,7 @@
             <option />
             <option
                 :key="index" v-for="(data, index) in options" :value="data.id"
-                :selected="typeof value === 'object' ? (value.indexOf(data.id)>=0 ? true : false) : value === data.id"
+                :selected="typeof value === 'object' ? (value.indexOf(data.id)>=0 ? true : false) : value == data.id"
                 >
                 {{ data.text }}
             </option>

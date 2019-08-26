@@ -29,8 +29,8 @@ export class FormSelection extends Vue {
     @Prop({ type: String, required: false })
     placeholder!: string;
 
-    @Model('input', { type: [String, Array], required: false })
-    value!: string | string[];
+    @Model('input', { type: [String, Number, Array], required: false })
+    value!: string | string[] | number | number[];
 
     @Watch('value', {immediate: true})
     private onValueChanged(data) {
@@ -72,8 +72,15 @@ export class FormSelection extends Vue {
     }
     private doOnChange() {
         let me = $(`#${this.id}`) as any;
+        let val = me.val();
         /// handle jquery overwritten event seperately
-        this.$emit('input', me.val());
+        for (let option of this.options) {
+            if (option.id == val) {
+                val = option.id;
+                break;
+            }
+        }
+        this.$emit('input', val);
     }
     private mounted() {
         this.doMount();
