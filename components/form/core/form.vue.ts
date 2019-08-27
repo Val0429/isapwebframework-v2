@@ -200,7 +200,7 @@ export class Form extends Vue {
     }
     private bindListeners(inf: IMetaResult, index: number) {
         return {
-            input: event => {
+            input: (event) => {
                 this.innateValue[inf.name] = event;
                 this.emitUpdate(inf.name, event);
             }
@@ -370,7 +370,6 @@ export class Form extends Vue {
             ) {
                 let comp = getComponentByName( this.getElementType(inf) );
                 if (comp.options.props.multiple) return false;
-                console.log('multiple2!', inf.name, inf);
                 return true;
             }
         }

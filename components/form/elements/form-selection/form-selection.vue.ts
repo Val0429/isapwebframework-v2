@@ -73,13 +73,22 @@ export class FormSelection extends Vue {
     private doOnChange() {
         let me = $(`#${this.id}`) as any;
         let val = me.val();
+
+        const mapBackId = (val) => {
+            for (let option of this.options) {
+                if (option.id == val) return option.id;
+            }
+            return val;
+        }
+
         /// handle jquery overwritten event seperately
-        for (let option of this.options) {
-            if (option.id == val) {
-                val = option.id;
-                break;
+        if (!Array.isArray(val)) val = mapBackId(val);
+        else {
+            for (let i=0; i<val.length; ++i) {
+                val[i] = mapBackId(val[i]);
             }
         }
+        
         this.$emit('input', val);
     }
     private mounted() {
