@@ -257,7 +257,11 @@ export class Table extends Vue {
     }
 
     private strToJSON(input: string) {
-        var relaxed = input.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+        /// replace JSON key with double quotes
+        var relaxed = input.replace(/(['"])?([a-z0-9A-Z_]+)\1\w*:/g, '"$2":');
+        /// replace JSON value with double qoutes
+        relaxed = relaxed.replace(/:\s*(')((\\'|[^'])*)\1/g, (a,b,c)=> `: "${c}"`);
+
         return JSON.parse(relaxed);
     }
     private getRowSpan(results, index, inf: IMetaResult) {
