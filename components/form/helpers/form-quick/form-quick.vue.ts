@@ -10,6 +10,7 @@ import CustomAdd from './lib/add.vue';
 import { iSAPServerBase } from "@/../core/server";
 import { Observe } from '@/../core/utilities';
 import { BehaviorSubject } from 'rxjs';
+import { ModalResponse } from '@/../components/modal/modal-response';
 
 export enum EFormQuick {
     View = "view",
@@ -87,26 +88,22 @@ export class FormQuick extends Vue {
     }
     private doAdd(data) {
         (async () => {
-            try {
-                let parent = this.$parent as any;
-                data = parent.postAdd ? (await parent.postAdd(data) || data) : data;
-                let result = await this.server.C((this.$parent as any).path as any, data);
-                this.doAddSuccess();
-            } catch(e) {
-                alert(e.body);
-            }
+            let parent = this.$parent as any;
+            let uri = (this.$parent as any).path as any;
+
+            data = parent.postAdd ? (await parent.postAdd(data) || data) : data;
+            let result = await this.server.C(uri, data);
+            this.doAddSuccess();
         })();
     }
     private doEdit(data) {
         (async () => {
-            try {
-                let parent = this.$parent as any;
-                data = parent.postEdit ? (await parent.postEdit(data) || data) : data;
-                let result = await this.server.U((this.$parent as any).path as any, {...data, objectId: data.objectId } );
-                this.doAddSuccess();
-            } catch(e) {
-                alert(e.body);
-            }
+            let parent = this.$parent as any;
+            let uri = (this.$parent as any).path as any;
+
+            data = parent.postEdit ? (await parent.postEdit(data) || data) : data;
+            let result = await this.server.U(uri, {...data, objectId: data.objectId } );
+            this.doAddSuccess();
         })();
     }
     private async prepareEdit(row) {
