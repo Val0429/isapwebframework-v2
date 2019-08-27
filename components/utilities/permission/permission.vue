@@ -1,10 +1,10 @@
 <template>
-    <div v-if="isAllowed()">
+    <fragment v-if="isAllowed()">
         <slot />
-    </div>
-    <div v-else-if="$slots.else">
+    </fragment>
+    <fragment v-else-if="$slots.else">
         <slot name="else" />
-    </div>
+    </fragment>
 </template>
 
 <script lang="ts" src="./permission.vue.ts" />
