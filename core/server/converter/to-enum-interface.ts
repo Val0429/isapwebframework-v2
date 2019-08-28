@@ -14,7 +14,8 @@ export function toEnumInterface(input: Input, isArray?: boolean): string {
     };
 
     let tmpary: string[] = Object.keys(input).map( (key) => {
-        let isNumeric = /^[0-9]+$/.test(key);
+        //let isNumeric = /^[0-9]+$/.test(key);
+        let isNumeric = typeof key === 'number';
         let tValue = doReplaceQuote(input[key]);
         let tKey = doReplaceQuote(key);
         return isNumeric ? `'${tValue}' = ${tKey},` :
