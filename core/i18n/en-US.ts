@@ -59,6 +59,9 @@ export default class LangObject {
     mb_500 = 'Internal Server Error';
     mb_500_message = '<b>Error Code {0}</b> - Unknown server error.';
 
+    /// validation message
+    mb_ValidationIp = 'Please input valid IP format.';
+
     // date time
     mb_DateTime_ShortWeekDay0 = 'Sun';
     mb_DateTime_ShortWeekDay1 = 'Mon';

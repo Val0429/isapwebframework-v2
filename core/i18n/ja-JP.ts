@@ -60,6 +60,9 @@ export default class LangObject implements IBaseLang {
     mb_500 = 'サーバ内部エラー';
     mb_500_message = '<b>エラーコード {0}</b> - 不明なサーバーエラーです。';
 
+    /// validation message
+    mb_ValidationIp = '有効な IP 形式を入力してください。';
+
     // date time
     mb_DateTime_ShortWeekDay0 = '日曜';
     mb_DateTime_ShortWeekDay1 = '月曜';

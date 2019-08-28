@@ -172,6 +172,14 @@ export class Form extends Vue {
             let parsed = this.parsedType(inf.type);
             if (parsed) parsedType = parsed[0] as any;
         }
+
+        const getDefaultInvalidMessage = (type: string): string => {
+            if (!type) return;
+            let comp = getComponentByName(type);
+            let func = comp.options.methods.invalidMessage;
+            return func ? func.call(this) : undefined;
+        };
+
         return {
             class: {
                 [`col-md-${splits}`]: true,
@@ -186,7 +194,7 @@ export class Form extends Vue {
             label: this.showLabel(inf),
             placeholder: attrs.uiPlaceHolder,
             disabled: attrs.uiDisabled === 'true' ? true : undefined,
-            invalid: attrs.uiInvalidMessage,
+            invalid: attrs.uiInvalidMessage || getDefaultInvalidMessage(attrs[uiType]),
             value: this.innateValue[inf.name],
 
             ...(parsedType ? {
@@ -303,7 +311,8 @@ export class Form extends Vue {
         let finalState = true;
         let parent = this.root || this.$parent;
         for (let meta of this.parsedInterface || []) {
-            if ((meta.attrs || {})[uiHidden] === 'true') continue;  /// ignore hidden field
+            let attrs = meta.attrs || {};
+            if (attrs[uiHidden] === 'true') continue;  /// ignore hidden field
 
             /// check inner form
             if (meta.type instanceof MetaParser) {
@@ -311,13 +320,25 @@ export class Form extends Vue {
                 continue;
             }
 
+            const getDefaultValidation = (type: string): Function => {
+                if (!type) return;
+                let comp = getComponentByName(type);
+                return comp.options.methods.validation;
+            };
+
             /// check normal fields
-            let validation = (meta.attrs || {})[uiValidation];
+            let validation = attrs[uiValidation] || getDefaultValidation(attrs[uiType]);
             let value = this.innateValue[meta.name];
             if (value !== null && value !== undefined && value !== '' &&    /// ignore empty value
                 validation
                 ) {
-                if (validation[0] === "/") {
+                if (typeof validation === 'function') {
+                    /// execute as function
+                    if (!validation(value)) {
+                        Vue.set(this.states, meta.name, false);
+                        finalState = false;
+                    } else Vue.set(this.states, meta.name, undefined);
+                } else if (validation[0] === "/") {
                     /// execute as RegExp
                     if (!eval(validation).test(value)) {
                         Vue.set(this.states, meta.name, false);
@@ -330,7 +351,7 @@ export class Form extends Vue {
                         finalState = false;
                     } else Vue.set(this.states, meta.name, undefined);
                 } else {
-                    /// execute as Function
+                    /// execute as eval Function
                     // if (!eval(validation).call(this.$parent, value, this.value)) { Vue.set(this.states, meta.name, false); finalState = false; }
                     if (
                         !function(value, all) {

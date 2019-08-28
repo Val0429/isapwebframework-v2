@@ -7,7 +7,7 @@
 import { Vue, Component, Prop, Model } from "vue-property-decorator";
 
 const ipfilter = {
-    bind: (el: any, a, b) => {
+    bind: (el: any, a, element) => {
         el = el.getElementsByTagName('input')[0];
         let oldvalue = el.value;
         el.addEventListener('input', (evt) => {
@@ -25,9 +25,9 @@ const ipfilter = {
                 oldvalue = newvalue;
                 return;
             } while(0);
-
             let { selectionStart, selectionEnd } = el;
             el.value = oldvalue;
+            element.context.$emit('input', el.value);   /// emit new value
             el.selectionStart = selectionStart-1;
             el.selectionEnd = selectionEnd-1;
         });
@@ -55,5 +55,19 @@ export class FormIp extends Vue {
 
     @Prop({ type: String, required: false })
     invalid!: string;
+
+    public validation(value: string): boolean {
+        const regex = /^[1-9][0-9]{0,2}\.([1-9][0-9]{0,2}|0)\.([1-9][0-9]{0,2}|0)\.[1-9]([0-9]{1,2})?$/;
+        if (!regex.test(value)) return false;
+        let arytmp = value.split(".");
+        for (let part of arytmp) {
+            let num = +part;
+            if (num < 0 || num > 255) return false;
+        }
+        return true;
+    }
+    public invalidMessage(): string {
+        return this._("mb_ValidationIp");
+    }
 }
 export default FormIp;

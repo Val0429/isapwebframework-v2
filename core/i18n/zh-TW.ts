@@ -60,6 +60,9 @@ export default class LangObject implements IBaseLang {
     mb_500 = '內部伺服器錯誤';
     mb_500_message = '<b>錯誤代碼 {0}</b> - 未知的伺服器錯誤。';
 
+    /// validation message
+    mb_ValidationIp = '請輸入合法的 IP 格式。';
+
     // date time
     mb_DateTime_ShortWeekDay0 = '週日';
     mb_DateTime_ShortWeekDay1 = '週一';
