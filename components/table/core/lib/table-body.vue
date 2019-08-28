@@ -141,7 +141,7 @@ export class TableBody extends Vue {
         for (let meta of metas) {
             if (!value) break;
             /// handle array data
-            if (Array.isArray(value) && this.getIsMultiple(this.parentMeta)) {
+            if (Array.isArray(value) && this.parentMeta && this.getIsMultiple(this.parentMeta)) {
                 value = value.map( v => v[meta.name] );
             } else {
                 value = value[meta.name];
@@ -160,19 +160,37 @@ export class TableBody extends Vue {
         };
 
         /// try convert value
-        let converter = (this.meta.attrs || {})["uiConverter"];
+        let converter = attrs["uiConverter"];
         if (converter) {
             let parent = (this.root || {}).$parent || this.$parent;
+            /// find func converter
+            let funcConverter;
+            while (parent && !(funcConverter = parent[converter]))
+                parent = parent.$parent;
 
             if (/[a-zA-z]/.test(converter[0])) {
                 /// execute as Scope Function
-                value = parent[converter](value, all);
+                if (!funcConverter) throw `uiConverter <${converter}> not defined.`;
+                /// handle array data
+                if (Array.isArray(value) && this.parentMeta && this.getIsMultiple(this.parentMeta)) {
+                    value = value.map((value) => funcConverter(value, all));
+                } else {
+                    value = funcConverter(value, all);
+                }
                 all.value = value;
             } else {
-                /// execute as Function
-                value = function(value, all) {
-                    return eval(converter)(value, all);
-                }.call(parent, value, all);
+                /// execute as Inline Function
+                /// handle array data
+                if (Array.isArray(value) && this.parentMeta && this.getIsMultiple(this.parentMeta)) {
+                    value = function(value, all) {
+                        let funcConverter = eval(converter);
+                        return value.map( (value) => funcConverter(value, all) );
+                    }.call(parent, value, all);
+                } else {
+                    value = function(value, all) {
+                        return eval(converter)(value, all);
+                    }.call(parent, value, all);
+                }
                 all.value = value;
             }
         }
