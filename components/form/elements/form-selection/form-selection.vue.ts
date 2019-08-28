@@ -12,6 +12,10 @@ interface FormSelectionOption {
     text: string;
 }
 
+export interface IFormSelection {
+    "always-array"?: boolean;
+}
+
 @Component
 export class FormSelection extends Vue {
     @Prop({ type: String, required: false })
@@ -32,8 +36,16 @@ export class FormSelection extends Vue {
     @Model('input', { type: [String, Number, Array], required: false })
     value!: string | string[] | number | number[];
 
+    /// others
+    @Prop({ type: Object as () => IFormSelection, required: false, default: () => ({}) })
+    data!: IFormSelection;
+    
+    /// helper
     @Watch('value', {immediate: true})
     private onValueChanged(data) {
+        /// if not multiple, make array also possible value
+        if (!this.multiple && Array.isArray(data)) data = data[0];
+
         let me = $(`#${this.id}`) as any;
         me.val(data).trigger('change.select2');
     }
@@ -88,6 +100,9 @@ export class FormSelection extends Vue {
                 val[i] = mapBackId(val[i]);
             }
         }
+
+        /// make always-array happen
+        if (this.data["always-array"] && !Array.isArray(val)) val = [val];
         
         this.$emit('input', val);
     }
