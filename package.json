@@ -1,7 +1,7 @@
 {
   "name": "isap-web-framework",
   "version": "1.0.0",
-  "frameworkversion": "2.00.00",
+  "frameworkversion": "2.01.00",
   "private": true,
   "scripts": {
     "start": "vue-cli-service serve",
