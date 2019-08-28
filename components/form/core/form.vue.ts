@@ -176,7 +176,7 @@ export class Form extends Vue {
         const getDefaultInvalidMessage = (type: string): string => {
             if (!type) return;
             let comp = getComponentByName(type);
-            let func = comp.options.methods.invalidMessage;
+            let func = ((comp.options||{}).methods||{}).invalidMessage;
             return func ? func.call(this) : undefined;
         };
 
@@ -323,7 +323,7 @@ export class Form extends Vue {
             const getDefaultValidation = (type: string): Function => {
                 if (!type) return;
                 let comp = getComponentByName(type);
-                return comp.options.methods.validation;
+                return ((comp.options||{}).methods||{}).validation;
             };
 
             /// check normal fields
