@@ -31,5 +31,18 @@ export class FormNumber extends Vue {
 
     @Prop({ type: String, required: false })
     invalid!: string;
+
+    /// private helper
+    private getValue(): string {
+        let value = this.value;
+        do {
+            if (!value) return '';
+            if (typeof value === 'number') return String(value);
+            if (typeof value === 'string') {
+                if (/^[0-9]+(\.[0-9]+)?$/.test(value)) return value;
+            }
+            return '';
+        } while(0);
+    }
 }
 export default FormNumber;
