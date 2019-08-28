@@ -10,6 +10,9 @@
                 :$listeners="bindListeners()"
             />
         </template>
+        <template v-else-if="parentMeta && getIsMultiple(parentMeta)">
+            <iv-cell-multiple :elementType="multipleType()" v-bind="bindAttrs()" v-on="bindListeners()" />
+        </template>
         <template v-else>
             <template v-if="(meta.attrs||{}).uiType ? true : false">
                 <element
@@ -40,6 +43,7 @@
             :key="key"
             v-for="(meta2, key) in meta.type.result"
             :meta="meta2"
+            :parentMeta="meta"
             :indexOfRows="indexOfRows"
             :result="result"
         >
@@ -99,8 +103,27 @@ export class TableBody extends Vue {
     })
     root: any;
 
+    /// private
+    @Prop({
+        type: Object,
+        required: false
+    })
+    parentMeta: IMetaResult;
+
     private get row() {
         return this.result.results[this.indexOfRows];
+    }
+
+    private multipleType() {
+        if (this.meta.type === 'Date') return 'iv-cell-date';
+        let uiType = (this.meta.attrs||{}).uiType;
+        if (uiType) return uiType;
+        return 'iv-cell-string';
+    }
+
+    private getIsMultiple(inf: IMetaResult): boolean {
+        let multiple = (inf.attrs||{})["uiMultiple"];
+        return multiple ? (multiple === "true" ? true : false) : inf.isArray;
     }
 
     private bindAttrs() {
@@ -117,7 +140,12 @@ export class TableBody extends Vue {
         } while (((me = me.$parent), (me as any).meta));
         for (let meta of metas) {
             if (!value) break;
-            value = value[meta.name];
+            /// handle array data
+            if (Array.isArray(value) && this.getIsMultiple(this.parentMeta)) {
+                value = value.map( v => v[meta.name] );
+            } else {
+                value = value[meta.name];
+            }
         }
 
         let all = {
