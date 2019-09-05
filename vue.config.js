@@ -1,6 +1,7 @@
 let config = require('./src/config/default/debug');
 let package = require('./src/package.json');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
+var path = require('path');
 
 module.exports = {
     pages: {
@@ -21,7 +22,14 @@ module.exports = {
         },
         plugins: [
             new CopyWebpackPlugin([ { from: 'src/public/', to: 'public' } ])
-        ]
+        ],
+        module: {
+            rules: [
+                {
+                    exclude: [ path.resolve(__dirname, 'src/public') ]
+                }
+            ]
+        }
     },
     productionSourceMap: false,
     css: {
