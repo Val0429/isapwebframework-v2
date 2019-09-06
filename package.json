@@ -7,6 +7,8 @@
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
+  "author": "Val Liu",
+  "license": "Private Copyright - for iSAP internal use only",  
   "dependencies": {
     "@coreui/coreui": "2.1.4",
     "@coreui/vue": "2.1.2",
