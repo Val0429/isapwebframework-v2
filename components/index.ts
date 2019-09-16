@@ -20,18 +20,10 @@ const requireComponent = require.context(
 );
 
 const componentsNameMap = {};
-export function registerComponentByName(name: string, config: any) {
-    componentsNameMap[name] = config.default || config;
-}
-export function getComponentByName(name: string) {
-    return componentsNameMap[name];
-}
 
 requireComponent.keys().forEach(fileName => {
     const componentConfig = requireComponent(fileName);
     const componentName = `iv-${fileName.split("/").pop().replace(/\.vue$/, "")}`;
-
-    registerComponentByName(componentName, componentConfig);
 
     Vue.component(
         componentName,
