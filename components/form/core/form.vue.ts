@@ -23,7 +23,6 @@ const uiMultiple = "uiMultiple";
 
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
 import { MetaParser, EnumParser, IMetaResult } from "@/../core/server/parser/meta-parser";
-import { getComponentByName } from '@/../components';
 import { Observe } from '@/../core/utilities';
 import { BehaviorSubject } from 'rxjs';
 
@@ -175,7 +174,7 @@ export class Form extends Vue {
 
         const getDefaultInvalidMessage = (type: string): string => {
             if (!type) return;
-            let comp = getComponentByName(type);
+            let comp = this.$options.components[type] as any;
             let func = ((comp.options||{}).methods||{}).invalidMessage;
             return func ? func.call(this) : undefined;
         };
@@ -322,7 +321,7 @@ export class Form extends Vue {
 
             const getDefaultValidation = (type: string): Function => {
                 if (!type) return;
-                let comp = getComponentByName(type);
+                let comp = this.$options.components[type] as any;
                 return ((comp.options||{}).methods||{}).validation;
             };
 
@@ -389,7 +388,7 @@ export class Form extends Vue {
             } else if (
                 typeof inf.type === 'string' && (inf.type as string).indexOf("{") < 0
             ) {
-                let comp = getComponentByName( this.getElementType(inf) );
+                let comp = this.$options.components[this.getElementType(inf)] as any;
                 if (comp.options.props.multiple) return false;
                 return true;
             }
