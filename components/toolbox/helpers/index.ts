@@ -1,1 +1,2 @@
-export * from './toolbox-element-base.vue';
+export * from './toolbox-element-base';
+export * from './toolbox-custom';
