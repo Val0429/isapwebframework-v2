@@ -62,6 +62,7 @@ export default class LangObject implements IBaseLang {
 
     /// validation message
     mb_ValidationIp = '請輸入合法的 IP 格式。';
+    mb_ValidationLicense = '請輸入合法的 License 格式。';
 
     // date time
     mb_DateTime_ShortWeekDay0 = '週日';
