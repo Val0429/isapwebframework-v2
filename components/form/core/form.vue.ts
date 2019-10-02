@@ -345,7 +345,11 @@ export class Form extends Vue {
                     } else Vue.set(this.states, meta.name, undefined);
                 } else if (/[a-zA-z]/.test(validation[0])) {
                     /// execute as Scope Function
-                    if (!parent[validation](value, this.innateValue)) {
+                    let funcValidation;
+                    while (parent && !(funcValidation = parent[validation]))
+                        parent = parent.$parent;
+
+                    if (!funcValidation(value, this.innateValue)) {
                         Vue.set(this.states, meta.name, false);
                         finalState = false;
                     } else Vue.set(this.states, meta.name, undefined);
