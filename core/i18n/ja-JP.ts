@@ -62,6 +62,7 @@ export default class LangObject implements IBaseLang {
 
     /// validation message
     mb_ValidationIp = '有効な IP 形式を入力してください。';
+    mb_ValidationLicense = '有効な License 形式を入力してください。';
 
     // date time
     mb_DateTime_ShortWeekDay0 = '日曜';

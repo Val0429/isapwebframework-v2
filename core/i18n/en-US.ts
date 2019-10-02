@@ -61,6 +61,7 @@ export default class LangObject {
 
     /// validation message
     mb_ValidationIp = 'Please input valid IP format.';
+    mb_ValidationLicense = 'Please input valid license format.';
 
     // date time
     mb_DateTime_ShortWeekDay0 = 'Sun';

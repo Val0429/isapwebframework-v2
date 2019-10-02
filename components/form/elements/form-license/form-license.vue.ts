@@ -58,5 +58,14 @@ export class FormLicense extends Vue {
 
     @Prop({ type: String, required: false })
     invalid!: string;
+
+    public validation(value: string): boolean {
+        const regex = /^(?:[a-z0-9]{5}\-){4}[a-z0-9]{5}$/i;
+        if (!regex.test(value)) return false;
+        return true;
+    }
+    public invalidMessage(): string {
+        return this._("mb_ValidationLicense");
+    }    
 }
 export default FormLicense;

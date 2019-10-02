@@ -75,6 +75,11 @@
 }
 .form-multiple-container {
     display: flex;
+    align-items: center;
+    border: 1px solid #CCC;
+    padding: 8px 10px 4px 10px;
+    margin: 5px 0;
+    border-radius: 5px;
 }
 .form-toolbar {
     font-size: 18px; padding: 9px 8px; color: #666; height: 34px; cursor: pointer;
