@@ -24,6 +24,10 @@ import "@/components";
 
 
 /// plugins /////////////////////////////////
+/// install browser detect support
+import VuebrowserDetect from 'vue-browser-detect-plugin';
+Vue.use(VuebrowserDetect);
+
 /// install vuerx support
 import VueRx from 'vue-rx';
 Vue.use(VueRx);

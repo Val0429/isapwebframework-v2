@@ -1,8 +1,11 @@
 import Container from '@/config/default/container';
 import { Component, Vue } from 'vue-property-decorator';
 import { RetrieveTheme, Theme } from '@/../core/theme';
+import { BrowserBlock } from './browser-block/index.vue';
 
-@Component
+@Component({
+    components: { BrowserBlock }
+})
 export default class MainApp extends Vue {
     private step() {
         //this.steps[this.$theme.name];
@@ -15,5 +18,10 @@ export default class MainApp extends Vue {
             final.push(themeUnit.element.name);
             return final;
         }, []);
+    }
+    private get browserReject(): boolean {
+        let browser = (this as any).$browserDetect;
+        if (browser.isIE) return true;
+        return false;
     }
 }

@@ -1,14 +1,14 @@
 {
   "name": "isap-web-framework",
   "version": "1.0.0",
-  "frameworkversion": "2.01.00",
+  "frameworkversion": "2.02.00",
   "private": true,
   "scripts": {
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "author": "Val Liu",
-  "license": "Private Copyright - for iSAP internal use only",  
+  "license": "Private Copyright - for iSAP internal use only",
   "dependencies": {
     "@coreui/coreui": "2.1.4",
     "@coreui/vue": "2.1.2",
@@ -22,6 +22,7 @@
     "select2": "4.0.7",
     "select2-bootstrap-theme": "0.1.0-beta.10",
     "vue": "2.6.10",
+    "vue-browser-detect-plugin": "^0.1.5",
     "vue-class-component": "7.0.2",
     "vue-fragment": "1.5.1",
     "vue-property-decorator": "8.1.0",
