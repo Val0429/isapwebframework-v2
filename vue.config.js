@@ -29,7 +29,12 @@ module.exports = {
                     exclude: [ path.resolve(__dirname, 'src/public') ]
                 }
             ]
-        }
+        },
+        // devServer: {
+        //     watchOptions: {
+        //         ignored: [/node_modules/]
+        //     }
+        // }
     },
     productionSourceMap: false,
     css: {

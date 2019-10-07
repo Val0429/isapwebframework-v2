@@ -1,0 +1,20 @@
+/// theme
+$theme-name: ".theme-coreui-blue";
+
+/// breadcrumb
+$link-color: white;
+$breadcrumb-bg: linear-gradient(90deg, rgba(0,199,229,1) 0%, rgba(0,100,115,1) 100%);
+$breadcrumb-active-color: white;
+$breadcrumb-divider-color: #D3D3FF;
+
+/// navbrand
+$navbar-brand-width: 205px;
+
+/// sidebar
+$sidebar-nav-dropdown-indicator-color: #00C7E6;
+$sidebar-bg: #09203F;
+$sidebar-width: 250px;
+$sidebar-bg-real: linear-gradient(180deg, rgba(9,32,63,1) 0%, rgba(82,119,148,1) 100%);
+$sidebar-nav-link-hover-bg: linear-gradient(90deg, #67809F 0%, #34405000 100%);
+$sidebar-nav-link-active-icon-color: $gray-300;
+$sidebar-nav-link-active-bg: linear-gradient(90deg, #00C7E6 0%, #00647300 100%);

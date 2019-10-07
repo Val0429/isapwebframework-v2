@@ -25,12 +25,14 @@ export class Modal extends Vue {
     @Prop({ type: Boolean, required: false })
     visible: boolean;
 
-    @Prop({ type: Object as () => ICard, required: false, default: () => ({
-        "border-variant": "light",
-        "header-bg-variant": "light",
-        "footer-bg-variant": "light",
-        "hide-collapse-button": true
-    }) })
+    @Prop({ type: Object as () => ICard, required: false,
+        default: () => ({
+            "border-variant": "iv-modal-border",
+            "header-bg-variant": "iv-modal-header",
+            // "footer-bg-variant": "light",
+            "hide-collapse-button": true
+        })
+    })
     data!: ICard;
 
     @Emit('update:visible')

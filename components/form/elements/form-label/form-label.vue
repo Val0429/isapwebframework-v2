@@ -17,7 +17,7 @@
 .form-label {
     display: block;
     padding: 6px 12px;
-    background-color: $light;
+    background-color: var(--light);
     border-radius: 4px;
     border: 1px solid rgb(209, 212, 215);
     min-height: 2.2rem;

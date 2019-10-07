@@ -57,6 +57,31 @@ export { SidebarHeader, SidebarNav, SidebarNavTitle, SidebarNavDivider, SidebarN
     components: { CoreUIBase }
 })
 export class CoreUI extends Vue {
+    mounted() {
+        const varList = ["--primary", "--secondary", "--success", "--warning", "--info", "--danger", "--light", "--dark"];
+        const varSubList = ["", "-100", "-200", "-300", "-400", "-500", "-600", "-700", "-800", "-900", "-yiq"];
+
+        let style = getComputedStyle(document.getElementsByClassName("theme-coreui")[0]);
+        let todoList = [];
+        varList.forEach( v => {
+            varSubList.forEach( k => {
+                let key = `${v}${k}`;
+                todoList.push( () => {
+                    document.documentElement.style.setProperty(key, style.getPropertyValue(key));
+                });
+            });
+        });
+
+        const doNext = () => {
+            setTimeout(() => {
+                let func = todoList.shift();
+                if (!func) return;
+                func();
+                doNext();
+            }, 0);
+        }
+        doNext();
+    }
     render(createElement) {
         return createElement(CoreUIBase, {
             slots: this.$slots,

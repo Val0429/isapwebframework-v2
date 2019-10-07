@@ -110,4 +110,8 @@ export default class LangObject {
     mb_DateTime_LowerPM = 'pm';
     mb_DateTime_UpperAM = 'AM';
     mb_DateTime_UpperPM = 'PM';
+
+    /// theme
+    mb_iSAP_Theme_White = 'iSAP White';
+    mb_iSAP_Theme_Blue = 'iSAP Blue';
 }

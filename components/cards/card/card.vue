@@ -3,13 +3,13 @@
         no-body
         :border-variant="data['border-variant']"
     >
-        <b-card-header @dblclick="!data['hide-collapse-button'] ? innateVisible=!innateVisible : null" :header-bg-variant="data['header-bg-variant'] || 'light'">
+        <b-card-header @dblclick="!data['hide-collapse-button'] ? innateVisible=!innateVisible : null" :header-bg-variant="data['header-bg-variant'] || 'iv-card-header'">
 
             <div class="title">{{ label }}</div>
 
             <div class="float-right toolbox">
                 <slot name="toolbox" />
-                <b-button v-if="!data['hide-collapse-button']" v-b-toggle="'collapse-' + _uid" :variant="data['header-bg-variant'] || 'light'" size="sm" class="card-collapse-button fa fa-chevron-down" :class="{ card_close: !innateVisible }" />
+                <b-button v-if="!data['hide-collapse-button']" v-b-toggle="'collapse-' + _uid" :variant="data['header-bg-variant'] || 'iv-card-header'" size="sm" class="card-collapse-button fa fa-chevron-down" :class="{ card_close: !innateVisible }" />
             </div>
 
         </b-card-header>
@@ -35,6 +35,11 @@
 <script lang="ts" src="./card.vue.ts" />
 
 <style lang="scss" scoped>
+.card > .bg-iv-card-header {
+    color: var(--black);
+    background: var(--light);
+}
+
 .toolbox {
     position: absolute;
     display: flex;
@@ -45,8 +50,8 @@
     top: 0.3rem;
 
     > * {
-        margin-left: 0.1rem;
-        margin-right: 0.1rem;
+        margin-left: 0.18rem;
+        margin-right: 0.18rem;
     }
 
     .card-collapse-button {
@@ -71,12 +76,10 @@
 
 .footer {
     text-align: right;
-}
 
-</style>
-
-<style lang="scss">
-.footer > * {
-    margin: 0 .2rem;
+    /deep/ * {
+        margin: 0 .2rem;
+    }
 }
 </style>
+

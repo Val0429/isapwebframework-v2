@@ -24,14 +24,14 @@ export class ToolboxElementBase extends Vue {
     @Prop({
         type: String,
         required: false,
-        default: 'light'
+        default: 'iv-toolbox'
     })
     variant!: string;
 
     @Prop({
         type: String,
         required: false,
-        default: 'sm'
+        default: 'md'
     })
     size!: string;
 
@@ -55,6 +55,9 @@ export class ToolboxElementBase extends Vue {
     constructor() {
         super();
         this.doHide = this.doHide.bind(this);
+    }
+    private classIcon(icon: string) {
+        return `${icon} btn-${this.size}`;
     }
     private mounted() {
         $('body').on('click', this.doHide);

@@ -1,0 +1,107 @@
+/// BootstrapVue
+/// button
+#{$theme-name} {
+    .btn.btn-secondary {
+        color: var(--light);
+    }
+    .btn.btn-warning {
+        color: var(--light);
+    }
+}
+
+/// CoreUI
+#{$theme-name} {
+    .breadcrumb-item {
+        span.active {
+            color: white;
+        }
+    }
+}
+$link-color: white;
+
+#{$theme-name} {
+    .sidebar .nav-dropdown-toggle::before {
+        margin-top: -7px;
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/// iSAPUI
+/// card
+$card-background: linear-gradient(90deg, rgba(83,120,149,1) 0%, rgba(25,48,82,1) 100%);
+#{$theme-name} {
+    .card {
+        .bg-iv-card-header {
+            color: var(--white);
+            background: $card-background;
+        }
+        .btn-iv-card-header {
+            color: $gray-300;
+            background: rgba(25,48,82,1);
+        }
+        .btn-iv-card-header:hover {
+            color: var(--white);
+        }
+    }
+}
+
+/// toolbox
+#{$theme-name} {
+    .container-box {
+
+        > .btn-iv-toolbox {
+            color: #DDD;
+            background-color: transparent;
+            border-color: transparent;
+        
+            &:not(:disabled):hover {
+                color: #FFF;
+                background-color: #1283A3;
+                border-color: transparent;
+            }
+            &:not(:disabled):active {
+                color: #FFF;
+                background-color: #00C7E6;
+                border-color: transparent;
+            }
+            &:disabled:hover {
+                color: inherit;
+            }
+        }
+
+        > .iv-toolbox-divider {
+            border-right: 2px solid #748499;
+            margin: 0 0.3rem;
+            height: 1.2rem;
+        }
+    }
+}
+
+/// modal
+#{$theme-name} {
+    .modal-wrapper {
+        .modal-container {
+            &.border-iv-modal-border {
+                border: 1px solid var(--secondary);
+            }
+            .bg-iv-modal-header {
+                background: $card-background;
+                color: var(--white);
+            }
+        }
+    }
+}
+
+/// table
+#{$theme-name} {
+    div.dataTables_wrapper {
+        /deep/ .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+            background-color: #EBFAFD;
+        }
+
+        /deep/ .table-hover tbody tr.selected td, .table-hover tbody tr.selected th {
+            background-color: #CCF3F9;
+        }
+    }
+}

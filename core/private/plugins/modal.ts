@@ -21,7 +21,8 @@ export const ModalPlugin = {
             methods: {
                 $modal: function(this: Vue): void {
                     let component = this.$mount();
-                    let body = document.getElementsByTagName("body")[0];
+                    //let body = document.getElementsByTagName("body")[0];
+                    let body = document.getElementById("app");
                     body.appendChild(component.$el);
                     component.$set(component.$props, "visible", true);
                     component.$on('update:visible', (newvalue, oldvalue) => {

@@ -14,11 +14,10 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "@coreui/coreui": "2.1.9",
+    "@coreui/coreui": "http://isap-dev-server:3000/iSAP-AP-Team/val-coreui.git",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "1.2.0",
     "@coreui/icons": "0.3.0",
     "@coreui/vue": "2.1.2",
-    "bootstrap": "4.3.1",
     "chart.js": "2.8.0",
     "core-js": "2.6.5",
     "css-vars-ponyfill": "1.17.2",
