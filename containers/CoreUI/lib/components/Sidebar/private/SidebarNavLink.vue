@@ -173,28 +173,46 @@ export default SidebarNavLink;
 }
 .invalid {
     position: relative;
-    background: $warning !important;
-    border: 2px dashed $danger;
+    background: var(--warning) !important;
+    border: 2px dashed var(--danger);
     pointer-events: none;
 }
 .invalid::after {
     position: absolute;
     right: 3px; bottom: 0;
     font-size: 10px;
-    color: $light;
+    color: var(--light);
     content: var(--content-invalid) !important;
 }
+
 .blocked {
     position: relative;
-    background: $danger !important;
-    border: 2px dashed $info;
+    background: var(--danger) !important;
+    border: 2px dashed var(--info);
     pointer-events: none;
 }
 .blocked::after {
     position: absolute;
     right: 3px; bottom: 0;
     font-size: 10px;
-    color: $light;
+    color: var(--light);
     content: var(--permission-denied) !important;
+}
+</style>
+
+<style lang="scss">
+@media (min-width: 992px) {
+    .sidebar-nav {
+        .nav {
+            .sidebar-minimized {
+                .invalid::after {
+                    content: "" !important;
+                }
+                .blocked::after {
+                    content: "" !important;
+                }
+            }
+        }
+    }
 }
 </style>

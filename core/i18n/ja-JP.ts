@@ -111,4 +111,8 @@ export default class LangObject implements IBaseLang {
     mb_DateTime_LowerPM = '午後';
     mb_DateTime_UpperAM = '朝';
     mb_DateTime_UpperPM = '午後';
+
+    /// theme
+    mb_iSAP_Theme_White = '旭人白';
+    mb_iSAP_Theme_Blue = '旭人藍';
 }

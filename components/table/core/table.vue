@@ -63,77 +63,84 @@
 <script lang="ts" src="./table.vue.ts" />
 
 <style lang="scss" scoped>
-div.dataTables_wrapper div.dataTables_length label {
-  font-weight: normal;
-  text-align: left;
-  white-space: nowrap;
-}
-div.dataTables_wrapper div.dataTables_length select {
-  width: auto;
-  display: inline-block;
-}
-div.dataTables_wrapper div.dataTables_filter {
-  text-align: right;
-}
-div.dataTables_wrapper div.dataTables_filter label {
-  font-weight: normal;
-  white-space: nowrap;
-  text-align: left;
-}
-div.dataTables_wrapper div.dataTables_filter input {
-  margin-left: 0.5em;
-  display: inline-block;
-  width: auto;
-}
-
-.table > tbody > tr > td {
-    vertical-align: middle;
-}
-
-/deep/ .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: #F3F3F3;
-}
-
-/deep/ .table-hover tbody tr.selected td, .table-hover tbody tr.selected th {
-    background-color: #E8E8E8;
-}
-
-/deep/ .table-bordered {
-    border-left: 0;
-    border-right: 0;
-    border-top-color: white;
-
-    /deep/ th {
-        border-bottom-width: 2px;
+div.dataTables_wrapper {
+    div.dataTables_length label {
+        font-weight: normal;
+        text-align: left;
+        white-space: nowrap;
+    }
+    div.dataTables_length select {
+        width: auto;
+        display: inline-block;
+    }
+    div.dataTables_filter {
+        text-align: right;
+    }
+    div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: left;
+    }
+    div.dataTables_filter input {
+        margin-left: 0.5em;
+        display: inline-block;
+        width: auto;
     }
 
-    /deep/ th, td {
+    .table > tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    /deep/ .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+        background-color: #F3F3F3;
+    }
+
+    /deep/ .table-hover tbody tr.selected td, .table-hover tbody tr.selected th {
+        background-color: #E8E8E8;
+    }
+
+    /deep/ .table-bordered {
         border-left: 0;
         border-right: 0;
-        border-top-color: #cecece;
-        border-bottom-color: #cecece;
-        color: #262f36;
-        text-align: center;
+        border-top-color: white;
+
+        /deep/ th {
+            border-bottom-width: 2px;
+        }
+
+        /deep/ th, td {
+            border-left: 0;
+            border-right: 0;
+            border-top-color: #cecece;
+            border-bottom-color: #cecece;
+            color: #262f36;
+            text-align: center;
+        }
     }
-}
 
-.selection-cell {
-    width: 32px;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-.actions-cell {
-    width: 10px;
-}
+    .selection-cell {
+        width: 32px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .actions-cell {
+        width: 10px;
+    }
 
-.form-group {
-    margin-bottom: 0;
-}
-* /deep/ .custom-control-label::before, * /deep/ .custom-control-label::after {
-    left: -4px;
-}
-* /deep/ .custom-control-input:not(:checked) ~ .custom-control-label::before {
-    background-color: #fff !important;
+    .form-group {
+        margin-bottom: 0;
+    }
+    /deep/ .custom-control-label::before, * /deep/ .custom-control-label::after {
+        left: -4px;
+    }
+    /deep/ .custom-control-input:not(:checked) ~ .custom-control-label::before {
+        background-color: #fff !important;
+    }
+
+
+    /deep/ .page-link {
+        color: var(--primary);
+    }
 }
 </style>
 

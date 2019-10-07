@@ -8,8 +8,6 @@ export * from './form-selection';
 export * from './form-file';
 export * from './form-switch';
 export * from './form-textarea';
-export * from './form-ip';
 export * from './form-header';
 export * from './form-label';
-export * from './form-license';
 export * from './form-server-object';

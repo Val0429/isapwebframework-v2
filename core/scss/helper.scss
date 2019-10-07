@@ -4,5 +4,6 @@
 
 @import "helpers/transitions";
 @import "helpers/transforms";
-@import "./../../src/config/default/variables.scss";
+@import "./../../src/scss/styles.scss";
 @import "variables/bootstrap-variables";
+@import "~bootstrap/dist/css/bootstrap.css";

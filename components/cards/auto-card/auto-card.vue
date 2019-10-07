@@ -73,6 +73,6 @@
 }
 
 /deep/ .nav-tabs .nav-link.active, /deep/ .nav-tabs .nav-link:hover {
-    border-top: 1px solid $gray-300 !important;
+    border-top: 1px solid gray(300) !important;
 }
 </style>

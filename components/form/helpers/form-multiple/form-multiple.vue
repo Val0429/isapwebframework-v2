@@ -87,7 +87,7 @@
 .placeholder {
     position: relative;
     cursor: pointer;
-    border: 1px dashed $info;
+    border: 1px dashed var(--info);
     /deep/ * {
         opacity: 0.8;
     }

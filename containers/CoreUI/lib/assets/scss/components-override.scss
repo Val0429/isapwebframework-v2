@@ -1,0 +1,29 @@
+/// CoreUI
+#{$theme-name} {
+    .sidebar .nav-dropdown-toggle::before {
+        margin-top: -7px;
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/// iSAPUI
+/// card
+$iv-card-header-background-color: var(--light);
+#{$theme-name} {
+    .bg-iv-card-header {
+        color: black;
+        background: $iv-card-header-background-color;
+    }
+    .btn-iv-card-header {
+        color: black;
+    }
+    .btn-iv-card-header:hover {
+        color: black;
+    }
+
+    /// toolbox
+    .btn-iv-toolbox-default {
+        @extend .btn-light;
+    }
+}

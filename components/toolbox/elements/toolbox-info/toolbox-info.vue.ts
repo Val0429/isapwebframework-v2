@@ -11,14 +11,12 @@ export class ToolboxInfo extends Vue {
     @Prop({
         type: String,
         required: false,
-        default: 'light'
     })
     variant!: string;
 
     @Prop({
         type: String,
         required: false,
-        default: 'sm'
     })
     size!: string;
 

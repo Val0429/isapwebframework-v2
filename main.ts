@@ -7,7 +7,7 @@
 /// install style
 import "./core/scss/style.scss";
 
-import Vue from 'vue'
+import Vue from 'vue';
 import router from '@/../core/router';
 
 
@@ -27,6 +27,10 @@ import "@/components";
 /// install vuerx support
 import VueRx from 'vue-rx';
 Vue.use(VueRx);
+
+/// install theme support
+import { ThemePlugin } from './core/private/plugins/theme';
+Vue.use(ThemePlugin);
 
 /// install language support
 import { LangPlugin } from './core/i18n';
@@ -70,14 +74,11 @@ import '@/main';
 import '@/views';
 
 /// load config
-import Container from '@/config/default/container';
-
+import MainApp from '@/../core/private/main-app/index.vue';
 (async () => {
-    //Vue.config.productionTip = false
-    new Vue({
-        router: await router,
-        render: h => h(Container.container)
-    }).$mount('#app')
+    new MainApp({
+        router: await router
+    }).$mount('#app');
 })();
 
 import "@/scss/styles.scss";

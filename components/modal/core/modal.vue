@@ -75,15 +75,22 @@ $animation-duration: .2s;
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-}
 
-.modal-container {
-    display: inline-flex !important;
-    margin: 0 auto;
-    min-width: 350px;
-    max-width: 80vw;
-    max-height: 80vh;
-    text-align: left;
+    .modal-container {
+        display: inline-flex !important;
+        margin: 0 auto;
+        min-width: 350px;
+        max-width: 80vw;
+        max-height: 80vh;
+        text-align: left;
+
+        &.border-iv-modal-border {
+            border: 1px solid #dee2e6;
+        }
+        .bg-iv-modal-header {
+            background: var(--light);
+        }        
+    }
 }
 
 .scroll-area {

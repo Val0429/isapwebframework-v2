@@ -11,8 +11,9 @@ import { BehaviorSubject } from 'rxjs';
 import { observeOn, filter, first } from 'rxjs/operators';
 import { AuthPluginData } from './../private/plugins/authentication';
 import { isObjectEmpty } from './../utilities';
+import config from '@/config/default/container';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export interface IRegisterRouter {
     /**
@@ -32,6 +33,8 @@ export interface IRegisterRouter {
     /// reference path of server, to check permission. for boolean type, true means only required to login.
     permission?: string | boolean;
 
+    container?: typeof Vue;
+
     disableContainer?: boolean;
 }
 
@@ -43,6 +46,7 @@ interface IRegisterRouterInput {
     redirect?: string;
     meta?: any;
     permission?: string | boolean;
+    container?: typeof Vue;
 
     component: any;
     disableContainer?: boolean;
@@ -148,15 +152,26 @@ export default new Promise<Router>( (resolve) => {
     }, 0);
 });
 
-function initGuards(router: Router) {
+function initGuards(baseRouter: Router) {
     let loginRouter = FindLoginRouter();
     let loginPath = loginRouter.path;
 
-    router.beforeEach(async (to, from, next) => {
+    baseRouter.beforeEach(async (to, from, next) => {
+        const goNext = (router?: IRegisterRouterInput) => {
+            do {
+                if (!router) break;
+                const obTheme: any = baseRouter.app.$observables.$theme;
+                if (!obTheme) break;
+                const cont = router.container;
+                if (!cont) break;
+                obTheme.next(cont);
+            } while(0);
+            next();
+        }
         do {
             let toPath = to.path;
             /// 1) allow login page
-            if (loginPath === toPath) return next();
+            if (loginPath === toPath) return goNext();
             /// 2) for others, check permission
             /// 2.1) check route permission
             let routers = FindRouter({ path: toPath });
@@ -164,7 +179,7 @@ function initGuards(router: Router) {
             let router = routers[routers.length-1];
             /// 2.2) allow if no permission
             let permission = router.permission;
-            if (permission === false) return next();
+            if (permission === false) return goNext(router);
             /// 2.3) fetch permissions
             if (isObjectEmpty(AuthPluginData.permissions)) {
             // if (!AuthPluginData.permissions) {
@@ -176,14 +191,14 @@ function initGuards(router: Router) {
                 }
             }
             /// 2.4) pass permission === true || default
-            if (permission === true || permission === undefined) return next();
+            if (permission === true || permission === undefined) return goNext(router);
 
             /// 3) do permission check
             let rule = (AuthPluginData.permissions[permission] || {})['Get'];
             /// 3.1) if failed, redirect to login
             if (!rule) break;
 
-            return next();
+            return goNext(router);
 
         } while(0);
 

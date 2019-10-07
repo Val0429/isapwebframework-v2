@@ -34,7 +34,7 @@
                         </template>
                         <template #layout="{ title, icon, $listeners }">
                             <b-list-group-item class="d-flex align-items-center" v-on="$listeners" v-show="visible" :disabled="disabled">
-                                <i :class="icon" />
+                                <i :class="classIcon(icon)" />
                                 <span class="item-title">{{ title }}</span>
                             </b-list-group-item>
                         </template>
@@ -50,31 +50,50 @@
 <script lang="ts" src="./toolbox-element-base.vue.ts" />
 
 <style lang="scss" scoped>
+.container-box > .btn-iv-toolbox {
+    color: #212529;
+    background-color: #efefef;
+    border-color: #efefef;
+
+    &:not(:disabled):hover {
+        color: #212529;
+        background-color: #dcdcdc;
+        border-color: #d6d6d6;
+    }
+}
+
 .container-box {
     margin-top: -0.05rem;
-}
-.container-box /deep/ .popover-body {
-    padding: 0;
-}
-.container-box /deep/ .list-group-item {
-    padding-top: 6px;
-    padding-bottom: 6px;
-}
-.list-group {
-    padding-top: 0.45rem;
-    padding-bottom: 0.45rem;
-}
-.list-group-item {
-    cursor: pointer;
-    border-radius: 0 !important;
-    border: 0;
-    padding: 0.3rem 0.8rem !important;
-}
-.list-group-item:hover {
-    background: $light;
-}
-.item-title {
-    margin-left: 1rem; white-space: nowrap; min-width: 5.5rem;
+
+    /deep/ .popover-body {
+        padding: 0;
+    }
+
+    /deep/ .list-group-item {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    .list-group {
+        padding-top: 0.45rem;
+        padding-bottom: 0.45rem;
+    }
+    .list-group-item {
+        cursor: pointer;
+        border-radius: 0 !important;
+        border: 0;
+        padding: 0.3rem 0.8rem !important;
+    }
+    .list-group-item:hover {
+        background: var(--light);
+    }
+    .item-title {
+        margin-left: 1rem; white-space: nowrap; min-width: 5.5rem;
+    }
+
+    .btn {
+        padding: 0.15rem 0.38rem;
+    }
 }
 </style>
 
