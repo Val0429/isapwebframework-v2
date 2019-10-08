@@ -322,7 +322,7 @@ export class Form extends Vue {
             const getDefaultValidation = (type: string): Function => {
                 if (!type) return;
                 let comp = this.$options.components[type] as any;
-                return ((comp.options||{}).methods||{}).validation;
+                return ((comp.options||{}).methods||{}).validation.bind(comp);
             };
 
             /// check normal fields
