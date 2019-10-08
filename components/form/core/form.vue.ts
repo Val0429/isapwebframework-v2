@@ -311,38 +311,42 @@ export class Form extends Vue {
         let parent = this.root || this.$parent;
         for (let meta of this.parsedInterface || []) {
             let attrs = meta.attrs || {};
+            let name = meta.name;
             if (attrs[uiHidden] === 'true') continue;  /// ignore hidden field
 
             /// check inner form
             if (meta.type instanceof MetaParser) {
-                if (this.$refs[meta.name] && !(this.$refs[meta.name] as any)[0].validateFull()) finalState = false;
+                if (this.$refs[name] && !(this.$refs[name] as any)[0].validateFull()) finalState = false;
                 continue;
             }
 
-            const getDefaultValidation = (type: string): Function => {
+            const getDefaultValidation = (type: string, name: string): Function => {
                 if (!type) return;
                 let comp = this.$options.components[type] as any;
-                return ((comp.options||{}).methods||{}).validation.bind(comp);
+                let ref = (this.$refs[name]||[])[0];
+                let validation = ((comp.options||{}).methods||{}).validation;
+                if (!validation) return;
+                return validation.bind(ref);
             };
 
             /// check normal fields
-            let validation = attrs[uiValidation] || getDefaultValidation(attrs[uiType]);
-            let value = this.innateValue[meta.name];
+            let validation = attrs[uiValidation] || getDefaultValidation(attrs[uiType], name);
+            let value = this.innateValue[name];
             if (value !== null && value !== undefined && value !== '' &&    /// ignore empty value
                 validation
                 ) {
                 if (typeof validation === 'function') {
                     /// execute as function
                     if (!validation(value)) {
-                        Vue.set(this.states, meta.name, false);
+                        Vue.set(this.states, name, false);
                         finalState = false;
-                    } else Vue.set(this.states, meta.name, undefined);
+                    } else Vue.set(this.states, name, undefined);
                 } else if (validation[0] === "/") {
                     /// execute as RegExp
                     if (!eval(validation).test(value)) {
-                        Vue.set(this.states, meta.name, false);
+                        Vue.set(this.states, name, false);
                         finalState = false;
-                    } else Vue.set(this.states, meta.name, undefined);
+                    } else Vue.set(this.states, name, undefined);
                 } else if (/[a-zA-z]/.test(validation[0])) {
                     /// execute as Scope Function
                     let funcValidation;
@@ -350,9 +354,9 @@ export class Form extends Vue {
                         parent = parent.$parent;
 
                     if (!funcValidation(value, this.innateValue)) {
-                        Vue.set(this.states, meta.name, false);
+                        Vue.set(this.states, name, false);
                         finalState = false;
-                    } else Vue.set(this.states, meta.name, undefined);
+                    } else Vue.set(this.states, name, undefined);
                 } else {
                     /// execute as eval Function
                     // if (!eval(validation).call(this.$parent, value, this.value)) { Vue.set(this.states, meta.name, false); finalState = false; }
@@ -361,9 +365,9 @@ export class Form extends Vue {
                             return eval(validation)(value, all);
                         }.call(parent, value, this.innateValue)
                     ) {
-                        Vue.set(this.states, meta.name, false);
+                        Vue.set(this.states, name, false);
                         finalState = false;
-                    } else Vue.set(this.states, meta.name, undefined);
+                    } else Vue.set(this.states, name, undefined);
                 }
             }
         }
