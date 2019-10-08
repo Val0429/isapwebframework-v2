@@ -31,17 +31,17 @@
             </div>
 
             <div class="title1">
-                iSAP no longer supports Internet Explorer.
+                This application does not support Internet Explorer.
             </div>
 
             <div class="title2">
-                To continue, please use <a href="https://www.google.com/intl/zh-TW/chrome/" target="_blank">Google Chrome</a>, <a href="https://www.mozilla.org/zh-TW/firefox/new/" target="_blank">Firefox</a> or <a href="https://support.apple.com/zh_TW/downloads/safari" target="_blank">Safari</a>.
+                To continue, please use <a href="https://www.google.com/intl/zh-TW/chrome/" target="_blank">Google Chrome</a>, <a href="https://www.mozilla.org/zh-TW/firefox/new/" target="_blank">Firefox</a> or <a href="https://www.apple.com/tw/mac-pro/" target="_blank">Safari</a>.
             </div>
 
             <div class="icons">
-                <img :src="images.chrome" />
-                <img :src="images.firefox" />
-                <img :src="images.safari" />
+                <a href="https://www.google.com/intl/zh-TW/chrome/" target="_blank"><img :src="images.chrome" /></a>
+                <a href="https://www.mozilla.org/zh-TW/firefox/new/" target="_blank"><img :src="images.firefox" /></a>
+                <a href="https://www.apple.com/tw/mac-pro/" target="_blank"><img :src="images.safari" /></a>
             </div>
 
         </div>
@@ -99,16 +99,27 @@
         text-align: center;
         font-weight: bold;
         margin: 25px 0 20px 0;
+        letter-spacing: 2px;
     }
     .title2 {
         text-align: center;
+        letter-spacing: 1px;
     }
     .icons {
         margin-top: 30px;
         text-align: center;
-        img {
-            width: 50px;
-            height: 50px;
+        a {
+            img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+        a:hover img {
+            -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+            margin: 0 15px;
+            -webkit-transition: .3s ease-in-out;
+            transition: .3s ease-in-out;            
         }
     }
 }
