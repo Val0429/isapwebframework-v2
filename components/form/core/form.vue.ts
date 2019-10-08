@@ -75,7 +75,9 @@ export class Form extends Vue {
         for (let meta of this.parsedInterface || []) {
             let ref: any = this.$refs[meta.name];
             if (!ref) continue;
-            let value = ref[0].getResult();
+            let getResult = ref[0].getResult;
+            if (!getResult) continue;
+            let value = getResult();
             /// if empty, ignore
             if (Object.keys(value).length === 0) {
                 delete result[meta.name];
