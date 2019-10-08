@@ -17,7 +17,7 @@
                 </iv-form-multiple>
             </template>
             <template v-else-if="getElementType(inf)">
-                <element :is="getElementType(inf)" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
+                <element :is="getElementType(inf)" :ref="inf.name" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
             </template>
             <template v-else>
                 <template v-for="type in parsedType(inf.type) || []">
