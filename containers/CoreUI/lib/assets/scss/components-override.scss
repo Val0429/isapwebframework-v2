@@ -11,6 +11,11 @@
 /// card
 $iv-card-header-background-color: var(--light);
 #{$theme-name} {
+    .card-header {
+        color: black;
+        background: $iv-card-header-background-color;
+    }
+
     .bg-iv-card-header {
         color: black;
         background: $iv-card-header-background-color;
