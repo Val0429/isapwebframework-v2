@@ -74,7 +74,7 @@ export class Form extends Vue {
 
         for (let meta of this.parsedInterface || []) {
             let ref: any = this.$refs[meta.name];
-            if (!ref) continue;
+            if (!ref || ref.length == 0) continue;
             let getResult = ref[0].getResult;
             if (!getResult) continue;
             let value = getResult();
@@ -292,9 +292,11 @@ export class Form extends Vue {
                         value.length === 0
                     ) break;
 
+                    const ref: any = this.$refs[meta.name];
                     if (typeof value === "object" &&
-                        this.$refs[meta.name] &&
-                        !(this.$refs[meta.name] as any)[0].validate()
+                        ref && ref.length > 0 &&
+                        ref[0].validate &&
+                        !ref[0].validate()
                     ) break;
 
                     continue main;
@@ -318,7 +320,13 @@ export class Form extends Vue {
 
             /// check inner form
             if (meta.type instanceof MetaParser) {
-                if (this.$refs[name] && !(this.$refs[name] as any)[0].validateFull()) finalState = false;
+                const ref: any = this.$refs[name];
+                if (
+                    ref && ref.length > 0 &&
+                    ref[0].validateFull &&
+                    !ref[0].validateFull()
+                ) finalState = false;
+            ) break;
                 continue;
             }
 
