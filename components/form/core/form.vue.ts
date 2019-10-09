@@ -326,7 +326,6 @@ export class Form extends Vue {
                     ref[0].validateFull &&
                     !ref[0].validateFull()
                 ) finalState = false;
-            ) break;
                 continue;
             }
 
