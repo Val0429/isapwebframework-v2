@@ -61,7 +61,7 @@ export class CoreUI extends Vue {
         const varList = ["--primary", "--secondary", "--success", "--warning", "--info", "--danger", "--light", "--dark"];
         const varSubList = ["", "-100", "-200", "-300", "-400", "-500", "-600", "-700", "-800", "-900", "-yiq"];
         
-        let style = getComputedStyle(document.getElementsByClassName("theme-coreui")[0]);
+        let style = getComputedStyle(document.getElementsByClassName("theme-coreui-blue")[0]);
         let todoList = [];
         varList.forEach( v => {
             varSubList.forEach( k => {
