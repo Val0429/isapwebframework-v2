@@ -1,0 +1,130 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "untitled-font-1";
+  src:url("./../fonts/isap-font-icons.eot");
+  src:url("./../fonts/isap-font-icons.eot?#iefix") format("embedded-opentype"),
+    url("./../fonts/isap-font-icons.woff") format("woff"),
+    url("./../fonts/isap-font-icons.ttf") format("truetype"),
+    url("./../fonts/isap-font-icons.svg#untitled-font-1") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "untitled-font-1" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "untitled-font-1" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-export:before {
+  content: "\62";
+}
+.icon-tree:before {
+  content: "\63";
+}
+.icon-mail:before {
+  content: "\64";
+}
+.icon-save:before {
+  content: "\65";
+}
+.icon-sidebar-businessoperation:before {
+  content: "\66";
+}
+.icon-sidebar-dashboard:before {
+  content: "\67";
+}
+.icon-sidebar-generalsetting:before {
+  content: "\68";
+}
+.icon-sidebar-region:before {
+  content: "\69";
+}
+.icon-sidebar-report:before {
+  content: "\6a";
+}
+.icon-sidebar-ruleaction:before {
+  content: "\6b";
+}
+.icon-sidebar-server:before {
+  content: "\6c";
+}
+.icon-sidebar-store:before {
+  content: "\6d";
+}
+.icon-sidebar-users:before {
+  content: "\6e";
+}
+.icon-sidebar-videosource:before {
+  content: "\6f";
+}
+.icon-icon-add:before {
+  content: "\61";
+}
+.icon-filerarraw-close:before {
+  content: "\70";
+}
+.icon-filerarraw-open:before {
+  content: "\71";
+}
+.icon-icon-cardview:before {
+  content: "\72";
+}
+.icon-icon-delete:before {
+  content: "\73";
+}
+.icon-icon-detial:before {
+  content: "\74";
+}
+.icon-icon-edit:before {
+  content: "\75";
+}
+.icon-icon-export:before {
+  content: "\76";
+}
+.icon-icon-listview:before {
+  content: "\77";
+}
+.icon-icon-more:before {
+  content: "\78";
+}
+.icon-icon-sort:before {
+  content: "\79";
+}
+.icon-icon-view:before {
+  content: "\7a";
+}
+.icon-region-1:before {
+  content: "\41";
+}
+.icon-region-2:before {
+  content: "\42";
+}
+.icon-region-3:before {
+  content: "\43";
+}
+.icon-site:before {
+  content: "\44";
+}

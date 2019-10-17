@@ -59,6 +59,11 @@ export class Form extends Vue {
     private doSubmit() {
         return this.getResult();
     }
+
+    @Emit("reset")
+    private doReset() {
+        return this.getResult();
+    }
     
     /// public method ///////////////////////////
     public set(key: string, value: any) {
@@ -510,7 +515,7 @@ export class Form extends Vue {
                 variant: "light"
             },
             $listeners: {
-                click: () => this.restore()
+                click: () => (this.restore(), this.doReset())
             }
         }
     }
