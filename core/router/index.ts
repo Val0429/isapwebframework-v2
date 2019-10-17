@@ -160,7 +160,7 @@ function initGuards(baseRouter: Router) {
         const goNext = (router?: IRegisterRouterInput) => {
             do {
                 if (!router) break;
-                const obTheme: any = baseRouter.app.$observables.$theme;
+                const obTheme: any = (baseRouter.app.$observables || {}).$theme;
                 if (!obTheme) break;
                 const cont = router.container;
                 if (!cont) break;
