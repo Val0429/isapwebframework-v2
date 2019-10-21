@@ -170,6 +170,7 @@ export class Form extends Vue {
         let groupNumber = this.checkUiGroupNumbers(inf, index) || 1;
         let splits = Math.floor(12 / groupNumber);
         let attrs = inf.attrs || {};
+        let name = inf.name;
         let uiAttrs = attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {};
         let uiAttrsClass = uiAttrs.class;
         delete uiAttrs.class;
@@ -179,11 +180,13 @@ export class Form extends Vue {
             if (parsed) parsedType = parsed[0] as any;
         }
 
-        const getDefaultInvalidMessage = (type: string): string => {
+        const getDefaultInvalidMessage = (type: string, name: string): string => {
             if (!type) return;
             let comp = this.$options.components[type] as any;
+            let ref = (this.$refs[name]||[])[0];
             let func = ((comp.options||{}).methods||{}).invalidMessage;
-            return func ? func.call(this) : undefined;
+            if (!func || !ref) return;
+            return func.call(ref);
         };
 
         return {
@@ -200,7 +203,7 @@ export class Form extends Vue {
             label: this.showLabel(inf),
             placeholder: attrs.uiPlaceHolder,
             disabled: attrs.uiDisabled === 'true' ? true : undefined,
-            invalid: attrs.uiInvalidMessage || getDefaultInvalidMessage(attrs[uiType]),
+            invalid: attrs.uiInvalidMessage || getDefaultInvalidMessage(attrs[uiType], name),
             value: this.innateValue[inf.name],
 
             ...(parsedType ? {
@@ -339,7 +342,7 @@ export class Form extends Vue {
                 let comp = this.$options.components[type] as any;
                 let ref = (this.$refs[name]||[])[0];
                 let validation = ((comp.options||{}).methods||{}).validation;
-                if (!validation) return;
+                if (!validation || !ref) return;
                 return validation.bind(ref);
             };
 
