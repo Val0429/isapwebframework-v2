@@ -56,22 +56,24 @@ const routes: RouteConfig[] = [];
 export function RegisterRouter(config: IRegisterRouter) {
     return (component?) => {
         let input: IRegisterRouterInput = {
-            ...config, component
-        }
+            ...config,
+            component,
+        };
         routeCache.push(input);
         resolveRoute(input);
-    }
+    };
 }
 let loginRoute: IRegisterRouterInput;
 export function RegisterLoginRouter(config: IRegisterRouter) {
     return (component?) => {
         let input: IRegisterRouterInput = {
-            ...config, component
-        }
+            ...config,
+            component,
+        };
         loginRoute = input;
 
         return RegisterRouter(config)(component);
-    }
+    };
 }
 /// FindLogin ////////////////////////
 export function FindLoginRouter(): IRegisterRouterInput {
@@ -98,26 +100,29 @@ function resolveRoute(config: IRegisterRouterInput) {
         let last = paths.length === 1;
         let path = paths[0];
         /// find the route
-        let idx = routes.findIndex( value => value.path === path || value.path === path.replace(/^\//, '') );
+        let idx = routes.findIndex((value) => value.path === path || value.path === path.replace(/^\//, ''));
         if (last) {
             let data = {
-                path: level === 0 ? `${path}` : path.replace(/^\//, ''), name, redirect, meta, component: component || defComponent
-            }
+                path: level === 0 ? `${path}` : path.replace(/^\//, ''),
+                name,
+                redirect,
+                meta,
+                component: component || defComponent,
+            };
             if (idx === -1) routes.push(data);
             else {
                 let route = routes[idx];
                 Object.assign(route, data);
             }
             return;
-
         } else {
             let data = {
                 path: level === 0 ? `${path}` : path.replace(/^\//, ''),
                 name: path,
                 redirect,
                 component: defComponent,
-                children: []
-            }
+                children: [],
+            };
             let route: RouteConfig = data;
             if (idx === -1) routes.push(data);
             else {
@@ -125,25 +130,24 @@ function resolveRoute(config: IRegisterRouterInput) {
                 if (!route.children) route.children = [];
             }
             paths.shift();
-            insertRoute(route.children, paths, level+1);
+            insertRoute(route.children, paths, level + 1);
         }
-    }
-    
+    };
+
     /// 1) split paths
     //let paths = path.split('/').filter(v => v);
     let paths = path.match(/\/([^\/]+|$)/g);
     insertRoute(routes, paths);
-
 }
 
 const sjDefaultRoute: BehaviorSubject<any> = new BehaviorSubject(null);
-export default new Promise<Router>( (resolve) => {
-    setTimeout( () => {
+export default new Promise<Router>((resolve) => {
+    setTimeout(() => {
         let router = new Router({
             mode: 'history',
             linkActiveClass: 'open active',
             base: process.env.BASE_URL,
-            routes
+            routes,
         });
         resolve(router);
         sjDefaultRoute.next(router);
@@ -160,14 +164,14 @@ function initGuards(baseRouter: Router) {
         const goNext = (router?: IRegisterRouterInput) => {
             do {
                 if (!router) break;
-                const obTheme: any = baseRouter.app.$observables.$theme;
+                const obTheme: any = (baseRouter.app.$observables || {}).$theme;
                 if (!obTheme) break;
                 const cont = router.container;
                 if (!cont) break;
                 obTheme.next(cont);
-            } while(0);
+            } while (0);
             next();
-        }
+        };
         do {
             let toPath = to.path;
             /// 1) allow login page
@@ -176,16 +180,16 @@ function initGuards(baseRouter: Router) {
             /// 2.1) check route permission
             let routers = FindRouter({ path: toPath });
             if (routers.length === 0) break;
-            let router = routers[routers.length-1];
+            let router = routers[routers.length - 1];
             /// 2.2) allow if no permission
             let permission = router.permission;
             if (permission === false) return goNext(router);
             /// 2.3) fetch permissions
             if (isObjectEmpty(AuthPluginData.permissions)) {
-            // if (!AuthPluginData.permissions) {
+                // if (!AuthPluginData.permissions) {
                 try {
                     let data = await new Vue().$login();
-                } catch(e) {
+                } catch (e) {
                     /// 2.3.1) if failed, redirect to login page
                     break;
                 }
@@ -199,8 +203,7 @@ function initGuards(baseRouter: Router) {
             if (!rule) break;
 
             return goNext(router);
-
-        } while(0);
+        } while (0);
 
         return next(loginPath);
     });
