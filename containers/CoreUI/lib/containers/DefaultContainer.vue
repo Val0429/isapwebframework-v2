@@ -5,10 +5,10 @@
     <AppHeader fixed>
       <SidebarToggler class="d-lg-none" display="md" mobile />
       <b-link class="navbar-brand" to="/">
+        <!-- <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="Logo">
+        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo"> -->
         <slot name="logo">
-            <!-- <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="Logo"> -->
-            <!-- <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo"> -->
-            <img class="navbar-brand-full" src="@/assets/images/logo.png" width="89" height="25" alt="Logo">
+          <img class="navbar-brand-full" src="@/assets/images/logo.png" width="89" height="25" alt="Logo">
         </slot>
       </b-link>
       <SidebarToggler class="d-md-down-none" display="lg" />

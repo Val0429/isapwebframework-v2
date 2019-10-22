@@ -1,5 +1,5 @@
 <template>
-    <li v-if="$slots.default" class="nav-item nav-dropdown open" :to="url" disabled>
+    <li v-if="$slots.default" :class="{ 'nav-item': true, 'nav-dropdown': true, open: innateOpen }" :to="url" disabled>
         <div class="nav-link nav-dropdown-toggle" style="cursor: pointer" @click="handleClick"><i :class="classIcon"></i> {{getLabel()}}</div>
         <ul class="nav-dropdown-items">
             <slot></slot>
@@ -18,7 +18,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { SidebarNavItem as SidebarNavItemCore } from '@coreui/vue';
 import SidebarNavLinkCore from './private/SidebarNavLink.vue';
 import { FindRouter } from '@/../core/router';
@@ -54,14 +54,29 @@ export default class SidebarNavItem extends Vue {
     icon: string;
 
     @Prop({
+        type: Boolean,
+        default: true
+    })
+    open: boolean;
+
+    @Prop({
         type: Object,
         required: false,
     })
     data: IData;
 
+    /// private helper
+    private innateOpen: boolean = true;
+    @Watch("open", {immediate: true})
+    private onOpenChanged(newval: boolean, oldval: boolean) {
+        if (newval === oldval) return;
+        this.innateOpen = newval;
+    }
+
     private handleClick(e) {
-        e.preventDefault()
-        e.target.parentElement.classList.toggle('open');
+        e.preventDefault();
+        this.innateOpen = !this.innateOpen;
+        //e.target.parentElement.classList.toggle('open');
     }
 
     private getLabel(): string {
