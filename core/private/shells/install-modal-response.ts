@@ -28,8 +28,16 @@ if (!config.hideDefaultServerErrorModal) {
     sj401.pipe(throttleTime(2000)).subscribe(showModal);
     
     Server.getDefault().sjError.subscribe( (e) => {
-        /// no response
-        if (!e.error.res) return showModal(e);
+        if (!e.error.res) {
+            let message = (e.error.err as any || {}).message;
+            if (message === 'Unexpected token < in JSON at position 0') {
+                e.error.res = { statusCode: 404 };
+                (e.error.err as any).message = "Your requested API is invalid.";
+            }
+            /// no response
+            /// or altered 404 message
+            return showModal(e);
+        }
         /// 401 route
         if (e.error.res.statusCode === 401) return sj401.next(e);
         showModal(e);
