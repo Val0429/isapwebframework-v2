@@ -12,7 +12,10 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
 /// global font
-body * {
-    font-family: 微軟正黑體;
-}
+body {
+    overflow: hidden;
 
+    * {
+        font-family: 微軟正黑體;
+    }
+}
