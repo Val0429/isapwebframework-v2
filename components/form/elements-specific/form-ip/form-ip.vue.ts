@@ -12,7 +12,7 @@ const ipfilter = {
         let oldvalue = el.value;
         el.addEventListener('input', (evt) => {
             let newvalue = el.value;
-            let regex = /^([1-9][0-9]{0,2}(\.(([1-9][0-9]{0,2}|0)(\.(([1-9][0-9]{0,2}|0)(\.([1-9]([0-9]{1,2})?)?)?)?)?)?)?)?$/;
+            let regex = /^(([1-9][0-9]{0,2}|0)(\.(([1-9][0-9]{0,2}|0)?)?){0,3}?)?$/;
             main: do {
                 if (!regex.test(newvalue)) break;
                 let arytmp = newvalue.split(".");
@@ -57,7 +57,7 @@ export class FormIp extends Vue {
     invalid!: string;
 
     public validation(value: string): boolean {
-        const regex = /^[1-9][0-9]{0,2}\.([1-9][0-9]{0,2}|0)\.([1-9][0-9]{0,2}|0)\.[1-9]([0-9]{1,2})?$/;
+        const regex = /^([1-9][0-9]{0,2}|0)(\.([1-9][0-9]{0,2}|0)){3}$/;
         if (!regex.test(value)) return false;
         let arytmp = value.split(".");
         for (let part of arytmp) {
