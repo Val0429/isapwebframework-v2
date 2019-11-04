@@ -5,7 +5,7 @@
  */
 
 import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult } from "@/../core";
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import lang from '@/../core/i18n';
 import { IServer } from 'components/interfaces';
 import { filter, first } from 'rxjs/operators';
@@ -130,7 +130,20 @@ export class Table extends Vue {
                 this.pSelected = [];
                 this.$emit("selected", this.pSelected);
             }
+            /// rehook server deletion
+            let { server, path } = this.server;
+            server = server || this.$server;
+            this.subscription && this.subscription.unsubscribe();
+            this.subscription = server.listenD(path)
+                .subscribe( (objectId) => {
+                    let idx = this.pSelected.indexOf(objectId);
+                    if (idx >= 0) this.pSelected.splice(idx, 1);
+                });
         }
+    }
+    private subscription: Subscription;
+    private destroyed() {
+        this.subscription && this.subscription.unsubscribe();
     }
 
     @Watch('data', {immediate: true})
