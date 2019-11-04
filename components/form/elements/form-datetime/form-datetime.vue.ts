@@ -40,7 +40,7 @@ export class FormDatetime extends Vue {
     private get inputDate(): string {
         if (!this.value) return '';
         let date = this.value instanceof Date ? this.value : new Date(this.value);
-        return `${date.getFullYear()}-${this.padLeft(date.getMonth()+1, 2)}-${this.padLeft(date.getDate(), 2)}`;
+        return `${date.getFullYear()}-${this.padLeft(date.getMonth() + 1, 2)}-${this.padLeft(date.getDate(), 2)}`;
     }
 
     private get inputTime(): string {
@@ -60,7 +60,7 @@ export class FormDatetime extends Vue {
 
     private timeChanged(timeText: string) {
         let current = new Date(`2000-01-01 ${timeText}`);
-        let newdate = new Date(this.value);
+        let newdate = this.value === undefined ? new Date(current) : new Date(this.value);
         newdate.setHours(current.getHours());
         newdate.setMinutes(current.getMinutes());
         newdate.setSeconds(current.getSeconds());
