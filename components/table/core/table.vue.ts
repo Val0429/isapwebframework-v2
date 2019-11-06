@@ -133,6 +133,7 @@ export class Table extends Vue {
             /// rehook server deletion
             let { server, path } = this.server;
             server = server || this.$server;
+            if (!server) return;
             this.subscription && this.subscription.unsubscribe();
             this.subscription = server.listenD(path)
                 .subscribe( (objectId) => {
