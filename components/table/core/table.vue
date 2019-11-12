@@ -87,7 +87,7 @@ div.dataTables_wrapper {
         width: auto;
     }
 
-    .table > tbody > tr > td {
+    .table > tbody > tr /deep/ td {
         vertical-align: middle;
     }
 
