@@ -449,8 +449,8 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
         let conf: IiSAPServerBaseConfig = !debug.prodMode ? Object.assign({}, config) : { port: config.prodPort } as any;
         let { hostname, port, protocol } = window.location;
         conf.ip = conf.ip || hostname;
-        conf.port = conf.port || +port || 80;
         conf.ssl = typeof conf.ssl === "boolean" ? conf.ssl : /^https/.test(protocol);
+        conf.port = conf.port || +port || (conf.ssl ? 443 : 80);
 
         return ((this as any).defaultServer || ((this as any).defaultServer = new this(conf)));
     }
