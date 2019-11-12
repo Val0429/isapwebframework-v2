@@ -64,10 +64,19 @@ export class Form extends Vue {
     private doReset() {
         return this.getResult();
     }
-    
+
     /// public method ///////////////////////////
     public set(key: string, value: any) {
-        Vue.set(this.innateValue, key, value);
+        // Vue.set(this.innateValue, key, value);
+        let val = this.innateValue;
+        let keys = key.split(".");
+        let lastKey = keys[keys.length - 1];
+        for (let i = 0; i < keys.length - 1; ++i) {
+            let k = keys[i];
+            val = val[k];
+            if (val == null) return;
+        }
+        Vue.set(val, lastKey, value);
     }
     public getResult() {
         let result = this.deepClone(this.innateValue);
@@ -135,7 +144,7 @@ export class Form extends Vue {
     private updateResult(name?: string, value?: any) {
         if (!this.$observables || !this.$observables.result) return;
         let obj = this.getResult();
-        (this.$observables.result as any).next( obj );
+        (this.$observables.result as any).next(obj);
     }
 
     /// reset button
@@ -161,7 +170,7 @@ export class Form extends Vue {
     }
 
     private getIsMultiple(inf: IMetaResult): boolean {
-        let multiple = (inf.attrs||{})[uiMultiple];
+        let multiple = (inf.attrs || {})[uiMultiple];
         return multiple ? (multiple === "true" ? true : false) : inf.isArray;
     }
 
@@ -183,8 +192,8 @@ export class Form extends Vue {
         const getDefaultInvalidMessage = (type: string, name: string): string => {
             if (!type) return;
             let comp = this.$options.components[type] as any;
-            let ref = (this.$refs[name]||[])[0];
-            let func = ((comp.options||{}).methods||{}).invalidMessage;
+            let ref = (this.$refs[name] || [])[0];
+            let func = ((comp.options || {}).methods || {}).invalidMessage;
             if (!func || !ref) return;
             return func.call(ref);
         };
@@ -194,9 +203,9 @@ export class Form extends Vue {
                 [`col-md-${splits}`]: true,
                 ...(
                     !uiAttrsClass ? {} :
-                    typeof uiAttrsClass === 'object' ? uiAttrsClass :
-                    typeof uiAttrsClass === 'string' ? uiAttrsClass.split(" ").reduce( (final, value) => { final[value] = true; return final; }, {}) :
-                    {}
+                        typeof uiAttrsClass === 'object' ? uiAttrsClass :
+                            typeof uiAttrsClass === 'string' ? uiAttrsClass.split(" ").reduce((final, value) => { final[value] = true; return final; }, {}) :
+                                {}
                 )
             },
             state: this.showState(inf),
@@ -208,7 +217,8 @@ export class Form extends Vue {
 
             ...(parsedType ? {
                 multiple: this.getIsMultiple(inf),
-                options: parsedType.data } : {
+                options: parsedType.data
+            } : {
                     multiple: this.getIsMultiple(inf)
                 }),
 
@@ -227,7 +237,7 @@ export class Form extends Vue {
         /// replace JSON key with double quotes
         var relaxed = input.replace(/(['"])?([a-z0-9A-Z_-]+)\1\w*:/g, '"$2":');
         /// replace JSON value with double qoutes
-        relaxed = relaxed.replace(/:\s*(')((\\'|[^'])*)\1/g, (a,b,c)=> `: "${c}"`);
+        relaxed = relaxed.replace(/:\s*(')((\\'|[^'])*)\1/g, (a, b, c) => `: "${c}"`);
 
         return JSON.parse(relaxed);
     }
@@ -308,7 +318,7 @@ export class Form extends Vue {
                     ) break;
 
                     continue main;
-                } while(0);
+                } while (0);
 
                 console.info(`validation failed on: <${meta.name}>, value: `, value);
                 return false;
@@ -340,8 +350,8 @@ export class Form extends Vue {
             const getDefaultValidation = (type: string, name: string): Function => {
                 if (!type) return;
                 let comp = this.$options.components[type] as any;
-                let ref = (this.$refs[name]||[])[0];
-                let validation = ((comp.options||{}).methods||{}).validation;
+                let ref = (this.$refs[name] || [])[0];
+                let validation = ((comp.options || {}).methods || {}).validation;
                 if (!validation || !ref) return;
                 return validation.bind(ref);
             };
@@ -351,7 +361,7 @@ export class Form extends Vue {
             let value = this.innateValue[name];
             if (value !== null && value !== undefined && value !== '' &&    /// ignore empty value
                 validation
-                ) {
+            ) {
                 if (typeof validation === 'function') {
                     /// execute as function
                     if (!validation(value)) {
@@ -378,7 +388,7 @@ export class Form extends Vue {
                     /// execute as eval Function
                     // if (!eval(validation).call(this.$parent, value, this.value)) { Vue.set(this.states, meta.name, false); finalState = false; }
                     if (
-                        !function(value, all) {
+                        !function (value, all) {
                             return eval(validation)(value, all);
                         }.call(parent, value, this.innateValue)
                     ) {
@@ -425,16 +435,16 @@ export class Form extends Vue {
         return this.getElementType(inf);
     }
     private getElementType(inf: IMetaResult): string {
-        let uiType = (inf.attrs||{}).uiType;
+        let uiType = (inf.attrs || {}).uiType;
         if (uiType) return uiType;
         return this.getDefaultType(inf);
     }
     private getDefaultType(inf: IMetaResult): string {
         return inf.type === 'string' ? 'iv-form-string'
-             : inf.type === 'boolean' ? 'iv-form-switch'
-             : inf.type === 'number' ? 'iv-form-number'
-             : inf.type === 'Date' ? 'iv-form-datetime'
-             : null;
+            : inf.type === 'boolean' ? 'iv-form-switch'
+                : inf.type === 'number' ? 'iv-form-number'
+                    : inf.type === 'Date' ? 'iv-form-datetime'
+                        : null;
     }
 
     /// interface parser
@@ -482,9 +492,9 @@ export class Form extends Vue {
         if (hash.has(obj)) return hash.get(obj); // cyclic reference
         const result =
             obj instanceof Date ? new Date(obj) :
-            obj instanceof File ? new File([obj], obj.name, { type: obj.type }) :
-            obj instanceof RegExp ? new RegExp(obj.source, obj.flags) :
-            obj.constructor ? new obj.constructor() : Object.create(null);
+                obj instanceof File ? new File([obj], obj.name, { type: obj.type }) :
+                    obj instanceof RegExp ? new RegExp(obj.source, obj.flags) :
+                        obj.constructor ? new obj.constructor() : Object.create(null);
         hash.set(obj, result);
         if (obj instanceof Map)
             Array.from(obj, ([key, val]) =>

@@ -5,7 +5,7 @@
  */
 
 import Vue from 'vue';
-import Router from 'vue-router';
+import Router, { Route } from 'vue-router';
 import { RouteConfig } from 'vue-router';
 import { BehaviorSubject } from 'rxjs';
 import { observeOn, filter, first } from 'rxjs/operators';
@@ -27,7 +27,7 @@ export interface IRegisterRouter {
     /// font-awesome (https://fontawesome.com/icons?d=gallery) ex: fa-user, or isap icon ex: isap-icon-edit
     icon?: string;
     /// redirect to other path
-    redirect?: string;
+    redirect?: string | ((to: Route) => string);
     /// custom data field, can be accessed by this.$route.meta
     meta?: any;
     /// reference path of server, to check permission. for boolean type, true means only required to login.
@@ -43,7 +43,7 @@ interface IRegisterRouterInput {
     name: string;
     /// font-awesome (https://fontawesome.com/icons?d=gallery) ex: fa-user, or isap icon ex: isap-icon-edit
     icon?: string;
-    redirect?: string;
+    redirect?: string | ((to: Route) => string);
     meta?: any;
     permission?: string | boolean;
     container?: typeof Vue;
@@ -53,6 +53,8 @@ interface IRegisterRouterInput {
 }
 
 const routes: RouteConfig[] = [];
+let vueHolder: Vue;
+let initVueHolder = () => vueHolder || (vueHolder = new Vue());
 export function RegisterRouter(config: IRegisterRouter) {
     return (component?) => {
         let input: IRegisterRouterInput = {
@@ -94,6 +96,8 @@ export function FindRouter(options: Partial<IRegisterRouterInput>): IRegisterRou
 const defComponent = { render: (c) => c('router-view') };
 function resolveRoute(config: IRegisterRouterInput) {
     let { path, name, component, redirect, meta } = config;
+    // bind redirect function
+    if (typeof redirect === 'function') redirect = redirect.bind(initVueHolder());
 
     let insertRoute = (routes: RouteConfig[], paths: string[], level: number = 0) => {
         if (paths.length === 0) return;
@@ -188,8 +192,8 @@ function initGuards(baseRouter: Router) {
             if (isObjectEmpty(AuthPluginData.permissions)) {
                 // if (!AuthPluginData.permissions) {
                 try {
-                    let data = await new Vue().$login();
-                } catch (e) {
+                    let data = await initVueHolder().$login();
+                } catch(e) {
                     /// 2.3.1) if failed, redirect to login page
                     break;
                 }

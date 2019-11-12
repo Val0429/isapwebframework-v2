@@ -5,8 +5,8 @@
  */
 
 //import * as Rx from 'rxjs/Rx';
-import { observeOn, filter, first } from 'rxjs/operators';
-import { BehaviorSubject, Subject, asapScheduler } from 'rxjs';
+import { observeOn, filter, first, map } from 'rxjs/operators';
+import { BehaviorSubject, Subject, asapScheduler, Observable } from 'rxjs';
 import { Mutex } from './../utility/mutex';
 
 import { request } from './../utility/request';
@@ -246,6 +246,11 @@ export interface ISubjectError {
     error: IGeneralRequestRejection;
 }
 
+export interface IListenerDelete {
+    path: string;
+    objectId: string;
+}
+
 export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBaseConfig = IiSAPServerBaseConfig> {
     protected config: W;
     protected sessionId: string | null = null;
@@ -390,8 +395,16 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
         return (this.C(key, data, help, 'PUT') as any) as V;
     }
 
+    /// Provide deletion listener
+    protected sjD: Subject<IListenerDelete> = new Subject<IListenerDelete>();
     async D<K extends keyof T['Delete'], U extends ApisExtractInput<T['Delete'][K]>, V extends ApisExtractOutput<T['Delete'][K]>, P extends ApisExtractLoginRequired<T['Delete'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data: U, help?: boolean): Promise<V> {
-        return (this.R(key, data, help, 'DELETE') as any) as V;
+        let deletion = (this.R(key, data, help, 'DELETE') as any) as V;
+        this.sjD.next({ path: key as string, objectId: data.objectId });
+        return deletion;
+    }
+    public listenD<K extends keyof T['Delete']>(path: string): Observable<string> {
+        return this.sjD.pipe( filter(v => v.path === path) )
+            .pipe( map(v => v.objectId) );
     }
 
     async WS<K extends keyof T['Ws'], U extends ApisExtractInput<T['Ws'][K]>, V extends ApisExtractOutput<T['Ws'][K]>, P extends ApisExtractLoginRequired<T['Ws'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K): Promise<Socket> {
@@ -436,8 +449,8 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
         let conf: IiSAPServerBaseConfig = !debug.prodMode ? Object.assign({}, config) : { port: config.prodPort } as any;
         let { hostname, port, protocol } = window.location;
         conf.ip = conf.ip || hostname;
-        conf.port = conf.port || +port || 80;
         conf.ssl = typeof conf.ssl === "boolean" ? conf.ssl : /^https/.test(protocol);
+        conf.port = conf.port || +port || (conf.ssl ? 443 : 80);
 
         return ((this as any).defaultServer || ((this as any).defaultServer = new this(conf)));
     }
