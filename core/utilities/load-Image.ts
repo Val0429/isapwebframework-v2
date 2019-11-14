@@ -1,6 +1,6 @@
 import LoadImage from 'blueimp-load-image';
 
-export async function generateEXIFrontImage(file: string | File) {
+export async function generateEXIFrontImage(file: string | File): Promise<string> {
     let imgBase64: string;
     let imgFile: File = null;
     let options: any = {
