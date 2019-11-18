@@ -8,6 +8,7 @@
             <b-button
                 :id="'target-'+_uid"
                 :class="icon"
+                :pressed="active"
                 v-show="visible"
                 v-bind="$attrs"
                 :variant="variant"

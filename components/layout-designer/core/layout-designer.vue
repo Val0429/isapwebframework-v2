@@ -4,7 +4,7 @@
             <div class="menubar is-hidden"
                 :class="{ 'is-focused': focused }">
                 
-                <iv-toolbox-custom icon="fa-bold" @click="commands.bold" />
+                <iv-toolbox-custom icon="fa-bold" label="Bold" :active="isActive.bold()" @click="commands.bold" />
 
             </div>
         </editor-menu-bar>

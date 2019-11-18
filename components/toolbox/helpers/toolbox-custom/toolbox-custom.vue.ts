@@ -44,6 +44,12 @@ export class ToolboxCustom extends Vue {
 
     @Prop({
         type: Boolean,
+        required: false
+    })
+    active: boolean;
+
+    @Prop({
+        type: Boolean,
         required: false,
         default: true
     })
