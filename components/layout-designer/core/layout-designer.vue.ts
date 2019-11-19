@@ -36,6 +36,7 @@ import {
   Underline,
   History,
 } from 'tiptap-extensions';
+import { TextDesignerNode, IFrameNode } from './../elements';
 
 @Component({
     components: { EditorContent, EditorMenuBar }
@@ -56,13 +57,27 @@ export class LayoutDesigner extends Vue {
     /// init
     private editor = new Editor({
         extensions: [
-            new Bold()
-        ]
+            new Bold(),
+            new Italic(),
+            new Underline(),
+            new Heading({ labels: [1,2,3] }),
+            new History(),
+
+            new TextDesignerNode(),
+            new IFrameNode()
+        ],
+        onUpdate: ({getJSON, getHTML}) => {
+            console.log('updated!', getHTML());
+        }
     });
 
     /// recycle
     private beforeDestroy() {
         this.editor.destroy();
+    }
+
+    private log() {
+        console.log('log!', ...arguments);
     }
 }
 export default LayoutDesigner;

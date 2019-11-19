@@ -15,7 +15,7 @@
                 :size="size"
                 :disabled="disabled"
                 @click="click"
-                ></b-button>
+                >{{ !icon ? title : '' }}</b-button>
 
             <b-tooltip :target="'target-'+_uid" :title="title" />
 

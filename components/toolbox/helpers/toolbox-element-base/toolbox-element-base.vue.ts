@@ -17,7 +17,7 @@ export class ToolboxElementBase extends Vue {
 
     @Prop({
         type: String,
-        required: true,
+        required: false,
     })
     icon!: string;
 

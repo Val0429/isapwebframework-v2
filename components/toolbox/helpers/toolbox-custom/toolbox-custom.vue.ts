@@ -18,7 +18,7 @@ export class ToolboxCustom extends Vue {
 
     @Prop({
         type: String,
-        required: true
+        required: false
     })
     icon: string;
 
@@ -60,6 +60,7 @@ export class ToolboxCustom extends Vue {
 
     /// private helper
     private get classIcon() {
+        if (!this.icon) return;
         return generateIcon(this.icon);
     }
 }
