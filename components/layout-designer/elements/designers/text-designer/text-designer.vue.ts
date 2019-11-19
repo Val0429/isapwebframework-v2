@@ -62,146 +62,28 @@ export class TextDesigner extends Vue {
 }
 export default TextDesigner;
 
-export class IFrameNode extends Node {
-    get name() {
-        return 'iframe';
-    }
-    get schema() {
-        return {
-            attrs: {
-                src: {
-                    default: null
-                }
-            },
-            group: "block",
-            selectable: false,
-            parseDOM: [{
-                tag: 'iframe',
-                getAttrs: dom => ({
-                    src: dom.getAttribute('src')
-                })
-            }],
-            toDOM: node => ['iframe', {
-                src: node.attrs.src,
-                frameborder: 0,
-                allowfullscreen: true
-            }]
-        }
-    }
-
-    commands({ type }) {
-        return (attrs) => (state, dispatch) => {
-            const { selection } = state;
-            const position = selection.$cursor ?
-                selection.$cursor.pos :
-                selection.$to.pos;
-            const node = type.create(attrs);
-            const transaction = state.tr.insert(position, node);
-            dispatch(transaction);
-        }
-    }
-
-    get view() {
-        return {
-            props: ['node', 'updateAttrs', 'view'],
-            computed: {
-                src: {
-                    get() {
-                        return this.node.attrs.src
-                    },
-                    set(src) {
-                        this.updateAttrs({ src });
-                    }
-                }
-            },
-            template: `
-            <div class="iframe">
-                <iframe class="iframe__embed" :src="src"></iframe>
-                <input class="iframe__input" type="text" v-model="src" v-if="view.editable" />
-            </div>
-            `
-        }
-    }
-}
-
 export class TextDesignerNode extends Node {
     get name() {
-        return "tdn";
+        return 'iv-text-designer';
     }
     get schema() {
         return {
             content: "block+",
             group: "block",
             defining: true,
-            draggable: false,
-            parseDOM: [
-                { tag: 'blockquote' }
-            ],
-            toDOM: () => ['blockquote', {class: 'awesome-blockquote'}, 0]
+            isolating: true,
+            draggable: true,
+            parseDOM: [{
+                tag: 'div[iv-text-designer]'
+            }],
+            toDOM: node => ['div', {
+                style: "border: 1px solid black; background: red; position: absolute",
+                'iv-text-designer': true
+            }, 0]
         }
     }
-    commands({ type, schema }) {
+
+    commands({ type }) {
         return () => toggleWrap(type);
     }
-    keys({ type }) {
-        return {
-            'Ctrl->': toggleWrap(type)
-        }
-    }
-    inputRule({ type }) {
-        return [
-            wrappingInputRule(/^\s*>\s$/, type)
-        ]
-    }
 }
-
-// export class TextDesignerNode extends Node {
-//     get name() {
-//         return 'text-designer-node';
-//     }
-//     get schema() {
-//         return {
-//             attrs: {
-//                 html: {
-//                     default: null
-//                 }
-//             },
-//             group: "block",
-//             selectable: true,
-//             parseDOM: [{
-//                 tag: 'text-designer-node',
-//                 getAttrs: dom => ({
-//                     html: dom.innerHTML
-//                 })
-//             }],
-//             toDOM: node => ['text-designer-node', {
-//             }, node.html]
-//         }
-//     }
-
-//     commands({ type }) {
-//         return () => toggleMark(type);
-//     }
-
-//     inputRules({ type }) {
-//         return [
-//           markInputRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)$/, type),
-//         ]
-//     }
-    
-//     pasteRules({ type }) {
-//         return [
-//           markPasteRule(/(?:\*\*|__)([^*_]+)(?:\*\*|__)/g, type),
-//         ]
-//     }
-
-//     get view() {
-//         return {
-//             props: ['node', 'updateAttrs', 'view'],
-//             template: `
-//             <div>Hello!</div>
-//             `
-//         }
-//     }
-// }
-
