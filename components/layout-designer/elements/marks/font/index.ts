@@ -16,6 +16,10 @@ export class Font extends Mark {
                 'font-size': {
                     // default: '20'
                     default: undefined
+                },
+                'color': {
+                    // default: '#000',
+                    default: undefined
                 }
             },
             parseDOM: [
@@ -30,11 +34,21 @@ export class Font extends Mark {
                     getAttrs: value => ({
                         'font-size': value
                     })
+                },
+                {
+                    style: 'color',
+                    getAttrs: value => ({
+                        'color': value
+                    })
                 }
             ],
             toDOM: (node) => {
                 return ['span', {
-                    style: `font-family: '${node.attrs['font-family']||'inherit'}'; font-size: ${node.attrs['font-size'] ? node.attrs['font-size']+'px' : 'inherit'}`
+                    style: `
+                        font-family: ${node.attrs['font-family'] ? "'"+node.attrs['font-family']+"'" : 'inherit'};
+                        font-size: ${node.attrs['font-size'] ? node.attrs['font-size']+'px' : 'inherit'};
+                        color: ${node.attrs['color']||'inherit'};
+                    `
                 }, 0];
             }
         }

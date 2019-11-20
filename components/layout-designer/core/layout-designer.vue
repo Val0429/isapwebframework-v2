@@ -11,6 +11,8 @@
                 <iv-font-family style="margin-top: 2px" @input="commands.font({ ...getMarkAttrs('font'), 'font-family': $event })" :value="getMarkAttrs('font')['font-family']" />
                 <iv-font-size style="margin-top: 2px" @input="commands.font({ ...getMarkAttrs('font'), 'font-size': $event })" :value="getMarkAttrs('font')['font-size']" />
 
+                <iv-font-color @input="commands.font({ ...getMarkAttrs('font'), 'color': $event })" :value="getMarkAttrs('font')['color']" />
+
             </div>
         </editor-menu-bar>
 
@@ -49,6 +51,6 @@
     height: calc(100% - 35px);
 }
 /deep/ .ProseMirror {
-    height: 100%;
+    height: calc(100%);
 }
 </style>

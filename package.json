@@ -25,6 +25,7 @@
     "vue": "2.6.10",
     "vue-browser-detect-plugin": "^0.1.5",
     "vue-class-component": "7.0.2",
+    "vue-color": "^2.7.0",
     "vue-fragment": "1.5.1",
     "vue-property-decorator": "8.1.0",
     "vue-router": "3.0.3",
