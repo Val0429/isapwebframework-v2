@@ -10,10 +10,12 @@ export class Font extends Mark {
         return {
             attrs: {
                 'font-family': {
-                    default: '微軟正黑體'
+                    // default: '微軟正黑體'
+                    default: undefined
                 },
                 'font-size': {
-                    default: '20'
+                    // default: '20'
+                    default: undefined
                 }
             },
             parseDOM: [
@@ -32,7 +34,7 @@ export class Font extends Mark {
             ],
             toDOM: (node) => {
                 return ['span', {
-                    style: `font-family: '${node.attrs['font-family']||'inherit'}'; font-size: ${node.attrs['font-size']+'px'||'inherit'}`
+                    style: `font-family: '${node.attrs['font-family']||'inherit'}'; font-size: ${node.attrs['font-size'] ? node.attrs['font-size']+'px' : 'inherit'}`
                 }, 0];
             }
         }
