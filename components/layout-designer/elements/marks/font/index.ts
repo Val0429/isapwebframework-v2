@@ -1,9 +1,9 @@
 import { Mark } from 'tiptap';
 import { toggleMark, updateMark } from 'tiptap-commands';
 
-export class FontFamily extends Mark {
+export class Font extends Mark {
     get name() {
-        return 'fontfamily';
+        return 'font';
     }
 
     get schema() {
@@ -11,6 +11,9 @@ export class FontFamily extends Mark {
             attrs: {
                 'font-family': {
                     default: '微軟正黑體'
+                },
+                'font-size': {
+                    default: '20'
                 }
             },
             parseDOM: [
@@ -19,11 +22,17 @@ export class FontFamily extends Mark {
                     getAttrs: value => ({
                         'font-family': value
                     })
+                },
+                {
+                    style: 'font-size',
+                    getAttrs: value => ({
+                        'font-size': value
+                    })
                 }
             ],
             toDOM: (node) => {
                 return ['span', {
-                    style: `font-family: '${node.attrs['font-family']}'; font-size: inherit`
+                    style: `font-family: '${node.attrs['font-family']||'inherit'}'; font-size: ${node.attrs['font-size']+'px'||'inherit'}`
                 }, 0];
             }
         }
