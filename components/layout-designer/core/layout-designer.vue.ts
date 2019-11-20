@@ -28,13 +28,10 @@ import {
   History,
   Placeholder
 } from 'tiptap-extensions';
-import { TextDesigner, FontFamily } from './../elements';
-
-import FontPicker from 'font-picker-vue';
-Vue.use(FontPicker);
+import { TextDesigner, FontFamily, FontSize } from './../elements';
 
 @Component({
-    components: { EditorContent, EditorMenuBar, FontPicker }
+    components: { EditorContent, EditorMenuBar }
 })
 export class LayoutDesigner extends Vue {
     @Prop({
@@ -55,7 +52,8 @@ export class LayoutDesigner extends Vue {
             new TextDesigner(),
             new Bold(),
             new Heading({ labels: [1,2,3] }),
-            new FontFamily()
+            new FontFamily(),
+            new FontSize()
             // new Placeholder({
             //     emptyNodeClass: "is-empty",
             //     emptyNodeText: "Write something...",

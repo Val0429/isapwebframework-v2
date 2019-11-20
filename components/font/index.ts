@@ -1,1 +1,1 @@
-export * from './font.vue';
+export * from './font-family';

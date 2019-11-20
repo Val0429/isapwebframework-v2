@@ -8,7 +8,8 @@
                 <iv-toolbox-custom label="H1" @click="commands.heading({label: 1})" />
                 <iv-toolbox-custom icon="fa-bold" label="Bold" @click="commands.bold" />
                 <iv-toolbox-custom icon="fa-text-width" label="Text" @click="commands['iv-text-designer']" />
-                <iv-font style="margin-top: 2px" @input="commands.fontfamily({ 'font-family': $event })" :value="getMarkAttrs('fontfamily')['font-family']" />
+                <iv-font-family style="margin-top: 2px" @input="commands.fontfamily({ 'font-family': $event })" :value="getMarkAttrs('fontfamily')['font-family']" />
+                <iv-font-size style="margin-top: 2px" @input="commands.fontsize({ 'font-size': $event })" :value="getMarkAttrs('fontsize')['font-size']" />
 
             </div>
         </editor-menu-bar>

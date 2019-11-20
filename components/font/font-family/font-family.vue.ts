@@ -7,7 +7,7 @@
 import { Vue, Component, Prop, Model, Emit, Watch } from "vue-property-decorator";
 
 @Component
-export class Font extends Vue {
+export class FontFamily extends Vue {
     @Model('input', {
         type: [String],
         required: false,
@@ -31,4 +31,4 @@ export class Font extends Vue {
         return this.value || this.defaultFont;
     }
 }
-export default Font;
+export default FontFamily;

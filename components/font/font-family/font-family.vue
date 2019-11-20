@@ -7,7 +7,7 @@
 </template>
 
 
-<script lang="ts" src="./font.vue.ts" />
+<script lang="ts" src="./font-family.vue.ts" />
 
 
 <style lang="scss" scoped>
