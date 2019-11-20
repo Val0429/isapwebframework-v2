@@ -26,11 +26,15 @@ import {
   Strike,
   Underline,
   History,
+  Placeholder
 } from 'tiptap-extensions';
-import { TextDesignerNode } from './../elements';
+import { TextDesigner, FontFamily } from './../elements';
+
+import FontPicker from 'font-picker-vue';
+Vue.use(FontPicker);
 
 @Component({
-    components: { EditorContent, EditorMenuBar }
+    components: { EditorContent, EditorMenuBar, FontPicker }
 })
 export class LayoutDesigner extends Vue {
     @Prop({
@@ -48,7 +52,15 @@ export class LayoutDesigner extends Vue {
     /// init
     private editor = new Editor({
         extensions: [
-            new TextDesignerNode()
+            new TextDesigner(),
+            new Bold(),
+            new Heading({ labels: [1,2,3] }),
+            new FontFamily()
+            // new Placeholder({
+            //     emptyNodeClass: "is-empty",
+            //     emptyNodeText: "Write something...",
+            //     showOnlyWhenEditable: true,
+            // })
         ],
         onUpdate: ({getJSON, getHTML}) => {
             console.log('updated!', getHTML());

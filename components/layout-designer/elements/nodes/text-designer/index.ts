@@ -29,40 +29,7 @@ import {
   History,
 } from 'tiptap-extensions';
 
-@Component({
-    components: { EditorContent, EditorMenuBar }
-})
-export class TextDesigner extends Vue {
-    @Prop({
-        type: String, required: false
-    })
-    value: string;
-
-    /// private helper
-    @Watch("value", { immediate: true })
-    onValueChanged(newval: string) {
-        console.log('content change!', newval);
-        this.editor.setContent(newval, true);
-    }
-
-    /// init
-    private editor = new Editor({
-        extensions: [
-            new Bold(),
-            new Italic(),
-            new Underline(),
-            new Heading({ labels: [1,2,3] })
-        ]
-    });
-
-    /// recycle
-    private beforeDestroy() {
-        this.editor.destroy();
-    }
-}
-export default TextDesigner;
-
-export class TextDesignerNode extends Node {
+export class TextDesigner extends Node {
     get name() {
         return 'iv-text-designer';
     }
@@ -72,7 +39,7 @@ export class TextDesignerNode extends Node {
             group: "block",
             defining: true,
             isolating: true,
-            draggable: true,
+            draggable: false,
             parseDOM: [{
                 tag: 'div[iv-text-designer]'
             }],

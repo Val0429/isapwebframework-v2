@@ -1,14 +1,21 @@
 <template>
     <div class="editor">
-        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
+        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused, getMarkAttrs }">
             <div class="menubar is-hidden"
                 :class="{ 'is-focused': focused }">
 
+                <iv-toolbox-custom label="Font" @click="commands.fontfamily" />
+                <iv-toolbox-custom label="H1" @click="commands.heading({label: 1})" />
+                <iv-toolbox-custom icon="fa-bold" label="Bold" @click="commands.bold" />
                 <iv-toolbox-custom icon="fa-text-width" label="Text" @click="commands['iv-text-designer']" />
+                <iv-font style="margin-top: 2px" @input="commands.fontfamily({ 'font-family': $event })" :value="getMarkAttrs('fontfamily')['font-family']" />
+
             </div>
         </editor-menu-bar>
 
-        <editor-content class="editor__content" :editor="editor" />
+        <iv-scrollbar class="editor__content">
+            <editor-content class="editor__content" :editor="editor" />
+        </iv-scrollbar>
     </div>
 </template>
 
