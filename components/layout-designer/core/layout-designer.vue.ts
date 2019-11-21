@@ -61,6 +61,11 @@ export class LayoutDesigner extends Vue {
         ],
         onUpdate: ({getJSON, getHTML}) => {
             console.log('updated!', getHTML());
+        },
+        editorProps: {
+            handlePaste: (view, event, slice) => {
+                console.log('paste!', event, slice);
+            }
         }
     });
 
