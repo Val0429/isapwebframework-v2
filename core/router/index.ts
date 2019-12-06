@@ -132,7 +132,7 @@ function resolveRoute(config: IRegisterRouterInput) {
             insertRoute(route.children, paths, level+1);
         }
     }
-    
+
     /// 1) split paths
     //let paths = path.split('/').filter(v => v);
     let paths = path.match(/\/([^\/]+|$)/g);
