@@ -141,6 +141,7 @@ function resolveRoute(config: IRegisterRouterInput) {
 }
 
 const sjDefaultRoute: BehaviorSubject<any> = new BehaviorSubject(null);
+export const obDefaultRoute = sjDefaultRoute.asObservable();
 export default new Promise<Router>( (resolve) => {
     setTimeout( () => {
         let router = new Router({
