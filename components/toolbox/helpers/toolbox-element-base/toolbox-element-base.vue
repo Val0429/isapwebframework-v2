@@ -8,13 +8,14 @@
             <b-button
                 :id="'target-'+_uid"
                 :class="icon"
+                :pressed="active"
                 v-show="visible"
                 v-bind="$attrs"
                 :variant="variant"
                 :size="size"
                 :disabled="disabled"
                 @click="click"
-                ></b-button>
+                >{{ !icon ? title : '' }}</b-button>
 
             <b-tooltip :target="'target-'+_uid" :title="title" />
 

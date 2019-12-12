@@ -42,7 +42,7 @@ $link-color: white;
                 background-color: #1283A3;
                 border-color: transparent;
             }
-            &:not(:disabled):active {
+            &:not(:disabled):active, &:not(:disabled).active {
                 color: #FFF;
                 background-color: #00C7E6;
                 border-color: transparent;

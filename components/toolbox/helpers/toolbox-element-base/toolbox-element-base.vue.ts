@@ -17,7 +17,7 @@ export class ToolboxElementBase extends Vue {
 
     @Prop({
         type: String,
-        required: true,
+        required: false,
     })
     icon!: string;
 
@@ -41,6 +41,12 @@ export class ToolboxElementBase extends Vue {
         default: false
     })
     disabled!: boolean;
+
+    @Prop({
+        type: Boolean,
+        required: false
+    })
+    active: boolean;
 
     @Prop({
         type: Boolean,

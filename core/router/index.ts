@@ -193,7 +193,7 @@ function initGuards(baseRouter: Router) {
                 // if (!AuthPluginData.permissions) {
                 try {
                     let data = await initVueHolder().$login();
-                } catch(e) {
+                } catch (e) {
                     /// 2.3.1) if failed, redirect to login page
                     break;
                 }
