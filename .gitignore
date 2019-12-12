@@ -27,3 +27,8 @@ package-lock.json
 
 # VS code prettier
 .prettierrc
+
+# package-lock.json
+package-lock.json
+containers/CoreUI/package-lock.json
+containers/CoreUI-Blue/package-lock.json
