@@ -1,6 +1,6 @@
 /*
  * Created on Tue Nov 14 2019
- * Author: Ben Li
+ * Author: Ben Lee
  * Copyright (c) 2019, iSAP Solution
  */
 
@@ -19,11 +19,12 @@ export class IVImage extends Vue {
     private innerSrc = null;
     @Watch("src", { immediate: true })
     async onSrcChanged(newval: string | File) {
-        /// 判斷newval是否url
+        if (!newval) return;
+        /// test is newval a url
         let regex = /^http/;
         if (typeof newval === "string" && regex.test(newval)) {
             let url = newval;
-            /// 若是，request取回其值
+            /// if yes, fetch response
             newval = await new Promise((resolve, reject) => {
                 fetch(url)
                     .then(resp => resp.blob())
