@@ -9,10 +9,13 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ILang, IBaseLang } from './core';
 export * from './core';
 
+import Config from '@/config/default/i18n';
+
 type IAllLang = ILang & IBaseLang;
 
 let languageMap: { [index: string]: [string, ILang] } = {};
-export const defaultLanguage: string = 'en-US';
+export const defaultLanguage: string = Config.defaultLang || 'en-US';
+
 export function RegisterLanguage(name: string, description: string) {
     return (Class: any) => {
         languageMap[name] = [description, new Class()];
