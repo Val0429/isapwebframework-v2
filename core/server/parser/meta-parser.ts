@@ -12,13 +12,20 @@ export interface IMetaAttrs {
 export interface IMetaResult {
     name: string;
     type: string | MetaParser;
-    optional: boolean;
+    optional: boolean;    
     /// location of this meta. default start with 0.
     index: number;                                                 
     attrs?: IMetaAttrs;
     isArray: boolean;
 }
-
+export enum ESort {
+    Ascending,
+    Descending
+}
+export interface IInputSortingBaseUnit{
+    field: string;
+    order: ESort;
+}
 export interface IEnumMetaResult {
     id: string | number;
     text: string;

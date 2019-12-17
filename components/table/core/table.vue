@@ -6,7 +6,7 @@
                 <thead>
                     <tr role="row">
                         <th v-if="selectable" role="row" class="selection-cell" />
-                        <iv-inner-table-header :key="key" v-for="(inf, key) in parsedInterface" :meta="inf" :keyUiLabel="keyUiLabel" />
+                        <iv-inner-table-header v-model="sortBy" :key="key" v-for="(inf, key) in parsedInterface" :meta="inf" :keyUiLabel="keyUiLabel" />
                         <th class="actions-cell" />
                     </tr>
                 </thead>

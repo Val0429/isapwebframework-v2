@@ -4,7 +4,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult } from "@/../core";
+import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult, IInputSortingBaseUnit, ESort } from "@/../core";
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import lang from '@/../core/i18n';
 import { IServer } from 'components/interfaces';
@@ -117,7 +117,10 @@ export class Table extends Vue {
     // }
     /// fetched result
     result: IGetResult = { paging: {page:0, pageSize:0, total: 0, totalPages: 0}, results: [] };
-
+    private subscription: Subscription;
+    private destroyed() {
+        this.subscription && this.subscription.unsubscribe();
+    }
     /// server watcher
     @Watch('server', {immediate: true})
     private async onServerChanged(value: IServer, oldValue: IServer) {
@@ -142,11 +145,15 @@ export class Table extends Vue {
                 });
         }
     }
-    private subscription: Subscription;
-    private destroyed() {
-        this.subscription && this.subscription.unsubscribe();
+    sortBy:IInputSortingBaseUnit = {order:ESort.Descending, field:""};
+    @Watch('sortBy', {immediate: true})
+    sortThisField(value:IInputSortingBaseUnit){
+        //console.log("value", value);
+        this.sortBy = value;        
+        //console.log("sortBy", this.sortBy);
+        this.fetchGetResult();
+        
     }
-
     @Watch('data', {immediate: true})
     private onDataChanged(value: IGetResult) {
         if (!value) return;
@@ -237,6 +244,7 @@ export class Table extends Vue {
                     pageSize: this.innatePageSize,
                     page: this.currentPage,
                 },
+                sorting:this.sortBy,
                 ...(this.params || {})
             }) as any;
             this.result = result;
