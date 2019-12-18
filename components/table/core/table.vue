@@ -1,6 +1,25 @@
 <template>
     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
         <div class="row">
+            <div class="col-sm-12" v-if="searchAbleFields.length>0">
+            <b-input-group> 
+                <b-form-select v-model="selectedField" :options="searchAbleFields"></b-form-select>
+                <b-input
+                    v-model="searchText"
+                    type="search"
+                    @keyup.native.enter="fetchGetResult"
+                />
+                <b-button
+                        class="button"
+                        variant="default"
+                        @click="fetchGetResult"
+                    >
+                        <i class="fa fa-search" />
+                    </b-button>
+                </b-input-group> 
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12">
                 <table class="table table-bordered table-hover datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
                 <thead>

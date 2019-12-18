@@ -245,6 +245,10 @@ export class Table extends Vue {
                     page: this.currentPage,
                 },
                 sorting:this.sortBy,
+                filtering:{
+                    field:this.selectedField,
+                    value:this.searchText
+                },
                 ...(this.params || {})
             }) as any;
             this.result = result;
@@ -314,6 +318,16 @@ export class Table extends Vue {
         return Object.keys(ref).map( (name, index) => {
             return { name, type: 'string', optional: false, index, isArray: false /* todo. made for form, table later */ }
         });
+    }
+    selectedField:string="";
+    searchText:string="";
+    
+    get searchAbleFields(){
+        //console.log("parsedInterface", this.parsedInterface);
+        return this.parsedInterface.filter(x=>x.attrs.uiSearchAble==="true" && x.type=="string").map(x=>{return {value:x.name, text:x.attrs.uiLabel || x.name}});
+    }
+    mounted(){
+        //console.log("searchable", this.searchAbleFields);
     }
     ////////////////////////////////////////////////////////////////////////////////////
 }
