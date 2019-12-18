@@ -1,6 +1,9 @@
 <template>
     <th v-if="typeof meta.type === 'string' && (meta.attrs||{}).uiHidden !== 'true'" @click="sortThisField(meta)" :class="getClass">
-        {{ showLabel(meta) }}
+        {{ showLabel(meta) }} 
+        <template v-if="sortable">
+            &#8597;
+        </template>
     </th>
     <fragment v-else>
         <iv-inner-table-header v-model="sortBy" :key="key" v-for="(inf, key) in meta.type.result" :meta="inf" :keyUiLabel="keyUiLabel" />
@@ -33,7 +36,7 @@ export class TableHeader extends Vue {
         required: true
     })    
     sortBy:IInputSortingBaseUnit;
-    sortable=true;
+    sortable=false;
     created(){
         this.sortable = this.meta.attrs.uiSortAble==="true" ;
     }
@@ -92,7 +95,7 @@ table th {
   padding-right: 10px;  
 }
 .sortable{
-    cursor: pointer;
+    cursor: pointer;    
 }
 
 </style>

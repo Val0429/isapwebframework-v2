@@ -328,6 +328,9 @@ export class Table extends Vue {
     }
     mounted(){
         //console.log("searchable", this.searchAbleFields);
+        if(this.searchAbleFields.length>0){
+            this.selectedField = this.searchAbleFields[0].value;
+        }
     }
     ////////////////////////////////////////////////////////////////////////////////////
 }
