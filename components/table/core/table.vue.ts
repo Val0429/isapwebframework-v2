@@ -23,6 +23,10 @@ const uiType = "uiType";
 const uiTableMergeRow = "uiTableMergeRow";
 /// easier convert value
 const uiConverter = "uiConverter";
+/// can sort
+const uiSortable = "uiSortable";
+/// can search
+const uiSearchable = "uiSearchable";
 
 enum EParsedType {
     Enum = "enum"
@@ -145,6 +149,23 @@ export class Table extends Vue {
                 });
         }
     }
+
+    @Watch('interface', {immediate: true})
+    private onInterfaceChanged(value: string) {
+        let result = this.parsedInterface.reduce<IInputSortingBaseUnit>( (final, value) => {
+            let attrs = value.attrs;
+            if (!attrs) return final;
+            let sortable = (attrs[uiSortable]||"").toLowerCase();
+            if (!sortable || sortable == "true") return final;
+            return {
+                order: sortable == "asc" ? ESort.Ascending : ESort.Descending,
+                field: value.name
+            }
+        }, { order: ESort.Descending, field: "" });
+
+        this.sortBy = result;
+    }
+
     sortBy:IInputSortingBaseUnit = {order:ESort.Descending, field:""};
     @Watch('sortBy', {immediate: true})
     sortThisField(value:IInputSortingBaseUnit){
@@ -154,6 +175,7 @@ export class Table extends Vue {
         this.fetchGetResult();
 
     }
+
     @Watch('data', {immediate: true})
     private onDataChanged(value: IGetResult) {
         if (!value) return;
@@ -324,7 +346,7 @@ export class Table extends Vue {
 
     get searchAbleFields(){
         //console.log("parsedInterface", this.parsedInterface);
-        return this.parsedInterface.filter(x=>x.attrs && x.attrs.uiSearchAble==="true" && x.type=="string").map(x=>{return {value:x.name, text:x.attrs.uiLabel || x.name}});
+        return this.parsedInterface.filter(x=>x.attrs && x.attrs.uiSearchable==="true" && x.type=="string").map(x=>{return {value:x.name, text:x.attrs.uiLabel || x.name}});
     }
     mounted(){
         //console.log("searchable", this.searchAbleFields);

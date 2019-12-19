@@ -1,9 +1,7 @@
 <template>
     <th v-if="typeof meta.type === 'string' && (meta.attrs||{}).uiHidden !== 'true'" @click="sortThisField(meta)" :class="getClass">
         {{ showLabel(meta) }}
-        <template v-if="sortable">
-            &#8597;
-        </template>
+        <i v-if="sortable" :class="getSortClass" />
     </th>
     <fragment v-else>
         <iv-inner-table-header v-model="sortBy" :key="key" v-for="(inf, key) in meta.type.result" :meta="inf" :keyUiLabel="keyUiLabel" />
@@ -38,23 +36,32 @@ export class TableHeader extends Vue {
     sortBy:IInputSortingBaseUnit;
     sortable=false;
     created(){
-        this.sortable = this.meta.attrs && this.meta.attrs.uiSortAble==="true" ;
+        this.sortable = this.meta.attrs && this.meta.attrs.uiSortable!=null ;
     }
-   get getClass(){
-       let className = this.sortBy.field == this.meta.name ? (this.sortBy.order == ESort.Ascending ? "headerSortUp" : "headerSortDown") : "";
-       //console.log("className", className);
-       return `${className} ${this.sortable ? "sortable" : ""}`;
-   }
-    sortThisField(meta){
-        if(!this.sortable)return;
-        //console.log("sortBy", this.sortBy);
-        let order=ESort.Ascending;
-        if(meta.name==this.sortBy.field){
-            order = this.sortBy.order == ESort.Ascending ? ESort.Descending : ESort.Ascending;
+//    get getClass(){
+//        let className = this.sortBy.field == this.meta.name ? (this.sortBy.order == ESort.Ascending ? "headerSortUp" : "headerSortDown") : "";
+//        return `${className} ${this.sortable ? "sortable" : ""}`;
+//    }
+    get getClass() {
+        return this.sortable ? "sortable" : "";
+    }
+    get getSortClass() {
+        let classes = ["fa", "fa-sort", "icon-sortable"];
+        if (this.sortBy.field == this.meta.name) {
+            classes.push("sorted");
+            if (this.sortBy.order == ESort.Ascending) classes.push("fa-sort-asc");
+            else classes.push("fa-sort-desc");
         }
-        let input = {order, field : meta.name};
-        //console.log("emit", input);
-        this.$emit("input", input);
+        return classes.join(" ");
+    }
+    sortThisField(meta){
+        if (!this.sortable) return;
+        let field = meta.name;
+        let order = field == this.sortBy.field ? this.sortBy.order : null;
+        order = order == ESort.Ascending ? ESort.Descending :
+                order == ESort.Descending ? null : ESort.Ascending;
+        let result = order == null ? {} : { field, order };
+        this.$emit("input", result);
     }
 
     private showLabel(inf: IMetaResult): string {
@@ -70,32 +77,19 @@ export default TableHeader;
 table td,
 table th {
   border: 1px solid silver;
+  white-space: nowrap;
 }
 
-.headerSortDown:after,
-.headerSortUp:after {
-  content: ' ';
-  position: relative;
-  left: 2px;
-  border: 8px solid transparent;
-}
-
-.headerSortDown:after {
-  top: 10px;
-  border-top-color: silver;
-}
-
-.headerSortUp:after {
-  bottom: 15px;
-  border-bottom-color: silver;
-}
-
-.headerSortDown,
-.headerSortUp {
-  padding-right: 10px;
-}
-.sortable{
+.sortable {
     cursor: pointer;
 }
 
+.icon-sortable {
+    margin-left: 2px;
+    color: #BBB;
+
+    &.sorted {
+        color: black;
+    }
+}
 </style>
