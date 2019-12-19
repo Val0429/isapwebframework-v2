@@ -149,10 +149,10 @@ export class Table extends Vue {
     @Watch('sortBy', {immediate: true})
     sortThisField(value:IInputSortingBaseUnit){
         //console.log("value", value);
-        this.sortBy = value;        
+        this.sortBy = value;
         //console.log("sortBy", this.sortBy);
         this.fetchGetResult();
-        
+
     }
     @Watch('data', {immediate: true})
     private onDataChanged(value: IGetResult) {
@@ -185,12 +185,12 @@ export class Table extends Vue {
         if (!Array.isArray(value)) value = [value];
         for (let o of value) this.pSelected.push(o);
     }
-    
+
     /// params watcher
     @Watch('params', {immediate: true})
     private async onParamsChanged(value: any, oldValue: any) {
         if (value) {
-            /// params change will refresh data from server            
+            /// params change will refresh data from server
             this.fetchGetResult();
         }
     }
@@ -270,7 +270,7 @@ export class Table extends Vue {
             // index,
             // key: inf.name,
             // value: item[inf.name],
-            
+
             ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
         }
     }
@@ -321,10 +321,10 @@ export class Table extends Vue {
     }
     selectedField:string="";
     searchText:string="";
-    
+
     get searchAbleFields(){
         //console.log("parsedInterface", this.parsedInterface);
-        return this.parsedInterface.filter(x=>x.attrs.uiSearchAble==="true" && x.type=="string").map(x=>{return {value:x.name, text:x.attrs.uiLabel || x.name}});
+        return this.parsedInterface.filter(x=>x.attrs && x.attrs.uiSearchAble==="true" && x.type=="string").map(x=>{return {value:x.name, text:x.attrs.uiLabel || x.name}});
     }
     mounted(){
         //console.log("searchable", this.searchAbleFields);

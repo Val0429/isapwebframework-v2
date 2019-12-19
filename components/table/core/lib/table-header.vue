@@ -1,6 +1,6 @@
 <template>
     <th v-if="typeof meta.type === 'string' && (meta.attrs||{}).uiHidden !== 'true'" @click="sortThisField(meta)" :class="getClass">
-        {{ showLabel(meta) }} 
+        {{ showLabel(meta) }}
         <template v-if="sortable">
             &#8597;
         </template>
@@ -31,17 +31,17 @@ export class TableHeader extends Vue {
         required: true
     })
     meta: IMetaResult;
-    
-    @Model('input', {        
+
+    @Model('input', {
         required: true
-    })    
+    })
     sortBy:IInputSortingBaseUnit;
     sortable=false;
     created(){
-        this.sortable = this.meta.attrs.uiSortAble==="true" ;
+        this.sortable = this.meta.attrs && this.meta.attrs.uiSortAble==="true" ;
     }
-   get getClass(){       
-       let className = this.sortBy.field == this.meta.name ? (this.sortBy.order == ESort.Ascending ? "headerSortUp" : "headerSortDown") : "";       
+   get getClass(){
+       let className = this.sortBy.field == this.meta.name ? (this.sortBy.order == ESort.Ascending ? "headerSortUp" : "headerSortDown") : "";
        //console.log("className", className);
        return `${className} ${this.sortable ? "sortable" : ""}`;
    }
@@ -49,19 +49,19 @@ export class TableHeader extends Vue {
         if(!this.sortable)return;
         //console.log("sortBy", this.sortBy);
         let order=ESort.Ascending;
-        if(meta.name==this.sortBy.field){            
+        if(meta.name==this.sortBy.field){
             order = this.sortBy.order == ESort.Ascending ? ESort.Descending : ESort.Ascending;
         }
-        let input = {order, field : meta.name};  
+        let input = {order, field : meta.name};
         //console.log("emit", input);
         this.$emit("input", input);
     }
-    
+
     private showLabel(inf: IMetaResult): string {
         let name = (inf.attrs || {})[this.keyUiLabel] || inf.name;
         return name;
     }
-    
+
 }
 Vue.component('iv-inner-table-header', TableHeader);
 export default TableHeader;
@@ -92,10 +92,10 @@ table th {
 
 .headerSortDown,
 .headerSortUp {
-  padding-right: 10px;  
+  padding-right: 10px;
 }
 .sortable{
-    cursor: pointer;    
+    cursor: pointer;
 }
 
 </style>
