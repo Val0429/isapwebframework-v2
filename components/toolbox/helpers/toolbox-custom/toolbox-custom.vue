@@ -8,6 +8,7 @@
         :variant="variant"
         :size="size"
         :disabled="disabled"
+        :active="active"
         @click="click"
     >
 
