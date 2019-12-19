@@ -27,7 +27,9 @@ declare module 'vue/types/vue' {
 }
 
 interface ILogin {
-    username: string;
+    username?: string;
+    email?: string;
+    account?: string;
     password: string;
 }
 
