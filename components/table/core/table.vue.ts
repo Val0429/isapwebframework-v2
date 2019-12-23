@@ -161,12 +161,12 @@ export class Table extends Vue {
                 order: sortable == "asc" ? ESort.Ascending : ESort.Descending,
                 field: value.name
             }
-        }, { order: ESort.Descending, field: "" });
+        }, {});
 
         this.sortBy = result;
     }
 
-    sortBy:IInputSortingBaseUnit = {order:ESort.Descending, field:""};
+    sortBy: IInputSortingBaseUnit = {};
     @Watch('sortBy', {immediate: true})
     sortThisField(value:IInputSortingBaseUnit){
         //console.log("value", value);
