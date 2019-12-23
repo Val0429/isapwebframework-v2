@@ -345,11 +345,28 @@ export class Table extends Vue {
     searchText:string="";
 
     get searchAbleFields(){
-        //console.log("parsedInterface", this.parsedInterface);
-        return this.parsedInterface.filter(x=>x.attrs && x.attrs.uiSearchable==="true" && x.type=="string").map(x=>{return {value:x.name, text:x.attrs.uiLabel || x.name}});
+        const converter = (final: any[], value: IMetaResult) => {
+            let attrs = value.attrs;
+            if (attrs && attrs.uiSearchable=="true" && value.type == "string") {
+                final.push({
+                    value: value.name,
+                    text: attrs.uiLabel || value.name
+                });
+            } else if (value.type instanceof MetaParser) {
+                let result = value.type.result.reduce(converter, []);
+                for (let o of result) {
+                    final.push({
+                        ...o,
+                        value: `${value.name}.${o.value}`
+                    });
+                }
+            }
+            return final;
+        }
+
+        return this.parsedInterface.reduce(converter, []);
     }
     mounted(){
-        //console.log("searchable", this.searchAbleFields);
         if(this.searchAbleFields.length>0){
             this.selectedField = this.searchAbleFields[0].value;
         }
