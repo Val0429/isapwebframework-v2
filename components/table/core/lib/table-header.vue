@@ -1,10 +1,10 @@
 <template>
-    <th v-if="typeof meta.type === 'string' && (meta.attrs||{}).uiHidden !== 'true'" @click="sortThisField(meta)" :class="getClass">
+    <th v-if="typeof meta.type === 'string' && (meta.attrs||{}).uiHidden !== 'true'" @click="doSortField(meta)" :class="getClass">
         {{ showLabel(meta) }}
         <i v-if="sortable" :class="getSortClass" />
     </th>
     <fragment v-else>
-        <iv-inner-table-header v-model="sortBy" :key="key" v-for="(inf, key) in meta.type.result" :meta="inf" :keyUiLabel="keyUiLabel" />
+        <iv-inner-table-header :sortBy="sortBy" :prefix="getPrefix(meta)" @input="doByPass($event)" :key="key" v-for="(inf, key) in meta.type.result" :meta="inf" :keyUiLabel="keyUiLabel" />
     </fragment>
 </template>
 
@@ -15,7 +15,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, IMetaResult, Prop, Component, IInputSortingBaseUnit, Model, ESort } from "@/../core";
+import { Vue, IMetaResult, Prop, Component, IInputSortingBaseUnit, Model, ESort, Emit } from "@/../core";
 @Component
 export class TableHeader extends Vue {
     @Prop({
@@ -30,38 +30,48 @@ export class TableHeader extends Vue {
     })
     meta: IMetaResult;
 
+    @Prop({
+        type: String,
+        required: false
+    })
+    prefix: string;
+
     @Model('input', {
         required: true
     })
-    sortBy:IInputSortingBaseUnit;
-    sortable=false;
-    created(){
-        this.sortable = this.meta.attrs && this.meta.attrs.uiSortable!=null ;
+    sortBy: IInputSortingBaseUnit;
+    sortable: boolean = false;
+    private created() {
+        this.sortable = this.meta.attrs && this.meta.attrs.uiSortable!=null;
     }
-//    get getClass(){
-//        let className = this.sortBy.field == this.meta.name ? (this.sortBy.order == ESort.Ascending ? "headerSortUp" : "headerSortDown") : "";
-//        return `${className} ${this.sortable ? "sortable" : ""}`;
-//    }
-    get getClass() {
+    private get getClass() {
         return this.sortable ? "sortable" : "";
     }
-    get getSortClass() {
+    private get getSortClass() {
         let classes = ["fa", "fa-sort", "icon-sortable"];
-        if (this.sortBy.field == this.meta.name) {
+        if (this.sortBy.field == this.getPrefix(this.meta)) {
             classes.push("sorted");
             if (this.sortBy.order == ESort.Ascending) classes.push("fa-sort-asc");
             else classes.push("fa-sort-desc");
         }
         return classes.join(" ");
     }
-    sortThisField(meta){
+    private getPrefix(meta) {
+        return `${this.prefix ? this.prefix+'.' : ''}${meta.name}`;
+    }
+
+    private doSortField(meta) {
         if (!this.sortable) return;
-        let field = meta.name;
+        let field = this.getPrefix(meta);
         let order = field == this.sortBy.field ? this.sortBy.order : null;
         order = order == ESort.Ascending ? ESort.Descending :
                 order == ESort.Descending ? null : ESort.Ascending;
         let result = order == null ? {} : { field, order };
-        this.$emit("input", result);
+        return this.$emit('input', result);
+    }
+    @Emit('input')
+    private doByPass(event) {
+        return event;
     }
 
     private showLabel(inf: IMetaResult): string {

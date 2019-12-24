@@ -22,9 +22,9 @@ export enum ESort {
     Ascending,
     Descending
 }
-export interface IInputSortingBaseUnit{
-    field: string;
-    order: ESort;
+export interface IInputSortingBaseUnit {
+    field?: string;
+    order?: ESort;
 }
 export interface IEnumMetaResult {
     id: string | number;
