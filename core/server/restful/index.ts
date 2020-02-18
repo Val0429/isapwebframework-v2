@@ -338,6 +338,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
             return Object.keys(data).reduce<string[]>((final, key) => {
                 let value = data[key];
                 if (!(value instanceof Object)) {
+                    value = encodeURIComponent(value);
                     if (isArray) final.push(prevKey ? `${prevKey}=${value}` : `${key}=${value}`);
                     else final.push(prevKey ? `${prevKey}.${key}=${value}` : `${key}=${value}`);
                 }
