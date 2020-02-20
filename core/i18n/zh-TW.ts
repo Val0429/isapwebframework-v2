@@ -47,6 +47,7 @@ export default class LangObject implements IBaseLang {
     mb_ShowCurrentEntries = '顯示第 {curStart} 至 {curEnd} 筆，共 {total} 筆';
     mb_ShowEntries = '顯示 {0} 筆資料';
     mb_PleaseSelect = '請選擇';
+    mb_PleaseSelects = '可多筆選擇';
     mb_ConfirmDelete = '是否確定刪除?';
 
     mb_0 = '請求失敗';
@@ -114,5 +115,5 @@ export default class LangObject implements IBaseLang {
 
     /// theme
     mb_iSAP_Theme_White = '旭人白';
-    mb_iSAP_Theme_Blue = '旭人藍';    
+    mb_iSAP_Theme_Blue = '旭人藍';
 }

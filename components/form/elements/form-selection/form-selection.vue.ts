@@ -39,9 +39,9 @@ export class FormSelection extends Vue {
     /// others
     @Prop({ type: Object as () => IFormSelection, required: false, default: () => ({}) })
     data!: IFormSelection;
-    
+
     /// helper
-    @Watch('value', {immediate: true})
+    @Watch('value', { immediate: true })
     private onValueChanged(data) {
         /// if not multiple, make array also possible value
         if (!this.multiple && Array.isArray(data)) data = data[0];
@@ -51,12 +51,12 @@ export class FormSelection extends Vue {
     }
 
     /// options watcher
-    @Watch('options', {immediate: false})
+    @Watch('options', { immediate: false })
     private async onOptionsChanged(data: FormSelectionOption[], old: FormSelectionOption[]) {
         let me = $(`#${this.id}`) as any;
         /// make sure the two object is really changed
         if (JSON.stringify(old) === JSON.stringify(data)) return;
-        setTimeout( () => {
+        setTimeout(() => {
             me.select2().off('change', this.doOnChange);
             me.select2("destroy");
             this.doMount(data);
@@ -73,14 +73,14 @@ export class FormSelection extends Vue {
         let me = $(`#${this.id}`) as any;
         me.select2({
             theme: "bootstrap",
-            placeholder: this.placeholder || this._("mb_PleaseSelect"),
+            placeholder: this.placeholder || (this.multiple ? this._("mb_PleaseSelects") : this._("mb_PleaseSelect")),
             allowClear: this.multiple ? false : true,
             dropdownParent: !this.modalParent ? null : $(this.modalParent.$el)
         })
-        .on('change', this.doOnChange)
-        /// prevent dialog open when clear
-        .on('select2:unselecting', () => me.data('unselecting', true))
-        .on('select2:opening', (e) => { if (me.data('unselecting')) { me.removeData('unselecting'); e.preventDefault(); } });
+            .on('change', this.doOnChange)
+            /// prevent dialog open when clear
+            .on('select2:unselecting', () => me.data('unselecting', true))
+            .on('select2:opening', (e) => { if (me.data('unselecting')) { me.removeData('unselecting'); e.preventDefault(); } });
     }
     private doOnChange() {
         let me = $(`#${this.id}`) as any;
@@ -96,14 +96,14 @@ export class FormSelection extends Vue {
         /// handle jquery overwritten event seperately
         if (!Array.isArray(val)) val = mapBackId(val);
         else {
-            for (let i=0; i<val.length; ++i) {
+            for (let i = 0; i < val.length; ++i) {
                 val[i] = mapBackId(val[i]);
             }
         }
 
         /// make always-array happen
         if (this.data["always-array"] && !Array.isArray(val)) val = [val];
-        
+
         this.$emit('input', val);
     }
     private mounted() {
