@@ -73,7 +73,7 @@ export class FormSelection extends Vue {
         let me = $(`#${this.id}`) as any;
         me.select2({
             theme: "bootstrap",
-            placeholder: this.placeholder || (this.multiple ? this._("mb_PleaseSelects") : this._("mb_PleaseSelect")),
+            placeholder: this.placeholder || this._("mb_PleaseSelect"),
             allowClear: this.multiple ? false : true,
             dropdownParent: !this.modalParent ? null : $(this.modalParent.$el)
         })

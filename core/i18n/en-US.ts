@@ -46,7 +46,6 @@ export default class LangObject {
     mb_ShowEntries = 'Show {0} Entries';
     mb_ShowCurrentEntries = 'Showing {curStart} to {curEnd} of {total} entries';
     mb_PleaseSelect = 'Please Select';
-    mb_PleaseSelects = 'Please Selects';
     mb_ConfirmDelete = 'Are you sure to delete?';
 
     mb_0 = 'Request Failed';

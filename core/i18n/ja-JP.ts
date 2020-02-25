@@ -47,7 +47,6 @@ export default class LangObject implements IBaseLang {
     mb_ShowCurrentEntries = '{total} 件中，{curStart} 件 - {curEnd} 件';
     mb_ShowEntries = '{0} ペンデータを表示';
     mb_PleaseSelect = '選択してください';
-    mb_PleaseSelects = '複数の選択肢';
     mb_ConfirmDelete = '本当に削除しますか？';
 
     mb_0 = 'リクエストが失敗しました';
