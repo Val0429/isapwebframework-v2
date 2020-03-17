@@ -25,6 +25,9 @@ yarn-error.log*
 # package-lock.json
 package-lock.json
 
+# VS code prettier
+.prettierrc
+
 # package-lock.json
 package-lock.json
 containers/CoreUI/package-lock.json
