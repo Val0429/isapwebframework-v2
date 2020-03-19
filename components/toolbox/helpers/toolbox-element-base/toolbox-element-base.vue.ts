@@ -4,14 +4,14 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Model, Emit, Watch } from "vue-property-decorator";
+import { Vue, Component, Prop, Model, Emit, Watch } from 'vue-property-decorator';
 import $ from 'jquery';
 
 @Component
 export class ToolboxElementBase extends Vue {
     @Prop({
         type: String,
-        required: true,
+        required: false,
     })
     title!: string;
 
@@ -24,39 +24,42 @@ export class ToolboxElementBase extends Vue {
     @Prop({
         type: String,
         required: false,
-        default: 'iv-toolbox'
+        default: 'iv-toolbox',
     })
     variant!: string;
 
     @Prop({
         type: String,
         required: false,
-        default: 'md'
+        default: 'md',
     })
     size!: string;
 
     @Prop({
         type: Boolean,
         required: false,
-        default: false
+        default: false,
     })
     disabled!: boolean;
 
     @Prop({
         type: Boolean,
-        required: false
+        required: false,
     })
     active: boolean;
 
     @Prop({
         type: Boolean,
         required: false,
-        default: true
+        default: true,
     })
     visible!: boolean;
 
     @Emit()
-    click(event) { event.stopPropagation(); return; }
+    click(event) {
+        event.stopPropagation();
+        return;
+    }
 
     constructor() {
         super();
