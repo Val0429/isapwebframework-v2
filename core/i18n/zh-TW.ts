@@ -114,5 +114,5 @@ export default class LangObject implements IBaseLang {
 
     /// theme
     mb_iSAP_Theme_White = '旭人白';
-    mb_iSAP_Theme_Blue = '旭人藍';    
+    mb_iSAP_Theme_Blue = '旭人藍';
 }
