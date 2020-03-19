@@ -182,6 +182,15 @@ export class Table extends Vue {
         this.result = value;
     }
 
+    @Watch('result', {immediate: false})
+    private onResultChanged(value: IGetResult) {
+        setTimeout( () => {
+            if (!this.isElementInViewport(this.$el)) {
+                this.$el.scrollIntoView(true);
+            }
+        }, 0);
+    }
+
     /// page watcher
     @Watch('currentPage')
     private async onCurrentPageChanged(value: number) {
@@ -329,6 +338,11 @@ export class Table extends Vue {
             if (value !== current) break;
         }
         return total;
+    }
+
+    private isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (rect.bottom >= 0 && rect.right >= 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight) && rect.left <= (window.innerWidth || document.documentElement.clientWidth));
     }
 
     /// interface parser
