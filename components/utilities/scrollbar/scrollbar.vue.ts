@@ -6,6 +6,7 @@
 
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import { elementResizeEvents } from './helpers/element-resize-event';
 
 @Component({
     components: { VuePerfectScrollbar }
@@ -19,6 +20,30 @@ export class Scrollbar extends Vue {
             wheelPropagation: false,
             interceptRailY: styles => ({ ...styles, height: 0 })
         }
+    }
+
+    mounted() {
+        let container: any = this.$refs['container'];
+        let scrollbar: any = this.$refs["scrollbar"];
+        let refnum = null;
+
+        elementResizeEvents(container, async () => {
+            let scrollHeight, containerHeight;
+            let count = 0;
+            /// Val: update once for enlarge case.
+            scrollbar.update();
+            while (
+                scrollHeight = scrollbar.$el.scrollHeight,
+                containerHeight = container.clientHeight,
+                scrollHeight !== containerHeight
+            ) {
+                scrollbar.update();
+                await new Promise((resolve) => setTimeout(resolve, 100));
+                if (++count > 50) {
+                    console.warn("<iv-scrollbar> warning: updating too frequently. please call Val to fix this issue.");
+                }
+            }
+        });
     }
 }
 export default Scrollbar;

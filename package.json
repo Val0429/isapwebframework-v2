@@ -30,6 +30,7 @@
     "vue-class-component": "7.0.2",
     "vue-color": "^2.7.0",
     "vue-fragment": "1.5.1",
+    "vue-perfect-scrollbar": "0.1.0",
     "vue-property-decorator": "8.1.0",
     "vue-router": "3.0.3",
     "vue-rx": "6.2.0",
