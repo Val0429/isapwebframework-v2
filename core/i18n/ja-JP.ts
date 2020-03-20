@@ -112,6 +112,10 @@ export default class LangObject implements IBaseLang {
     mb_DateTime_UpperAM = '朝';
     mb_DateTime_UpperPM = '午後';
 
+    /// form-datetime
+    mb_Date_Not_Selected = '日付を選択する';
+    mb_Time_Not_Selected = '時間を選択する';
+
     /// theme
     mb_iSAP_Theme_White = '旭人白';
     mb_iSAP_Theme_Blue = '旭人藍';
