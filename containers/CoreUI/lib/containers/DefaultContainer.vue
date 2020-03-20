@@ -59,7 +59,7 @@
       </AppSidebar>
       <main class="main">
         <Breadcrumb class="bread-crumb" :list="list"/>
-          <iv-scrollbar class="scroll-area" :settings="psSettings">
+          <iv-scrollbar ref="scrollbar" class="scroll-area" :settings="psSettings">
             <div class="container-fluid">
               <router-view></router-view>
             </div>
@@ -134,6 +134,13 @@ export default {
         }
     }
   },
+  watch: {
+    $route(to, from) {
+      let scrollbar = this.$refs['scrollbar'];
+      if (!scrollbar) return;
+      scrollbar.top();
+    }
+  }
 }
 </script>
 
