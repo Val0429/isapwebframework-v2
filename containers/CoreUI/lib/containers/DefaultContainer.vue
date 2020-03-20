@@ -1,6 +1,5 @@
 <template>
   <div class="app" id="app">
-  <VuePerfectScrollbar class="scroll-area" :settings="psSettings">
 
     <AppHeader fixed>
       <SidebarToggler class="d-lg-none" display="md" mobile />
@@ -60,9 +59,11 @@
       </AppSidebar>
       <main class="main">
         <Breadcrumb class="bread-crumb" :list="list"/>
-          <div class="container-fluid">
-            <router-view></router-view>
-          </div>
+          <iv-scrollbar ref="scrollbar" class="scroll-area" :settings="psSettings">
+            <div class="container-fluid">
+              <router-view></router-view>
+            </div>
+          </iv-scrollbar>
       </main>
       <AppAside fixed>
         <!--aside-->
@@ -81,7 +82,6 @@
       </div> -->
     </TheFooter>
 
-  </VuePerfectScrollbar>
   </div>
 </template>
 
@@ -134,6 +134,13 @@ export default {
         }
     }
   },
+  watch: {
+    $route(to, from) {
+      let scrollbar = this.$refs['scrollbar'];
+      if (!scrollbar) return;
+      scrollbar.top();
+    }
+  }
 }
 </script>
 
@@ -149,10 +156,10 @@ export default {
 }
 .scroll-area {
   position: relative;
+  height: calc(100vh - 35px - 45px);
 }
 .container-fluid {
   box-sizing: border-box;
-  // min-height: calc(100vh - 165px);
   margin-top: 4rem;
   margin-bottom: 50px;
 }
