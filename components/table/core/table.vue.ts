@@ -182,15 +182,6 @@ export class Table extends Vue {
         this.result = value;
     }
 
-    @Watch('result', {immediate: false})
-    private onResultChanged(value: IGetResult) {
-        setTimeout( () => {
-            if (!this.isElementInViewport(this.$el)) {
-                this.$el.scrollIntoView(true);
-            }
-        }, 0);
-    }
-
     /// page watcher
     @Watch('currentPage')
     private async onCurrentPageChanged(value: number) {

@@ -111,6 +111,10 @@ export default class LangObject {
     mb_DateTime_UpperAM = 'AM';
     mb_DateTime_UpperPM = 'PM';
 
+    /// form-datetime
+    mb_Date_Not_Selected = 'No date selected';
+    mb_Time_Not_Selected = 'No time selected';
+
     /// theme
     mb_iSAP_Theme_White = 'iSAP White';
     mb_iSAP_Theme_Blue = 'iSAP Blue';
