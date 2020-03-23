@@ -20,7 +20,17 @@
                     v-bind:id="'input-' + _uid"
                     v-bind:value="inputDate"
                     v-on:input="dateChanged($event)"
-                    :placeholder="_('mb_Date_Not_Selected')"
+                    :placeholder="$attrs.placeholder || _('mb_Date_Not_Selected')"
+                    
+                    :no-close-on-select="true"
+                    :label-reset-button="_('wb_Reset')"
+                    :label-close-button="_('wb_Close')"
+                    :label-no-date-selected="_('mb_Date_Not_Selected')"
+                    :label-no-time-selected="_('mb_Time_Not_Selected')"
+                    label-help=""
+
+                    reset-button
+                    close-button
                     />
                 <b-form-invalid-feedback v-if="(type ==='date' || type === 'datetime') && this.invalid">
                     {{ this.invalid }}
@@ -42,7 +52,17 @@
                     v-bind:id="'input-' + _uid + '-2'"
                     v-bind:value="inputTime"
                     v-on:input="timeChanged($event)"
-                    :placeholder="_('mb_Time_Not_Selected')"
+                    :placeholder="$attrs.placeholder || _('mb_Time_Not_Selected')"
+
+                    :no-close-on-select="true"
+                    :label-reset-button="_('wb_Reset')"
+                    :label-close-button="_('wb_Close')"
+                    :label-no-date-selected="_('mb_Date_Not_Selected')"
+                    :label-no-time-selected="_('mb_Time_Not_Selected')"
+                    label-help=""
+
+                    reset-button
+                    close-button
                     />
                 <b-form-invalid-feedback v-if="(type ==='time') && this.invalid">
                     {{ this.invalid }}
