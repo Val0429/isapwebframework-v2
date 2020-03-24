@@ -1,8 +1,16 @@
 <template>
 
-    <span class="container-box" :id="'container-'+_uid">
+    <span
+        class="container-box"
+        :id="'container-'+_uid"
+    >
         <template v-if="$scopedSlots.layout">
-            <slot name="layout" :title="title" :icon="icon" :$listeners="{ click }" />
+            <slot
+                name="layout"
+                :title="title"
+                :icon="icon"
+                :$listeners="{ click }"
+            />
         </template>
         <template v-else>
             <b-button
@@ -15,9 +23,12 @@
                 :size="size"
                 :disabled="disabled"
                 @click="click"
-                >{{ !icon ? title : '' }}</b-button>
+            >{{ !icon ? title : '' }}</b-button>
 
-            <b-tooltip :target="'target-'+_uid" :title="title" />
+            <b-tooltip
+                :target="'target-'+_uid"
+                :title="title"
+            />
 
             <b-popover
                 v-if="$slots.default"
@@ -25,8 +36,7 @@
                 triggers="click"
                 :show.sync="show"
                 placement="bottom"
-                :container="'container-'+_uid"
-                >
+            >
 
                 <b-list-group>
                     <iv-form-merge-bindings>
@@ -34,7 +44,12 @@
                             <slot />
                         </template>
                         <template #layout="{ title, icon, $listeners }">
-                            <b-list-group-item class="d-flex align-items-center" v-on="$listeners" v-show="visible" :disabled="disabled">
+                            <b-list-group-item
+                                class="d-flex align-items-center"
+                                v-on="$listeners"
+                                v-show="visible"
+                                :disabled="disabled"
+                            >
                                 <i :class="classIcon(icon)" />
                                 <span class="item-title">{{ title }}</span>
                             </b-list-group-item>
@@ -64,37 +79,40 @@
 }
 
 .container-box {
-    margin-top: -0.05rem;
-
-    /deep/ .popover-body {
-        padding: 0;
-    }
+    // margin-top: -0.05rem;
 
     /deep/ .list-group-item {
         padding-top: 6px;
         padding-bottom: 6px;
     }
 
-    .list-group {
-        padding-top: 0.45rem;
-        padding-bottom: 0.45rem;
-    }
     .list-group-item {
         cursor: pointer;
         border-radius: 0 !important;
         border: 0;
-        padding: 0.3rem 0.8rem !important;
+        // padding: 0.3rem 0 !important;
     }
     .list-group-item:hover {
         background: var(--light);
     }
     .item-title {
-        margin-left: 1rem; white-space: nowrap; min-width: 5.5rem;
+        margin-left: 1rem;
+        white-space: nowrap;
+        min-width: 5.5rem;
     }
 
     .btn {
         padding: 0.15rem 0.38rem;
     }
+}
+
+/deep/ .popover-body {
+    padding: 0 !important;
+}
+
+.list-group {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
 }
 </style>
 

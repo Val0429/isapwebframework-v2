@@ -30,77 +30,80 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <table
-                    class="table table-bordered table-hover datatable dataTable no-footer"
-                    id="DataTables_Table_0"
-                    role="grid"
-                    aria-describedby="DataTables_Table_0_info"
-                    style="border-collapse: collapse !important"
-                >
-                    <thead>
-                        <tr role="row">
-                            <th
-                                v-if="selectable"
-                                role="row"
-                                class="selection-cell"
-                            />
-                            <iv-inner-table-header
-                                v-model="sortBy"
-                                :key="key"
-                                v-for="(inf, key) in parsedInterface"
-                                :meta="inf"
-                                :keyUiLabel="keyUiLabel"
-                            />
-                            <!-- <th class="actions-cell" /> -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-bind:key="index"
-                            v-for="(item, index) in result.results"
-                            role="row"
-                            :class="{ selected: getSelectedIndex(item) >= 0 }"
-                            @click.exact="selectRow(item)"
-                            @click.ctrl="selectRow(item, true)"
-                        >
-                            <td
-                                v-if="selectable"
-                                class="selection-cell"
-                                @click.stop="selectRow(item, true)"
-                            >
-                                <b-form-checkbox
-                                    v-if="pSelected.length > 0"
-                                    :checked="getSelectedIndex(item) >= 0"
-                                    style="padding-left: 0; pointer-events: none;"
+                <iv-scrollbar>
+
+                    <table
+                        class="table table-bordered table-hover datatable dataTable no-footer"
+                        id="DataTables_Table_0"
+                        role="grid"
+                        aria-describedby="DataTables_Table_0_info"
+                        style="border-collapse: collapse !important"
+                    >
+                        <thead>
+                            <tr role="row">
+                                <th
+                                    v-if="selectable"
+                                    role="row"
+                                    class="selection-cell"
                                 />
-                            </td>
-                            <iv-inner-table-body
-                                :key="key"
-                                v-for="(inf, key) in parsedInterface"
-                                :meta="inf"
-                                :indexOfRows="index"
-                                :result="result"
+                                <iv-inner-table-header
+                                    v-model="sortBy"
+                                    :key="key"
+                                    v-for="(inf, key) in parsedInterface"
+                                    :meta="inf"
+                                    :keyUiLabel="keyUiLabel"
+                                />
+                                <!-- <th class="actions-cell" /> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-bind:key="index"
+                                v-for="(item, index) in result.results"
+                                role="row"
+                                :class="{ selected: getSelectedIndex(item) >= 0 }"
+                                @click.exact="selectRow(item)"
+                                @click.ctrl="selectRow(item, true)"
                             >
-                                <template v-for="(_, slot) of $slots">
-                                    <slot :name="slot" />
-                                </template>
-                                <template
-                                    v-for="(_, slot) of $scopedSlots"
-                                    v-slot:[slot]="scope"
+                                <td
+                                    v-if="selectable"
+                                    class="selection-cell"
+                                    @click.stop="selectRow(item, true)"
                                 >
-                                    <slot
-                                        :name="slot"
-                                        v-bind="scope"
+                                    <b-form-checkbox
+                                        v-if="pSelected.length > 0"
+                                        :checked="getSelectedIndex(item) >= 0"
+                                        style="padding-left: 0; pointer-events: none;"
                                     />
-                                </template>
-                            </iv-inner-table-body>
-                            <!-- Safari 會多出一格 -->
-                            <!-- <td class="actions-cell">
+                                </td>
+                                <iv-inner-table-body
+                                    :key="key"
+                                    v-for="(inf, key) in parsedInterface"
+                                    :meta="inf"
+                                    :indexOfRows="index"
+                                    :result="result"
+                                >
+                                    <template v-for="(_, slot) of $slots">
+                                        <slot :name="slot" />
+                                    </template>
+                                    <template
+                                        v-for="(_, slot) of $scopedSlots"
+                                        v-slot:[slot]="scope"
+                                    >
+                                        <slot
+                                            :name="slot"
+                                            v-bind="scope"
+                                        />
+                                    </template>
+                                </iv-inner-table-body>
+                                <!-- Safari 會多出一格 -->
+                                <!-- <td class="actions-cell">
                             <slot name="actions$" :$attrs="bindAttrs(item)" />
                         </td> -->
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                        </tbody>
+                    </table>
+                </iv-scrollbar>
             </div>
         </div>
 
