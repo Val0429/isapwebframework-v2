@@ -47,6 +47,7 @@
                             <b-list-group-item
                                 class="d-flex align-items-center"
                                 v-on="$listeners"
+                                @click="doHide"
                                 v-show="visible"
                                 :disabled="disabled"
                             >
