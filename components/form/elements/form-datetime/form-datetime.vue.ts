@@ -4,19 +4,19 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Prop, Model } from 'vue-property-decorator';
 
 export enum FormDatetimeType {
     Date = 'date',
     Datetime = 'datetime',
-    Time = 'time'
+    Time = 'time',
 }
 
 @Component
 export class FormDatetime extends Vue {
     @Prop({
         type: String,
-        required: false
+        required: false,
     })
     label!: string;
 
@@ -29,12 +29,14 @@ export class FormDatetime extends Vue {
     @Prop({
         type: String,
         required: false,
-        default: FormDatetimeType.Datetime
+        default: FormDatetimeType.Datetime,
     })
     type!: FormDatetimeType;
 
     @Prop({ type: String, required: false })
     invalid!: string;
+
+    newDate: Date | null = null;
 
     /// private helpers
     private get inputDate(): string {
@@ -55,6 +57,7 @@ export class FormDatetime extends Vue {
         newdate.setFullYear(current.getFullYear());
         newdate.setMonth(current.getMonth());
         newdate.setDate(current.getDate());
+        this.newDate = newdate;
         this.$emit('input', newdate);
     }
 
@@ -64,6 +67,7 @@ export class FormDatetime extends Vue {
         newdate.setHours(current.getHours());
         newdate.setMinutes(current.getMinutes());
         newdate.setSeconds(current.getSeconds());
+        this.newDate = newdate;
         this.$emit('input', newdate);
     }
 
