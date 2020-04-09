@@ -3,10 +3,10 @@
         v-bind="$attrs"
         :label="label"
         :value="value"
-        @input="$emit('input', $event)"
+        @input="inputDate"
         :type="type"
         :invalid="invalid"
-        />
+    />
 </template>
 
 <script lang="ts" src="./form-date.vue.ts" />

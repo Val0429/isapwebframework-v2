@@ -4,14 +4,14 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Prop, Model } from 'vue-property-decorator';
 import { FormDatetimeType } from './../form-datetime';
 
 @Component
 export class FormDate extends Vue {
     @Prop({
         type: String,
-        required: false
+        required: false,
     })
     label!: string;
 
@@ -24,11 +24,18 @@ export class FormDate extends Vue {
     @Prop({
         type: String,
         required: false,
-        default: FormDatetimeType.Date
+        default: FormDatetimeType.Date,
     })
     type!: FormDatetimeType;
 
     @Prop({ type: String, required: false })
     invalid!: string;
+
+    newDate: Date | null = null;
+
+    private inputDate(event: any) {
+        this.newDate = event;
+        this.$emit('input', event);
+    }
 }
 export default FormDate;
