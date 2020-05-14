@@ -5,11 +5,10 @@
  */
 
 /// install style
-import "./core/scss/style.scss";
+import './core/scss/style.scss';
 
 import Vue from 'vue';
 import router from '@/../core/router';
-
 
 /// components //////////////////////////////
 /// install `select2`
@@ -18,15 +17,14 @@ import 'select2/dist/css/select2.min.css';
 import 'select2-bootstrap-theme/dist/select2-bootstrap.min.css';
 
 /// install core components
-import "./components";
-import "@/components";
+import './components';
+import '@/components';
 /////////////////////////////////////////////
-
 
 /// plugins /////////////////////////////////
 /// install browser detect support
-import VuebrowserDetect from 'vue-browser-detect-plugin';
-Vue.use(VuebrowserDetect);
+// import VuebrowserDetect from 'vue-browser-detect-plugin';
+// Vue.use(VuebrowserDetect);
 
 /// install vuerx support
 import VueRx from 'vue-rx';
@@ -66,12 +64,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.min.css';
 Vue.use(BootstrapVue);
 /////////////////////////////////////////////
 
-
 /// install shells //////////////////////////
 /// install modal response
 import '@/../core/private/shells';
 /////////////////////////////////////////////
-
 
 import '@/main';
 /// make sure `views` are imported for route
@@ -81,8 +77,8 @@ import '@/views';
 import MainApp from '@/../core/private/main-app/index.vue';
 (async () => {
     new MainApp({
-        router: await router
+        router: await router,
     }).$mount('#app');
 })();
 
-import "@/scss/styles.scss";
+import '@/scss/styles.scss';
