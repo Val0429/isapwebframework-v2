@@ -20,8 +20,6 @@ export default class MainApp extends Vue {
         }, []);
     }
     private get browserReject(): boolean {
-        // let browser = (this as any).$browserDetect;
-        // if (browser.isIE) return true;
         return false;
     }
 }
