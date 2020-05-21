@@ -4,7 +4,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult, IInputSortingBaseUnit, ESort } from "@/../core";
+import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult, IInputSortingBaseUnit, ESort } from '@/../core';
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import lang from '@/../core/i18n';
 import { IServer } from 'components/interfaces';
@@ -14,22 +14,22 @@ import TableHeader from './lib/table-header.vue';
 import TableBody from './lib/table-body.vue';
 
 /// ui set
-const uiLabel = "uiLabel";
-const uiHidden = "uiHidden";
-const uiAttrs = "uiAttrs";
+const uiLabel = 'uiLabel';
+const uiHidden = 'uiHidden';
+const uiAttrs = 'uiAttrs';
 /// custom element type
-const uiType = "uiType";
+const uiType = 'uiType';
 /// rowspan: true | false
-const uiTableMergeRow = "uiTableMergeRow";
+const uiTableMergeRow = 'uiTableMergeRow';
 /// easier convert value
-const uiConverter = "uiConverter";
+const uiConverter = 'uiConverter';
 /// can sort
-const uiSortable = "uiSortable";
+const uiSortable = 'uiSortable';
 /// can search
-const uiSearchable = "uiSearchable";
+const uiSearchable = 'uiSearchable';
 
 enum EParsedType {
-    Enum = "enum"
+    Enum = 'enum',
 }
 interface IParsedType {
     type?: EParsedType;
@@ -39,9 +39,9 @@ interface IParsedType {
 
 /// definition of <slot /> $attrs
 interface ISlotOutputAttrs {
-    paging: IGetResult["paging"];
+    paging: IGetResult['paging'];
     /// all rows
-    rows: IGetResult["results"];
+    rows: IGetResult['results'];
     /// index of rows
     index: number;
     /// rows[index]
@@ -54,25 +54,25 @@ interface ISlotOutputAttrs {
 
 @Component({
     provide() {
-        return { root: this }
-    }
+        return { root: this };
+    },
 })
 export class Table extends Vue {
     /// direct props ////////////////////////////
     @Prop({
         type: Object as () => IServer,
-        required: false
+        required: false,
     })
     server!: IServer;
 
     @Prop({
-        required: false
+        required: false,
     })
     params!: any;
 
     @Prop({
         type: Object,
-        required: false
+        required: false,
     })
     data!: IGetResult;
 
@@ -96,7 +96,9 @@ export class Table extends Vue {
     hidePaging: boolean;
 
     @Emit('selected')
-    onSelected(rows: any | any[]) { return rows; }
+    onSelected(rows: any | any[]) {
+        return rows;
+    }
 
     public reload() {
         this.fetchGetResult();
@@ -106,12 +108,24 @@ export class Table extends Vue {
     private keyUiLabel: string = uiLabel;
     /// UI Helper
     private _currentPage: number = 1;
-    private get paging() { return this.result.paging || {} as any };
-    private get currentPage() { return Math.min(this.$data._currentPage, this.paging.totalPages || 1) }
-    private set currentPage(value) { this.$data._currentPage = value }
-    private get currentStart() { return (this.paging.page-1)*this.paging.pageSize+1 }
-    private get currentEnd() { return Math.min(this.currentStart + this.paging.pageSize - 1, this.total || 1) }
-    private get total() { return this.paging.total || 0 }
+    private get paging() {
+        return this.result.paging || ({} as any);
+    }
+    private get currentPage() {
+        return Math.min(this.$data._currentPage, this.paging.totalPages || 1);
+    }
+    private set currentPage(value) {
+        this.$data._currentPage = value;
+    }
+    private get currentStart() {
+        return (this.paging.page - 1) * this.paging.pageSize + 1;
+    }
+    private get currentEnd() {
+        return Math.min(this.currentStart + this.paging.pageSize - 1, this.total || 1);
+    }
+    private get total() {
+        return this.paging.total || 0;
+    }
 
     // /// fetched meta
     // private meta: IMetaResult[] = [];
@@ -120,13 +134,13 @@ export class Table extends Vue {
     //                     .sort( (a, b) => a.index - b.index );
     // }
     /// fetched result
-    result: IGetResult = { paging: {page:0, pageSize:0, total: 0, totalPages: 0}, results: [] };
+    result: IGetResult = { paging: { page: 0, pageSize: 0, total: 0, totalPages: 0 }, results: [] };
     private subscription: Subscription;
     private destroyed() {
         this.subscription && this.subscription.unsubscribe();
     }
     /// server watcher
-    @Watch('server', {immediate: true})
+    @Watch('server', { immediate: true })
     private async onServerChanged(value: IServer, oldValue: IServer) {
         if (value && value.path) {
             /// detect diff
@@ -135,48 +149,45 @@ export class Table extends Vue {
             /// reset selected, only if path changed
             if (this.pSelected.length > 0) {
                 this.pSelected = [];
-                this.$emit("selected", this.pSelected);
+                this.$emit('selected', this.pSelected);
             }
             /// rehook server deletion
             let { server, path } = this.server;
             server = server || this.$server;
             if (!server) return;
             this.subscription && this.subscription.unsubscribe();
-            this.subscription = server.listenD(path)
-                .subscribe( (objectId) => {
-                    let idx = this.pSelected.indexOf(objectId);
-                    if (idx >= 0) this.pSelected.splice(idx, 1);
-                });
+            this.subscription = server.listenD(path).subscribe((objectId) => {
+                let idx = this.pSelected.indexOf(objectId);
+                if (idx >= 0) this.pSelected.splice(idx, 1);
+            });
         }
     }
 
-    @Watch('interface', {immediate: true})
+    @Watch('interface', { immediate: true })
     private onInterfaceChanged(value: string) {
-        let result = this.parsedInterface.reduce<IInputSortingBaseUnit>( (final, value) => {
+        let result = this.parsedInterface.reduce<IInputSortingBaseUnit>((final, value) => {
             let attrs = value.attrs;
             if (!attrs) return final;
-            let sortable = (attrs[uiSortable]||"").toLowerCase();
-            if (!sortable || sortable == "true") return final;
+            let sortable = (attrs[uiSortable] || '').toLowerCase();
+            if (!sortable || sortable == 'true') return final;
             return {
-                order: sortable == "asc" ? ESort.Ascending : ESort.Descending,
-                field: value.name
-            }
+                order: sortable == 'asc' ? ESort.Ascending : ESort.Descending,
+                field: value.name,
+            };
         }, {});
 
         this.sortBy = result;
     }
 
     sortBy: IInputSortingBaseUnit = {};
-    @Watch('sortBy', {immediate: true})
-    sortThisField(value:IInputSortingBaseUnit){
-        //console.log("value", value);
+    @Watch('sortBy', { immediate: true })
+    sortThisField(value: IInputSortingBaseUnit) {
         this.sortBy = value;
-        //console.log("sortBy", this.sortBy);
         this.fetchGetResult();
-
+        this.$emit('tableSortBy', value);
     }
 
-    @Watch('data', {immediate: true})
+    @Watch('data', { immediate: true })
     private onDataChanged(value: IGetResult) {
         if (!value) return;
         this.result = value;
@@ -209,7 +220,7 @@ export class Table extends Vue {
     }
 
     /// params watcher
-    @Watch('params', {immediate: true})
+    @Watch('params', { immediate: true })
     private async onParamsChanged(value: any, oldValue: any) {
         if (value) {
             /// params change will refresh data from server
@@ -219,7 +230,7 @@ export class Table extends Vue {
     /// private methods
     private pSelected = [];
     private getSelectedIndex(row) {
-        return this.pSelected.findIndex( (data) => {
+        return this.pSelected.findIndex((data) => {
             if (data.objectId) return data.objectId === row.objectId;
             return JSON.stringify(data) === JSON.stringify(row);
         });
@@ -234,7 +245,6 @@ export class Table extends Vue {
                     break;
                 }
                 this.pSelected.push(row);
-
             } else {
                 while (this.pSelected.length > 0) this.pSelected.pop();
                 if (idx >= 0) {
@@ -242,18 +252,22 @@ export class Table extends Vue {
                 }
                 this.pSelected.push(row);
             }
-        } while(0);
+        } while (0);
 
-        this.onSelected(this.multiple ? this.pSelected :
-            this.pSelected.length > 0 ? this.pSelected[0] : null);
-    };
+        this.onSelected(this.multiple ? this.pSelected : this.pSelected.length > 0 ? this.pSelected[0] : null);
+    }
 
     private sjCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    private created() { this.sjCreated.next(true); }
+    private created() {
+        this.sjCreated.next(true);
+    }
     private fetching: boolean = false;
     private async fetchGetResult() {
         if (!this.server) return;
-        await this.sjCreated.pipe( filter(v=>v) ).pipe( first() ).toPromise();
+        await this.sjCreated
+            .pipe(filter((v) => v))
+            .pipe(first())
+            .toPromise();
         if (this.fetching) return;
         this.fetching = true;
 
@@ -261,46 +275,49 @@ export class Table extends Vue {
         let path = this.server.path;
         /// try connect
         try {
-            let result: IGetResult = await serverInstance.R(path, {
+            let result: IGetResult = (await serverInstance.R(path, {
                 paging: {
                     pageSize: this.innatePageSize,
                     page: this.currentPage,
                 },
-                sorting:this.sortBy,
-                filtering:{
-                    field:this.selectedField,
-                    value:this.searchText
+                sorting: this.sortBy,
+                filtering: {
+                    field: this.selectedField,
+                    value: this.searchText,
                 },
-                ...(this.params || {})
-            }) as any;
+                ...(this.params || {}),
+            })) as any;
             this.result = result;
-        } catch(e) { throw e }
-        finally { this.fetching = false; }
+        } catch (e) {
+            throw e;
+        } finally {
+            this.fetching = false;
+        }
     }
 
     /// bind several attrs together
     private bindAttrs(item: any, inf?: IMetaResult, index?: number) {
-        let attrs = (inf || {} as any).attrs || {};
+        let attrs = (inf || ({} as any)).attrs || {};
         /// table bind value check here
         return {
             paging: this.result.paging,
             rows: this.result.results,
             row: item,
 
-            ...(typeof index === 'number' ? { index } : {} ),
-            ...(inf ? { key: inf.name, value: item[inf.name] } : {} ),
+            ...(typeof index === 'number' ? { index } : {}),
+            ...(inf ? { key: inf.name, value: item[inf.name] } : {}),
             // index,
             // key: inf.name,
             // value: item[inf.name],
 
             ...(attrs.uiAttrs ? this.strToJSON(attrs.uiAttrs) : {}),
-        }
+        };
     }
     private bindListeners(item: any, inf: IMetaResult, index: number) {
         return {
-            input: event => {
+            input: (event) => {
                 item[inf.name] = event;
-            }
+            },
         };
     }
 
@@ -308,7 +325,7 @@ export class Table extends Vue {
         /// replace JSON key with double quotes
         var relaxed = input.replace(/(['"])?([a-z0-9A-Z_-]+)\1\w*:/g, '"$2":');
         /// replace JSON value with double qoutes
-        relaxed = relaxed.replace(/:\s*(')((\\'|[^'])*)\1/g, (a,b,c)=> `: "${c}"`);
+        relaxed = relaxed.replace(/:\s*(')((\\'|[^'])*)\1/g, (a, b, c) => `: "${c}"`);
 
         return JSON.parse(relaxed);
     }
@@ -317,14 +334,14 @@ export class Table extends Vue {
         if ((inf.attrs || {}).uiTableMergeRow !== 'true') return 1;
         let current = results[index][inf.name];
         /// check previous match
-        for (let i = index-1; i >= 0; --i) {
+        for (let i = index - 1; i >= 0; --i) {
             let value = results[i][inf.name];
             if (value === current) return 0;
             break;
         }
         /// check after matches
         let total = 1;
-        for (let i = index+1; i < results.length; ++i, ++total) {
+        for (let i = index + 1; i < results.length; ++i, ++total) {
             let value = results[i][inf.name];
             if (value !== current) break;
         }
@@ -333,7 +350,12 @@ export class Table extends Vue {
 
     private isElementInViewport(el) {
         var rect = el.getBoundingClientRect();
-        return (rect.bottom >= 0 && rect.right >= 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight) && rect.left <= (window.innerWidth || document.documentElement.clientWidth));
+        return (
+            rect.bottom >= 0 &&
+            rect.right >= 0 &&
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+        );
     }
 
     /// interface parser
@@ -342,37 +364,37 @@ export class Table extends Vue {
         if (this.interface) return new MetaParser(this.interface, null).result;
         if (!this.result || this.result.results.length === 0) return [];
         let ref = this.result.results[0];
-        return Object.keys(ref).map( (name, index) => {
-            return { name, type: 'string', optional: false, index, isArray: false /* todo. made for form, table later */ }
+        return Object.keys(ref).map((name, index) => {
+            return { name, type: 'string', optional: false, index, isArray: false /* todo. made for form, table later */ };
         });
     }
-    selectedField:string="";
-    searchText:string="";
+    selectedField: string = '';
+    searchText: string = '';
 
-    get searchAbleFields(){
+    get searchAbleFields() {
         const converter = (final: any[], value: IMetaResult) => {
             let attrs = value.attrs;
-            if (attrs && attrs.uiSearchable=="true" && value.type == "string") {
+            if (attrs && attrs.uiSearchable == 'true' && value.type == 'string') {
                 final.push({
                     value: value.name,
-                    text: attrs.uiLabel || value.name
+                    text: attrs.uiLabel || value.name,
                 });
             } else if (value.type instanceof MetaParser) {
                 let result = value.type.result.reduce(converter, []);
                 for (let o of result) {
                     final.push({
                         ...o,
-                        value: `${value.name}.${o.value}`
+                        value: `${value.name}.${o.value}`,
                     });
                 }
             }
             return final;
-        }
+        };
 
         return this.parsedInterface.reduce(converter, []);
     }
-    mounted(){
-        if(this.searchAbleFields.length>0){
+    mounted() {
+        if (this.searchAbleFields.length > 0) {
             this.selectedField = this.searchAbleFields[0].value;
         }
     }
