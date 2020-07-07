@@ -5,30 +5,30 @@
  */
 
 /// ui set
-const uiLabel = "uiLabel";
-const uiPlaceHolder = "uiPlaceHolder";
-const uiDisabled = "uiDisabled";
-const uiRequired = "uiRequired";
-const uiHidden = "uiHidden";
-const uiAttrs = "uiAttrs";
+const uiLabel = 'uiLabel';
+const uiPlaceHolder = 'uiPlaceHolder';
+const uiDisabled = 'uiDisabled';
+const uiRequired = 'uiRequired';
+const uiHidden = 'uiHidden';
+const uiAttrs = 'uiAttrs';
 /// custom element type
-const uiType = "uiType";
+const uiType = 'uiType';
 /// validation: RegExp or function
-const uiValidation = "uiValidation"; /// custom element supported
-const uiInvalidMessage = "uiInvalidMessage";
+const uiValidation = 'uiValidation'; /// custom element supported
+const uiInvalidMessage = 'uiInvalidMessage';
 /// group columns together
-const uiColumnGroup = "uiColumnGroup"; /// custom element supported
+const uiColumnGroup = 'uiColumnGroup'; /// custom element supported
 /// will return array
-const uiMultiple = "uiMultiple";
+const uiMultiple = 'uiMultiple';
 
-import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
-import { MetaParser, EnumParser, IMetaResult } from "@/../core/server/parser/meta-parser";
+import { Vue, Component, Prop, Model, Emit, Watch, Inject } from 'vue-property-decorator';
+import { MetaParser, EnumParser, IMetaResult } from '@/../core/server/parser/meta-parser';
 import { Observe } from '@/../core/utilities';
 import { BehaviorSubject } from 'rxjs';
 
 enum EParsedType {
-    Enum = "enum",
-    Interface = "interface"
+    Enum = 'enum',
+    Interface = 'interface',
 }
 interface IParsedTypeEnum {
     type?: EParsedType.Enum;
@@ -55,12 +55,12 @@ export class Form extends Vue {
     value!: any;
 
     /// united emitter
-    @Emit("submit")
+    @Emit('submit')
     private doSubmit() {
         return this.getResult();
     }
 
-    @Emit("reset")
+    @Emit('reset')
     private doReset() {
         return this.getResult();
     }
@@ -69,7 +69,7 @@ export class Form extends Vue {
     public set(key: string, value: any) {
         // Vue.set(this.innateValue, key, value);
         let val = this.innateValue;
-        let keys = key.split(".");
+        let keys = key.split('.');
         let lastKey = keys[keys.length - 1];
         for (let i = 0; i < keys.length - 1; ++i) {
             let k = keys[i];
@@ -118,7 +118,7 @@ export class Form extends Vue {
     }
 
     private innateValue: any = {};
-    @Watch("value", { immediate: true, deep: true })
+    @Watch('value', { immediate: true, deep: true })
     private onValueChanged(value) {
         if (!value) return;
         /// when binding value changes, reset states
@@ -126,11 +126,12 @@ export class Form extends Vue {
     }
 
     @Inject({
-        default: null
-    }) root: any;
+        default: null,
+    })
+    root: any;
 
     private emitUpdate(name: string, value: any) {
-        if (name.indexOf(".") < 0) this.$emit(`update:${name}`, value);
+        if (name.indexOf('.') < 0) this.$emit(`update:${name}`, value);
         else this.$emit(`update:${name.replace(/\./g, ':')}`, value);
         this.$emit(`update:*`, { key: name, value });
         this.updateResult(name, value);
@@ -138,7 +139,7 @@ export class Form extends Vue {
 
     /// rxjs result keeper
     @Observe({
-        value: () => new BehaviorSubject<any>({})
+        value: () => new BehaviorSubject<any>({}),
     })
     result: any;
     private updateResult(name?: string, value?: any) {
@@ -151,10 +152,14 @@ export class Form extends Vue {
     private restore(value?) {
         value = value || this.value;
         /// clean
-        Object.keys(this.innateValue).forEach(key => { Vue.set(this.innateValue, key, undefined); });
+        Object.keys(this.innateValue).forEach((key) => {
+            Vue.set(this.innateValue, key, undefined);
+        });
         /// apply clone
         let clone = this.deepClone(value);
-        Object.keys(clone).forEach(key => { Vue.set(this.innateValue, key, clone[key]); });
+        Object.keys(clone).forEach((key) => {
+            Vue.set(this.innateValue, key, clone[key]);
+        });
         /// initialize key/value
         for (let inf of this.parsedInterface) {
             if (this.innateValue[inf.name] === undefined) {
@@ -171,7 +176,7 @@ export class Form extends Vue {
 
     private getIsMultiple(inf: IMetaResult): boolean {
         let multiple = (inf.attrs || {})[uiMultiple];
-        return multiple ? (multiple === "true" ? true : false) : inf.isArray;
+        return multiple ? (multiple === 'true' ? true : false) : inf.isArray;
     }
 
     /// bind several attrs together
@@ -201,12 +206,16 @@ export class Form extends Vue {
         return {
             class: {
                 [`col-md-${splits}`]: true,
-                ...(
-                    !uiAttrsClass ? {} :
-                        typeof uiAttrsClass === 'object' ? uiAttrsClass :
-                            typeof uiAttrsClass === 'string' ? uiAttrsClass.split(" ").reduce((final, value) => { final[value] = true; return final; }, {}) :
-                                {}
-                )
+                ...(!uiAttrsClass
+                    ? {}
+                    : typeof uiAttrsClass === 'object'
+                    ? uiAttrsClass
+                    : typeof uiAttrsClass === 'string'
+                    ? uiAttrsClass.split(' ').reduce((final, value) => {
+                          final[value] = true;
+                          return final;
+                      }, {})
+                    : {}),
             },
             state: this.showState(inf),
             label: this.showLabel(inf),
@@ -215,14 +224,16 @@ export class Form extends Vue {
             invalid: attrs.uiInvalidMessage || getDefaultInvalidMessage(attrs[uiType], name),
             value: this.innateValue[inf.name],
 
-            ...(parsedType ? {
-                multiple: this.getIsMultiple(inf),
-                options: parsedType.data
-            } : {
-                    multiple: this.getIsMultiple(inf)
-                }),
+            ...(parsedType
+                ? {
+                      multiple: this.getIsMultiple(inf),
+                      options: parsedType.data,
+                  }
+                : {
+                      multiple: this.getIsMultiple(inf),
+                  }),
 
-            ...(uiAttrs),
+            ...uiAttrs,
         };
     }
     private bindListeners(inf: IMetaResult, index: number) {
@@ -230,7 +241,7 @@ export class Form extends Vue {
             input: (event) => {
                 this.innateValue[inf.name] = event;
                 this.emitUpdate(inf.name, event);
-            }
+            },
         };
     }
     private strToJSON(input: string) {
@@ -246,10 +257,7 @@ export class Form extends Vue {
         let pi = this.parsedInterface;
         let inf;
         let thisGroup = ((inf = pi[index]), (inf.attrs || {}).uiColumnGroup);
-        let nextGroup =
-            pi.length <= index + 1
-                ? undefined
-                : ((inf = pi[index + 1]), (inf.attrs || {}).uiColumnGroup);
+        let nextGroup = pi.length <= index + 1 ? undefined : ((inf = pi[index + 1]), (inf.attrs || {}).uiColumnGroup);
         return thisGroup !== nextGroup;
     }
     /// ui group columns count
@@ -280,7 +288,7 @@ export class Form extends Vue {
         let attrs = inf.attrs || {};
         let name = attrs[uiLabel] || inf.name;
         let optional = attrs[uiRequired] !== undefined ? (attrs[uiRequired] === 'true' ? false : true) : inf.optional;
-        return (!optional ? "* " : "") + name;
+        return (!optional ? '* ' : '') + name;
     }
 
     private states = {};
@@ -296,26 +304,18 @@ export class Form extends Vue {
         /// validate interfaces: Required
         main: for (let meta of this.parsedInterface || []) {
             let attrs = meta.attrs || {};
-            if (attrs[uiHidden] === 'true') continue;  /// ignore hidden field
+            if (attrs[uiHidden] === 'true') continue; /// ignore hidden field
             let optional = attrs[uiRequired] !== undefined ? (attrs[uiRequired] === 'true' ? false : true) : meta.optional;
             if (!optional) {
                 let value = this.innateValue[meta.name];
                 do {
                     if (value === undefined) break;
                     if (value === null) break;
-                    if (value === "") break;
-                    if (
-                        typeof value === "object" &&
-                        Array.isArray(value) &&
-                        value.length === 0
-                    ) break;
+                    if (value === '') break;
+                    if (typeof value === 'object' && Array.isArray(value) && value.length === 0) break;
 
                     const ref: any = this.$refs[meta.name];
-                    if (typeof value === "object" &&
-                        ref && ref.length > 0 &&
-                        ref[0].validate &&
-                        !ref[0].validate()
-                    ) break;
+                    if (typeof value === 'object' && ref && ref.length > 0 && ref[0].validate && !ref[0].validate()) break;
 
                     continue main;
                 } while (0);
@@ -324,7 +324,7 @@ export class Form extends Vue {
                 return false;
             }
         }
-        console.info("validation success.");
+        console.info('validation success.');
         return true;
     }
 
@@ -334,16 +334,12 @@ export class Form extends Vue {
         for (let meta of this.parsedInterface || []) {
             let attrs = meta.attrs || {};
             let name = meta.name;
-            if (attrs[uiHidden] === 'true') continue;  /// ignore hidden field
+            if (attrs[uiHidden] === 'true') continue; /// ignore hidden field
 
             /// check inner form
             if (meta.type instanceof MetaParser) {
                 const ref: any = this.$refs[name];
-                if (
-                    ref && ref.length > 0 &&
-                    ref[0].validateFull &&
-                    !ref[0].validateFull()
-                ) finalState = false;
+                if (ref && ref.length > 0 && ref[0].validateFull && !ref[0].validateFull()) finalState = false;
                 continue;
             }
 
@@ -359,7 +355,10 @@ export class Form extends Vue {
             /// check normal fields
             let validation = attrs[uiValidation] || getDefaultValidation(attrs[uiType], name);
             let value = this.innateValue[name];
-            if (value !== null && value !== undefined && value !== '' &&    /// ignore empty value
+            if (
+                value !== null &&
+                value !== undefined &&
+                value !== '' && /// ignore empty value
                 validation
             ) {
                 if (typeof validation === 'function') {
@@ -368,7 +367,7 @@ export class Form extends Vue {
                         Vue.set(this.states, name, false);
                         finalState = false;
                     } else Vue.set(this.states, name, undefined);
-                } else if (validation[0] === "/") {
+                } else if (validation[0] === '/') {
                     /// execute as RegExp
                     if (!eval(validation).test(value)) {
                         Vue.set(this.states, name, false);
@@ -377,10 +376,9 @@ export class Form extends Vue {
                 } else if (/[a-zA-z]/.test(validation[0])) {
                     /// execute as Scope Function
                     let funcValidation;
-                    while (parent && !(funcValidation = parent[validation]))
-                        parent = parent.$parent;
+                    while (parent && !(funcValidation = parent[validation])) parent = parent.$parent;
 
-                    if (!funcValidation(value, this.innateValue)) {
+                    if (funcValidation && !funcValidation(value, this.innateValue)) {
                         Vue.set(this.states, name, false);
                         finalState = false;
                     } else Vue.set(this.states, name, undefined);
@@ -388,7 +386,7 @@ export class Form extends Vue {
                     /// execute as eval Function
                     // if (!eval(validation).call(this.$parent, value, this.value)) { Vue.set(this.states, meta.name, false); finalState = false; }
                     if (
-                        !function (value, all) {
+                        !function(value, all) {
                             return eval(validation)(value, all);
                         }.call(parent, value, this.innateValue)
                     ) {
@@ -401,7 +399,7 @@ export class Form extends Vue {
         return finalState;
     }
 
-    private relatedSlots(name: string, isScoped?: boolean): { originalName: string, name: string }[] {
+    private relatedSlots(name: string, isScoped?: boolean): { originalName: string; name: string }[] {
         let slots = isScoped ? this.$scopedSlots : this.$slots;
         let rtn = [];
         let regex = new RegExp(`^${name}\.`);
@@ -409,7 +407,7 @@ export class Form extends Vue {
             if (!regex.test(key)) continue;
             rtn.push({
                 originalName: key,
-                name: key.replace(regex, "")
+                name: key.replace(regex, ''),
             });
         }
         return rtn;
@@ -420,9 +418,7 @@ export class Form extends Vue {
         if (this.getIsMultiple(inf)) {
             if (inf.type instanceof MetaParser) {
                 return true;
-            } else if (
-                typeof inf.type === 'string' && (inf.type as string).indexOf("{") < 0
-            ) {
+            } else if (typeof inf.type === 'string' && (inf.type as string).indexOf('{') < 0) {
                 let comp = this.$options.components[this.getElementType(inf)] as any;
                 if (comp.options.props.multiple) return false;
                 return true;
@@ -440,11 +436,15 @@ export class Form extends Vue {
         return this.getDefaultType(inf);
     }
     private getDefaultType(inf: IMetaResult): string {
-        return inf.type === 'string' ? 'iv-form-string'
-            : inf.type === 'boolean' ? 'iv-form-switch'
-                : inf.type === 'number' ? 'iv-form-number'
-                    : inf.type === 'Date' ? 'iv-form-datetime'
-                        : null;
+        return inf.type === 'string'
+            ? 'iv-form-string'
+            : inf.type === 'boolean'
+            ? 'iv-form-switch'
+            : inf.type === 'number'
+            ? 'iv-form-number'
+            : inf.type === 'Date'
+            ? 'iv-form-datetime'
+            : null;
     }
 
     /// interface parser
@@ -457,8 +457,8 @@ export class Form extends Vue {
         if (typeof type !== 'string') {
             rtn = {
                 type: EParsedType.Interface,
-                data: type
-            }
+                data: type,
+            };
             return [rtn];
         }
 
@@ -468,8 +468,8 @@ export class Form extends Vue {
         if (parse.result) {
             rtn = {
                 type: EParsedType.Enum,
-                isArray: false
-            }
+                isArray: false,
+            };
 
             /// test array
             result = type.match(/^\(([\s\S]+)\)\[\]$/);
@@ -491,20 +491,22 @@ export class Form extends Vue {
         if (obj instanceof Set) return new Set(obj); // See note about this!
         if (hash.has(obj)) return hash.get(obj); // cyclic reference
         const result =
-            obj instanceof Date ? new Date(obj) :
-                obj instanceof File ? new File([obj], obj.name, { type: obj.type }) :
-                    obj instanceof RegExp ? new RegExp(obj.source, obj.flags) :
-                        obj.constructor ? new obj.constructor() : Object.create(null);
+            obj instanceof Date
+                ? new Date(obj)
+                : obj instanceof File
+                ? new File([obj], obj.name, { type: obj.type })
+                : obj instanceof RegExp
+                ? new RegExp(obj.source, obj.flags)
+                : obj.constructor
+                ? new obj.constructor()
+                : Object.create(null);
         hash.set(obj, result);
-        if (obj instanceof Map)
-            Array.from(obj, ([key, val]) =>
-                result.set(key, this.deepClone(val, hash))
-            );
+        if (obj instanceof Map) Array.from(obj, ([key, val]) => result.set(key, this.deepClone(val, hash)));
         return Object.assign(
             result,
-            ...Object.keys(obj).map(key => ({
-                [key]: this.deepClone(obj[key], hash)
-            }))
+            ...Object.keys(obj).map((key) => ({
+                [key]: this.deepClone(obj[key], hash),
+            })),
         );
     }
 
@@ -513,24 +515,24 @@ export class Form extends Vue {
     public get submitBindings() {
         return {
             $attrs: {
-                variant: "primary",
-                disabled: !this.validate()
+                variant: 'primary',
+                disabled: !this.validate(),
             },
             $listeners: {
-                click: () => this.validateFull() && this.doSubmit()
-            }
-        }
+                click: () => this.validateFull() && this.doSubmit(),
+            },
+        };
     }
 
     public get resetBindings() {
         return {
             $attrs: {
-                variant: "light"
+                variant: 'light',
             },
             $listeners: {
-                click: () => (this.restore(), this.doReset())
-            }
-        }
+                click: () => (this.restore(), this.doReset()),
+            },
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////////////////
