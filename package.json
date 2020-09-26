@@ -24,7 +24,6 @@
         "select2-bootstrap-theme": "0.1.0-beta.10",
         "tiptap": "^1.26.5",
         "tiptap-commands": "^1.12.4",
-        "tiptap-extensions": "^1.28.5",
         "vue": "2.6.10",
         "vue-class-component": "7.0.2",
         "vue-color": "^2.7.0",

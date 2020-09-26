@@ -9,25 +9,6 @@ import { generateIcon } from "@/../core/utilities";
 
 import { Editor, EditorContent, EditorMenuBar, Node } from 'tiptap';
 import { toggleMark, toggleWrap, wrappingInputRule, markInputRule, markPasteRule } from 'tiptap-commands';
-import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  HorizontalRule,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Strike,
-  Underline,
-  History,
-} from 'tiptap-extensions';
 
 export class TextDesigner extends Node {
     get name() {
