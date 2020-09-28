@@ -2,7 +2,7 @@ export * from './core';
 
 import './en-US';
 import './zh-TW';
-import './ja-JP';
+import './zh-Interviewee';
 
 import '@/assets/i18n';
 
