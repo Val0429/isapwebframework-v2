@@ -19,33 +19,38 @@ export const defaultLanguage: string = Config.defaultLang || 'en-US';
 export function RegisterLanguage(name: string, description: string) {
     return (Class: any) => {
         languageMap[name] = [description, new Class()];
-    }
+    };
 }
 
 let languageBaseMap: { [index: string]: [string, IBaseLang] } = {};
 export function RegisterBaseLanguage(name: string, description: string) {
     return (Class: any) => {
         languageBaseMap[name] = [description, new Class()];
-    }
+    };
 }
 
 export class Language {
     /// get all languages
     list(): { [index: string]: string } {
-        return Object.keys(languageMap).reduce( (final, key) => {
-            final[key] = languageMap[key][0];
-            return final;
-        }, {} as any);
+        return Object.keys(languageMap).reduce(
+            (final, key) => {
+                final[key] = languageMap[key][0];
+                return final;
+            },
+            {} as any,
+        );
     }
     translate<T extends keyof IAllLang>(key: T, data?: { [index: string]: any }): IAllLang[T] {
         let akey: any = key;
-        let result = this.getLanguageObject()[akey] ||
+        let result =
+            this.getLanguageObject()[akey] ||
             this.getLanguageBaseObject()[akey] ||
             `(!) ${this.getLanguageObject(defaultLanguage)[akey] || this.getLanguageBaseObject(defaultLanguage)[akey] || key}`;
         /// replace token
-        if (data) for (let o in data) {
-            result = result.replace(new RegExp(`\\{${o}\\}`, "g"), data[o]);
-        }
+        if (data)
+            for (let o in data) {
+                result = result.replace(new RegExp(`\\{${o}\\}`, 'g'), data[o]);
+            }
         return result;
     }
 
@@ -66,19 +71,17 @@ export class Language {
     /// private helpers
     private currentLanguage: BehaviorSubject<string> = new BehaviorSubject<string>(defaultLanguage);
     private getLanguageObject(name?: string): ILang {
-        return !name ? languageMap[this.currentLanguage.getValue()][1]
-                     : languageMap[name][1];
+        return !name ? languageMap[this.currentLanguage.getValue()][1] : languageMap[name][1];
     }
     private getLanguageBaseObject(name?: string): IBaseLang {
-        return !name ? languageBaseMap[this.currentLanguage.getValue()][1]
-                     : languageBaseMap[name][1];
+        return !name ? languageBaseMap[this.currentLanguage.getValue()][1] : languageBaseMap[name][1];
     }
 }
 
 const lang = new Language();
 export default lang;
 
-declare module "vue/types/vue" {
+declare module 'vue/types/vue' {
     export interface Vue {
         _<T extends keyof IAllLang>(key: T, data?: { [index: string]: any }): IAllLang[T];
     }
@@ -91,24 +94,26 @@ export const LangPlugin = {
 
         Vue.mixin({
             created() {
-                let subscription = lang.getObservable().subscribe( (name) => {
+                let subscription = lang.getObservable().subscribe((name) => {
                     this.$forceUpdate();
                 });
-                this.$once("hook:beforeDestroy", () => subscription.unsubscribe());
+                this.$once('hook:beforeDestroy', () => subscription.unsubscribe());
             },
 
             methods: {
-                _: LangCache(<T extends keyof IAllLang>(key: T, data?: { [index: string]: any }): IAllLang[T] => {
-                    return lang.translate(key, data);
-                })
-            }
-        })
-    }
-}
+                _: LangCache(
+                    <T extends keyof IAllLang>(key: T, data?: { [index: string]: any }): IAllLang[T] => {
+                        return lang.translate(key, data);
+                    },
+                ),
+            },
+        });
+    },
+};
 
 const cachedLang: any = {};
 function LangCache<T extends Function>(wrapped: T): T {
-    return function() {
+    return (function() {
         let curLang = lang.get();
         let [key, data] = arguments;
         let dataString = data ? JSON.stringify(data) : '';
@@ -120,5 +125,5 @@ function LangCache<T extends Function>(wrapped: T): T {
         let value = wrapped(...arguments);
         cachedLang[curLang][key][dataString] = value;
         return value;
-    } as any as T;
+    } as any) as T;
 }

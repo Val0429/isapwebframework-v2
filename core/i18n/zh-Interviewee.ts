@@ -1,7 +1,7 @@
 import { RegisterBaseLanguage } from './core';
 import { IBaseLang } from './core';
 
-@RegisterBaseLanguage('zh-architecture', '繁體中文-營造')
+@RegisterBaseLanguage('zh-Interviewee', '繁體中文-營造')
 export default class LangObject implements IBaseLang {
     wb_Common = '一般';
     wb_NextPage = '下一頁';
