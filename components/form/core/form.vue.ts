@@ -380,7 +380,7 @@ export class Form extends Vue {
                     while (parent && !(funcValidation = parent[validation]))
                         parent = parent.$parent;
 
-                    if (!funcValidation(value, this.innateValue)) {
+                    if (funcValidation && !funcValidation(value, this.innateValue)) {
                         Vue.set(this.states, name, false);
                         finalState = false;
                     } else Vue.set(this.states, name, undefined);

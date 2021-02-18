@@ -1,6 +1,5 @@
 <template>
-    <BrowserBlock v-if="browserReject" />
-    <iv-auto-transition v-else type="iv-fade-slide" :step="step()">
+    <iv-auto-transition type="iv-fade-slide" :step="step()">
         <element :key="$theme.name" :is="$theme" />
     </iv-auto-transition>
     <!-- <iv-auto-transition type="iv-fade-slide" :step="step()">
