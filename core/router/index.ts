@@ -75,6 +75,14 @@ export function RegisterLoginRouter(config: IRegisterRouter) {
         return RegisterRouter(config)(component);
     }
 }
+export function DisableLoginRouter() {
+    RegisterRouter({
+        path: "/login",
+        name: "Login",
+        redirect: "/",
+        permission: false
+    })(null);
+}
 /// FindLogin ////////////////////////
 export function FindLoginRouter(): IRegisterRouterInput {
     return loginRoute;
