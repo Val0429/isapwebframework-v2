@@ -151,7 +151,7 @@ export default {
 }
 .bread-crumb {
   position: fixed !important;
-  z-index: 1020;
+  z-index: 100;
   width: 100%;
 }
 .scroll-area {

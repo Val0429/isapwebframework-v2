@@ -81,7 +81,7 @@ export function DisableLoginRouter() {
         name: "Login",
         redirect: "/",
         permission: false
-    })(null);
+    })();
 }
 /// FindLogin ////////////////////////
 export function FindLoginRouter(): IRegisterRouterInput {
