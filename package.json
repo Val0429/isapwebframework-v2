@@ -26,7 +26,6 @@
     "tiptap-commands": "^1.12.4",
     "tiptap-extensions": "^1.33.2",
     "vue": "2.6.10",
-    "vue-browser-detect-plugin": "^0.1.5",
     "vue-class-component": "7.0.2",
     "vue-color": "^2.7.0",
     "vue-fragment": "1.5.1",

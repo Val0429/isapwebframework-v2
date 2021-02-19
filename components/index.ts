@@ -9,6 +9,7 @@ export * from './table';
 export * from './step-progress';
 export * from './cards';
 export * from './modal';
+export * from './topic';
 
 import Vue from 'vue';
 
