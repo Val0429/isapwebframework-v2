@@ -1,10 +1,10 @@
 <template>
     <element
-        :to="url"
-        :is="url ? 'router-link' : 'div'"
+        :to="url" :href="url"
+        :is="!url ? 'div' : isExternalLink ? 'a' : 'router-link'"
         :class="classBorder">
-        <i v-if="icon" :class="classIcon" />
-        <div v-if="label" class="label">{{ label }}</div>
+        <i v-if="classIcon" :class="classIcon" />
+        <div v-if="generatedLabel" class="label">{{ generatedLabel }}</div>
     </element>
 </template>
 
@@ -15,7 +15,7 @@
 .border-item {
     background-color: #476a89;
     padding: 10px 15px;
-    box-shadow: 0 1px 12px rgba(0,0,0,0.35);
+    box-shadow: 0 1px 15px rgba(0,0,0,0.35);
     text-decoration: none;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 

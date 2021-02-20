@@ -63,6 +63,14 @@ export class Language {
         return this.currentLanguage.asObservable();
     }
 
+    fromTemplatedString(value: string): string {
+        const regex = /_\(\'*(.*)\'\)/;
+        if (!value) return value;
+        let matches = value.match(regex);
+        if (!matches || matches.length < 2) return value;
+        return this.translate(matches[1] as any);
+    }
+
     /// private helpers
     private currentLanguage: BehaviorSubject<string> = new BehaviorSubject<string>(defaultLanguage);
     private getLanguageObject(name?: string): ILang {

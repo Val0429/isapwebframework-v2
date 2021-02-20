@@ -26,7 +26,7 @@
 }
 
 .slot-container {
-    margin-top: 10px;
+    margin-top: 15px;
     margin-left: -6px !important;
     margin-right: -6px !important;
     margin-bottom: 0px;
@@ -36,3 +36,4 @@
     }
 }
 </style>
+
