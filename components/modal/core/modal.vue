@@ -34,7 +34,7 @@
                                 </template>
 
                                 <template v-else>
-                                    <b-button size="lg" @click="doUpdateVisible(false)">{{ _("wb_NextStep") }}</b-button>
+                                    <b-button size="lg" @click="close">{{ _("wb_NextStep") }}</b-button>
                                 </template>
 
                             </template>

@@ -6,8 +6,8 @@
 
 import { Vue, Component, Prop, Model, Watch, Emit } from "vue-property-decorator";
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
-import { BehaviorSubject } from 'rxjs';
-import { filter, first } from 'rxjs/operators';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { filter, first, pairwise } from 'rxjs/operators';
 import { ICard } from 'components/cards/card/card.vue';
 import { Form } from './../../form';
 import { StepProgress } from './../../step-progress';
@@ -37,14 +37,20 @@ export class Modal extends Vue {
 
     @Emit('update:visible')
     doUpdateVisible(value: boolean) { return value; }
+
+    public close() { this.doUpdateVisible(false) }
     
     private sjRefs: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     /// private helpers //////////////////////////////
     @Watch('visible', { immediate: true })
     private async onVisibleChanged(newval: boolean, oldval: boolean) {
-        if (!newval) return;
+        /// hook key event
+        if (newval === true) Modal.modalPush(this);
+        else if (newval === false) Modal.modalRemove(this);
 
+        /// get the ref and set z-index
+        if (!newval) return;
         let refs = await this.sjRefs.pipe( filter(v=>v) ).pipe( first() ).toPromise();
         let max = this.findHighestZIndex("*");
         refs.mask.style.zIndex = max > 10000 ? max+1 : max+10000;
@@ -88,6 +94,40 @@ export class Modal extends Vue {
         }
         return highest;
     }
+
+    /// collect the Modals, and deal with them together
+    private static keydownHandler(e: KeyboardEvent) {
+        /// only handle "Enter" for now
+        if (e.key === "Enter") {
+            let modals = Modal.modals;
+            if (modals.length === 0) return;
+            let modal: any = modals[modals.length - 1];
+            /// apply to default modal for now
+            if (!modal.thisForm && !modal.thisStep) {
+                modal.close();
+            }
+        }
+    }
+    private static sjModals: BehaviorSubject<Modal[]> = new BehaviorSubject<Modal[]>([]);
+    private static subsModals: Subscription = Modal.sjModals.pipe(pairwise()).subscribe((val) => {
+        let prev = val[0], next = val[1];
+        if (prev.length === 0 && next.length > 0) window.addEventListener("keydown", Modal.keydownHandler);
+        else if (prev.length > 0 && next.length === 0) window.removeEventListener("keydown", Modal.keydownHandler);
+    });
+    private static get modals(): Modal[] { return Modal.sjModals.value; }
+    private static modalPush(item: Modal) {
+        let modals = [...Modal.modals];
+        modals.push(item);
+        Modal.sjModals.next(modals);
+    }
+    private static modalRemove(item: Modal) {
+        let modals = [...Modal.modals];
+        let idx = modals.indexOf(item);
+        if (idx !== -1) {
+            modals.splice(idx, 1);
+            Modal.sjModals.next(modals);
+        }
+    }    
     //////////////////////////////////////////////////
 }
 export default Modal;
