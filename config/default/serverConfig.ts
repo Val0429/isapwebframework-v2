@@ -10,6 +10,7 @@ export interface Config {
     ip?: string;
     port?: number;
     ssl?: boolean;
+    cgiPath?: string;
 
     /// for release only. use case for one server host two clients, you will need to specify different port.
     prodPort?: number;

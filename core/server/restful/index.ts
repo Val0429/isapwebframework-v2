@@ -216,6 +216,7 @@ interface IiSAPServerBaseConfig {
     ip: string;
     port: number;
     ssl?: boolean;
+    cgiPath?: string;
 }
 export interface IGeneralRequestError {
     errno: string;
@@ -261,10 +262,10 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
     }
 
     private makeUrl(uri: string, ws: boolean = false): string {
-        let { ip, port, ssl } = this.config;
+        let { ip, port, ssl, cgiPath } = this.config;
         let protocol = ws ? 'ws' : 'http';
         if (ssl) protocol += "s";
-        return `${protocol}://${ip}:${port}${uri}`;
+        return `${protocol}://${ip}:${port}${cgiPath?("/"+cgiPath):""}${uri}`;
     }
 
     /// caches of result / errors //////////////////////////////////
