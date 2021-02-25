@@ -25,6 +25,8 @@ const licensefilter = {
                 }
                 newvalue = newvalue.toUpperCase();
                 el.value = oldvalue = newvalue;
+                /// emit value
+                b.parent.componentInstance.$emit("input", el.value);
                 return;
 
             } while(1);
@@ -33,6 +35,8 @@ const licensefilter = {
             el.value = oldvalue;
             el.selectionStart = selectionStart-1;
             el.selectionEnd = selectionEnd-1;
+            /// emit value
+            b.parent.componentInstance.$emit("input", el.value);
         });
     }
 };

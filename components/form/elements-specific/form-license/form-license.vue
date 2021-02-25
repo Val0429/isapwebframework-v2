@@ -3,7 +3,6 @@
         v-bind="$attrs"
         v-bind:label="label"
         v-bind:value="value"
-        v-on:input="$emit('input', $event)"
         v-bind:placeholder="placeholder"
         :invalid="invalid"
         v-licensefilter

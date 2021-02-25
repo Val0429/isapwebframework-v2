@@ -355,8 +355,9 @@ export class Form extends Vue {
                 let comp = this.$options.components[type] as any;
                 let ref = (this.$refs[name] || [])[0];
                 let validation = ((comp.options || {}).methods || {}).validation;
-                if (!validation || !ref) return;
-                return validation.bind(ref);
+                //if (!validation || !ref) return;
+                if (!validation) return;
+                return ref ? validation.bind(ref) : validation;
             };
 
             /// check normal fields
