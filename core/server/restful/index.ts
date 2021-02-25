@@ -245,6 +245,7 @@ export interface ISubjectError {
     uri: string;
     params: any;
     error: IGeneralRequestRejection;
+    hideDefaultMessage?: boolean;
 }
 
 export interface IListenerDelete {
@@ -286,7 +287,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
     public readonly sjError: Subject<ISubjectError> = new Subject();
     ////////////////////////////////////////////////////////////////
 
-    async C<K extends keyof T['Post'], U extends ApisExtractInput<T['Post'][K]>, V extends ApisExtractOutput<T['Post'][K]>, P extends ApisExtractLoginRequired<T['Post'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data?: U, help?: boolean, spec: 'POST' | 'PUT' = 'POST'): Promise<V> {
+    async C<K extends keyof T['Post'], U extends ApisExtractInput<T['Post'][K]>, V extends ApisExtractOutput<T['Post'][K]>, P extends ApisExtractLoginRequired<T['Post'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data?: U, help?: boolean, spec: 'POST' | 'PUT' = 'POST', hideDefaultMessage?: boolean): Promise<V> {
         if (!data) data = {} as any;
         /// apply sessionId
         this.sessionId && ((data as any).sessionId = this.sessionId);
@@ -324,7 +325,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
             );
         });
         promise.then( (response) => this.sjResponse.next({ method: spec, uri: key as any, params: data, response }) )
-        .catch( (error) => this.sjError.next({ method: spec, uri: key as any, params: data, error }) );
+        .catch( (error) => this.sjError.next({ method: spec, uri: key as any, params: data, error, hideDefaultMessage }) );
         this.setCache(spec, key as string, data, promise);
         return promise;
     }
@@ -352,7 +353,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
     }
 
 
-    async R<K extends keyof T['Get'], U extends ApisExtractInput<T['Get'][K]>, V extends ApisExtractOutput<T['Get'][K]>, P extends ApisExtractLoginRequired<T['Get'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data?: U, help?: boolean, spec: 'GET' | 'DELETE' = 'GET'): Promise<V> {
+    async R<K extends keyof T['Get'], U extends ApisExtractInput<T['Get'][K]>, V extends ApisExtractOutput<T['Get'][K]>, P extends ApisExtractLoginRequired<T['Get'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data?: U, help?: boolean, spec: 'GET' | 'DELETE' = 'GET', hideDefaultMessage?: boolean): Promise<V> {
         // await this.waitForLogin();
 
         if (!data) data = {} as any;
@@ -388,19 +389,19 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
             );
         });
         promise.then( (response) => this.sjResponse.next({ method: spec, uri: key as any, params: data, response }) )
-        .catch( (error) => this.sjError.next({ method: spec, uri: key as any, params: data, error }) );
+        .catch( (error) => this.sjError.next({ method: spec, uri: key as any, params: data, error, hideDefaultMessage }) );
         this.setCache(spec, key as string, data, promise);
         return promise;        
     }
 
-    async U<K extends keyof T['Put'], U extends ApisExtractInput<T['Put'][K]>, V extends ApisExtractOutput<T['Put'][K]>, P extends ApisExtractLoginRequired<T['Put'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data: U, help?: boolean): Promise<V> {
-        return (this.C(key, data, help, 'PUT') as any) as V;
+    async U<K extends keyof T['Put'], U extends ApisExtractInput<T['Put'][K]>, V extends ApisExtractOutput<T['Put'][K]>, P extends ApisExtractLoginRequired<T['Put'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data: U, help?: boolean, hideDefaultMessage?: boolean): Promise<V> {
+        return (this.C(key, data, help, 'PUT', hideDefaultMessage) as any) as V;
     }
 
     /// Provide deletion listener
     protected sjD: Subject<IListenerDelete> = new Subject<IListenerDelete>();
-    async D<K extends keyof T['Delete'], U extends ApisExtractInput<T['Delete'][K]>, V extends ApisExtractOutput<T['Delete'][K]>, P extends ApisExtractLoginRequired<T['Delete'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data: U, help?: boolean): Promise<V> {
-        let deletion = (this.R(key, data, help, 'DELETE') as any) as V;
+    async D<K extends keyof T['Delete'], U extends ApisExtractInput<T['Delete'][K]>, V extends ApisExtractOutput<T['Delete'][K]>, P extends ApisExtractLoginRequired<T['Delete'][K]>, C extends P extends false ? U : ApisSessionRequired & U>(key: K, data: U, help?: boolean, hideDefaultMessage?: boolean): Promise<V> {
+        let deletion = (this.R(key, data, help, 'DELETE', hideDefaultMessage) as any) as V;
         this.sjD.next({ path: key as string, objectId: data.objectId });
         return deletion;
     }

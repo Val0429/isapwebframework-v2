@@ -2,7 +2,8 @@
     <transition name="modal" v-if="visible">
         <div class="modal-mask" ref="mask">
             <div class="modal-wrapper">
-                <iv-card class="modal-container" :label="label" :data="data">
+                <template v-if="$slots.content"><slot name="content" /></template>
+                <iv-card v-else class="modal-container" :label="label" :data="data">
                     <template #toolbox>
                         <slot name="toolbox" />
                         

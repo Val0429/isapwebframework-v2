@@ -28,6 +28,7 @@ if (!config.hideDefaultServerErrorModal) {
     sj401.pipe(throttleTime(2000)).subscribe(showModal);
     
     Server.getDefault().sjError.subscribe( (e) => {
+        if (e.hideDefaultMessage) return;
         if (!e.error.res) {
             let message = (e.error.err as any || {}).message;
             if (message === 'Unexpected token < in JSON at position 0') {
