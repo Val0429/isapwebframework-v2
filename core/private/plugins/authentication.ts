@@ -67,7 +67,7 @@ export const AuthPlugin = {
                     main: do {
                         try {
                             /// 1) request logout
-                            let data = await this.$server.C(logoutPath as any, {});
+                            let data = await (this.$server.C as any)(logoutPath as any, {});
                             break main;
                         } catch (e) {
                             if ((e.res || {}).statusCode === 401) break main;
@@ -106,7 +106,7 @@ export const AuthPlugin = {
                     /// 1) request login
                     let data: any;
                     try {
-                        data = await this.$server.C(loginPath, auth);
+                        data = await (this.$server.C as any)(loginPath, auth);
                     } catch (e) {
                         /// if session invalid, delete it
                         if ((auth as any).sessionId) localStorage.removeItem(kSessionId);

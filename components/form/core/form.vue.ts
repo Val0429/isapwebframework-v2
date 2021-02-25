@@ -21,6 +21,9 @@ const uiColumnGroup = "uiColumnGroup"; /// custom element supported
 /// will return array
 const uiMultiple = "uiMultiple";
 
+/// For Convenience
+const UI_TYPE_DEFAULT = "default";
+
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
 import { MetaParser, EnumParser, IMetaResult } from "@/../core/server/parser/meta-parser";
 import { Observe } from '@/../core/utilities';
@@ -212,7 +215,7 @@ export class Form extends Vue {
             label: this.showLabel(inf),
             placeholder: attrs.uiPlaceHolder,
             disabled: attrs.uiDisabled === 'true' ? true : undefined,
-            invalid: attrs.uiInvalidMessage || getDefaultInvalidMessage(attrs[uiType], name),
+            invalid: attrs.uiInvalidMessage || getDefaultInvalidMessage(this.getElementType(inf), name),
             value: this.innateValue[inf.name],
 
             ...(parsedType ? {
@@ -357,7 +360,7 @@ export class Form extends Vue {
             };
 
             /// check normal fields
-            let validation = attrs[uiValidation] || getDefaultValidation(attrs[uiType], name);
+            let validation = attrs[uiValidation] || getDefaultValidation(this.getElementType(meta), name);
             let value = this.innateValue[name];
             if (value !== null && value !== undefined && value !== '' &&    /// ignore empty value
                 validation
@@ -436,7 +439,7 @@ export class Form extends Vue {
     }
     private getElementType(inf: IMetaResult): string {
         let uiType = (inf.attrs || {}).uiType;
-        if (uiType) return uiType;
+        if (uiType && uiType != UI_TYPE_DEFAULT) return uiType;
         return this.getDefaultType(inf);
     }
     private getDefaultType(inf: IMetaResult): string {

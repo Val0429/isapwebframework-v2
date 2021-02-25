@@ -7,6 +7,8 @@
         v-bind:type="type"
         v-bind:placeholder="placeholder"
         :invalid="invalid"
+        v-bind:min="min"
+        v-bind:max="max"
     />
 </template>
 
