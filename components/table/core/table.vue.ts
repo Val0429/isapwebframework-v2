@@ -27,6 +27,8 @@ const uiConverter = "uiConverter";
 const uiSortable = "uiSortable";
 /// can search
 const uiSearchable = "uiSearchable";
+/// null value
+const uiNull = "uiNull";
 
 enum EParsedType {
     Enum = "enum"

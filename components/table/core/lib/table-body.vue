@@ -1,8 +1,10 @@
 <template>
     <td v-if="meta && typeof meta.type === 'string' && (meta.attrs||{}).uiHidden !== 'true'">
+        <!-- custom slot case -->
         <template v-if="$slots[meta.name]">
             <slot :name="meta.name" />
         </template>
+        <!-- custom scoped slot case -->
         <template v-else-if="$scopedSlots[meta.name]">
             <slot
                 :name="meta.name"
@@ -10,11 +12,17 @@
                 :$listeners="bindListeners()"
             />
         </template>
+        <!-- multiple case -->
         <template v-else-if="parentMeta && getIsMultiple(parentMeta)">
             <iv-cell-multiple :elementType="multipleType()" v-bind="bindAttrs()" v-on="bindListeners()" />
         </template>
         <template v-else>
-            <template v-if="(meta.attrs||{}).uiType ? true : false">
+            <!-- null case -->
+            <template v-if="getIsNull() && (meta.attrs||{}).uiNull">
+                <element :is="getUINullType()" :value="(meta.attrs||{}).uiNull" />
+            </template>
+            <!-- custom uiType case -->
+            <template v-else-if="(meta.attrs||{}).uiType ? true : false">
                 <element
                     :key="meta.name"
                     :is="meta.attrs.uiType"
@@ -22,6 +30,7 @@
                     v-on="bindListeners()"
                 />
             </template>
+            <!-- original type: Date case -->
             <template v-else-if="meta.type === 'Date'">
                 <iv-cell-date
                     :key="meta.name"
@@ -29,6 +38,7 @@
                     v-on="bindListeners()"
                 />
             </template>
+            <!-- original type: Other case as string -->
             <template v-else>
                 <iv-cell-string
                     :key="meta.name"
@@ -38,6 +48,9 @@
             </template>
         </template>
     </td>
+    <!-- hidden -->
+    <fragment v-else-if="(meta.attrs||{}).uiHidden !== 'true'" />
+    <!-- recursive table -->
     <fragment v-else-if="meta">
         <iv-inner-table-body
             :key="key"
@@ -124,6 +137,19 @@ export class TableBody extends Vue {
     private getIsMultiple(inf: IMetaResult): boolean {
         let multiple = (inf.attrs||{})["uiMultiple"];
         return multiple ? (multiple === "true" ? true : false) : inf.isArray;
+    }
+
+    private getIsNull(): boolean {
+        let value = (this.row||{})[this.meta.name];
+        let typeOfValue = typeof(value);
+        return value == null ? true :
+               typeOfValue === "string" && value === "" ? true :
+               typeOfValue === "number" && value === 0 ? true :
+               false;
+    }
+    private getUINullType(): string {
+        let value = (this.meta.attrs||{}).uiNull;
+        return value[0] === "<" ? "iv-cell-html-string" : "iv-cell-string";
     }
 
     private bindAttrs() {
