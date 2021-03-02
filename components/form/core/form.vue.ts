@@ -21,7 +21,7 @@ const uiColumnGroup = "uiColumnGroup"; /// custom element supported
 /// will return array
 const uiMultiple = "uiMultiple";
 
-/// For Convenience
+/// For Convenience - use for conditionally uiType switch
 const UI_TYPE_DEFAULT = "default";
 
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";

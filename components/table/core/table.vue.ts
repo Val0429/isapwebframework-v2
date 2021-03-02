@@ -30,6 +30,9 @@ const uiSearchable = "uiSearchable";
 /// null value
 const uiNull = "uiNull";
 
+/// For Convenience - use for conditionally uiType switch
+export const UI_TYPE_DEFAULT = "default";
+
 enum EParsedType {
     Enum = "enum"
 }

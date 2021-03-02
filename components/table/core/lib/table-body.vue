@@ -14,34 +14,18 @@
         </template>
         <!-- multiple case -->
         <template v-else-if="parentMeta && getIsMultiple(parentMeta)">
-            <iv-cell-multiple :elementType="multipleType()" v-bind="bindAttrs()" v-on="bindListeners()" />
+            <iv-cell-multiple :elementType="getElementType(meta)" v-bind="bindAttrs()" v-on="bindListeners()" />
         </template>
         <template v-else>
             <!-- null case -->
             <template v-if="getIsNull() && (meta.attrs||{}).uiNull">
                 <element :is="getUINullType()" :value="(meta.attrs||{}).uiNull" />
             </template>
-            <!-- custom uiType case -->
-            <template v-else-if="(meta.attrs||{}).uiType ? true : false">
+            <!-- original type -->
+            <template v-else>
                 <element
                     :key="meta.name"
-                    :is="meta.attrs.uiType"
-                    v-bind="bindAttrs()"
-                    v-on="bindListeners()"
-                />
-            </template>
-            <!-- original type: Date case -->
-            <template v-else-if="meta.type === 'Date'">
-                <iv-cell-date
-                    :key="meta.name"
-                    v-bind="bindAttrs()"
-                    v-on="bindListeners()"
-                />
-            </template>
-            <!-- original type: Other case as string -->
-            <template v-else>
-                <iv-cell-string
-                    :key="meta.name"
+                    :is="getElementType(meta)"
                     v-bind="bindAttrs()"
                     v-on="bindListeners()"
                 />
@@ -49,7 +33,7 @@
         </template>
     </td>
     <!-- hidden -->
-    <fragment v-else-if="(meta.attrs||{}).uiHidden !== 'true'" />
+    <fragment v-else-if="(meta.attrs||{}).uiHidden === 'true'" />
     <!-- recursive table -->
     <fragment v-else-if="meta">
         <iv-inner-table-body
@@ -90,6 +74,7 @@
  */
 
 import { Vue, IMetaResult, Prop, Component, Inject } from "@/../core";
+import { UI_TYPE_DEFAULT } from "../table.vue";
 import { IGetResult } from "./core";
 @Component
 export class TableBody extends Vue {
@@ -127,11 +112,14 @@ export class TableBody extends Vue {
         return this.result.results[this.indexOfRows];
     }
 
-    private multipleType() {
-        if (this.meta.type === 'Date') return 'iv-cell-date';
-        let uiType = (this.meta.attrs||{}).uiType;
-        if (uiType) return uiType;
-        return 'iv-cell-string';
+    private getElementType(inf: IMetaResult): string {
+        let uiType = (inf.attrs || {}).uiType;
+        if (uiType && uiType != UI_TYPE_DEFAULT) return uiType;
+        return this.getDefaultType(inf);
+    }
+    private getDefaultType(inf: IMetaResult): string {
+        return inf.type === "Date" ? "iv-cell-date" :
+               "iv-cell-string";
     }
 
     private getIsMultiple(inf: IMetaResult): boolean {
