@@ -331,6 +331,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
     }
 
     Url<K extends keyof T['Get'], U extends ApisExtractInput<T['Get'][K]>>(key: K, data?: U, help?: boolean): string {
+        if (!data) data = {} as any;
         let deepTrace = (prevKey: any, data?: any) => {
             if (!data) {
                 data = prevKey;

@@ -4,6 +4,7 @@ export * from './parser';
 export * from './converter';
 
 import data from '@/package.json';
-const ServerVersion = `v${data.version}`;
+const ServerVersion = data.version;
+const WebVersion = data.version;
 const ServerName = data.description;
-export { ServerName, ServerVersion };
+export { ServerName, ServerVersion, WebVersion };
