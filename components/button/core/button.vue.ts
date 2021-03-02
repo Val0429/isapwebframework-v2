@@ -4,7 +4,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Model } from "vue-property-decorator";
+import { Vue, Component, Prop, Emit } from "vue-property-decorator";
 import { generateIcon } from "@/../core/utilities";
 
 @Component
@@ -31,6 +31,9 @@ export class Button extends Vue {
 
     @Prop({ type: String, required: false })
     icon: string;
+
+    @Emit('click')
+    private doClick(e) { return e; }
 
     /// private helper
     private get classIcon() {

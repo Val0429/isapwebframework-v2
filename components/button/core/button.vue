@@ -1,7 +1,16 @@
 <template>
-    <b-button :variant="variant" :size="size" :class="classWithIcon">
+    <b-button :variant="variant" :size="size" :class="classWithIcon"
+        v-bind="{ ...$attrs }"
+        v-on:click="$emit('click', $event)"
+        >
         <i v-if="icon" :class="classIcon" />
-        {{ label }}
+
+        <template v-if="$slots.default">
+            <slot />
+        </template>
+        <fragment v-else>
+            {{ label }}
+        </fragment>
     </b-button>
 </template>
 
@@ -9,6 +18,9 @@
 <script lang="ts" src="./button.vue.ts" />
 
 <style lang="scss" scoped>
+i {
+    margin-right: 0.2rem;
+}
 .btn {
     white-space: nowrap;
 }

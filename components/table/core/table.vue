@@ -123,11 +123,11 @@ div.dataTables_wrapper {
         border-right: 0;
         border-top-color: white;
 
-        /deep/ th {
+        th {
             border-bottom-width: 2px;
         }
 
-        /deep/ th, td {
+        th, td {
             border-left: 0;
             border-right: 0;
             border-top-color: #cecece;
