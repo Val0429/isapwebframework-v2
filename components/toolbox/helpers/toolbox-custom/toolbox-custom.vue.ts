@@ -12,7 +12,8 @@ import { generateIcon } from '@/../core/utilities';
 export class ToolboxCustom extends Vue {
     @Prop({
         type: String,
-        required: false
+        required: false,
+        default: ""
     })
     label: string;
 

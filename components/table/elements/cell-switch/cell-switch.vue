@@ -12,5 +12,8 @@
 /deep/ .switch-input:disabled ~ .switch-slider {
     cursor: default;
 }
+label {
+    vertical-align: middle;
+}
 </style>
 
