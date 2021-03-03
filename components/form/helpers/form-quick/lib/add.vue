@@ -24,7 +24,7 @@
                 <template #footer v-if="type === 'preview'"><span style="margin: 0; width: 0;" /></template>
 
                 <template #footer-before>
-                    <b-button size="lg" variant="secondary" @click="back">{{ _("wb_Back") }}</b-button>
+                    <iv-button size="lg" icon="fa-backward" variant="secondary" @click="back">{{ _("wb_Back") }}</iv-button>
                 </template>
                 <template #footer-after>
                     <b-button
@@ -57,7 +57,7 @@
                 <template #footer v-if="type === 'preview'"><span style="margin: 0; width: 0;" /></template>
 
                 <template #footer-before>
-                    <b-button size="lg" variant="secondary" @click="back">{{ _("wb_Back") }}</b-button>
+                    <iv-button size="lg" icon="fa-backward" variant="secondary" @click="back">{{ _("wb_Back") }}</iv-button>
                 </template>
                 <template #footer-after>
                     <b-button

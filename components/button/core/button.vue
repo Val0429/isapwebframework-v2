@@ -19,7 +19,7 @@
 
 <style lang="scss" scoped>
 i {
-    margin-right: 0.2rem;
+    margin-right: 0.5rem !important;
 }
 .btn {
     white-space: nowrap;
