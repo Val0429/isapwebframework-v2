@@ -450,7 +450,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
 
     private static defaultServer: iSAPServerBase<any> = null;
     public static getDefault<T>(this: { new(...args): T }): T {
-        let conf: IiSAPServerBaseConfig = !debug.prodMode ? Object.assign({}, config) : { port: config.prodPort } as any;
+        let conf: IiSAPServerBaseConfig = !debug.prodMode ? Object.assign({}, config) : { port: config.prodPort, cgiPath: config.cgiPath } as any;
         let { hostname, port, protocol } = window.location;
         conf.ip = conf.ip || hostname;
         conf.ssl = typeof conf.ssl === "boolean" ? conf.ssl : /^https/.test(protocol);
