@@ -35,6 +35,9 @@ export default class LangObject {
     wb_Close = 'Close';
     wb_Back = 'Back';
 
+    w_CreatedAt = "Created At";
+    w_UpdatedAt = "Updated At";
+
     mb_FormMultipleClickToAdd = 'Click to Add';
 
     mb_VersionLimitation = 'Version Limitation';

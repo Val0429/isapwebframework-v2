@@ -36,6 +36,9 @@ export default class LangObject implements IBaseLang {
     wb_Close = '閉じる';
     wb_Back = '戻る';
 
+    w_CreatedAt = "作成日";
+    w_UpdatedAt = "変更日";
+
     mb_FormMultipleClickToAdd = 'クリックしてデータを追加';
 
     mb_VersionLimitation = 'バージョン制限';

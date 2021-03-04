@@ -25,8 +25,8 @@
                             <template v-if="isMounted">
                                 
                                 <template v-if="thisForm">
-                                    <b-button size="lg" v-bind="thisForm.submitBindings.$attrs" v-on="thisForm.submitBindings.$listeners">{{ _("wb_Submit") }}</b-button>
-                                    <b-button size="lg" v-bind="thisForm.resetBindings.$attrs" v-on="thisForm.resetBindings.$listeners">{{ _("wb_Reset") }}</b-button>
+                                    <iv-button size="lg" icon="fa-save" v-bind="thisForm.submitBindings.$attrs" v-on="thisForm.submitBindings.$listeners">{{ _("wb_Submit") }}</iv-button>
+                                    <iv-button size="lg" icon="fa-undo" v-bind="thisForm.resetBindings.$attrs" v-on="thisForm.resetBindings.$listeners">{{ _("wb_Reset") }}</iv-button>
                                 </template>
 
                                 <template v-else-if="thisStep">
@@ -35,7 +35,7 @@
                                 </template>
 
                                 <template v-else>
-                                    <b-button size="lg" @click="close">{{ _("wb_NextStep") }}</b-button>
+                                    <iv-button size="lg" icon="fa-check" @click="close">{{ _("wb_NextStep") }}</iv-button>
                                 </template>
 
                             </template>

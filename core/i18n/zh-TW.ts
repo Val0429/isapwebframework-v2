@@ -36,6 +36,9 @@ export default class LangObject implements IBaseLang {
     wb_Close = '關閉';
     wb_Back = '返回';
 
+    w_CreatedAt = "建立日期";
+    w_UpdatedAt = "更新日期";
+
     mb_FormMultipleClickToAdd = '點擊來新增資料';
 
     mb_VersionLimitation = '版本限制';
