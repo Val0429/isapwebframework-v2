@@ -27,12 +27,12 @@ $animation-duration: .5s;
     .direction-slide-second-enter-active {
         transition: $animation-duration;
         position: relative;
-        pointer-events: none;
         z-index: 0;  
     }
     .direction-slide-first-leave-active,
     .direction-slide-second-leave-active {
         position: fixed !important;
+        pointer-events: none;
     }
     .direction-slide-first-enter {
         transform: translate(100%, 0);

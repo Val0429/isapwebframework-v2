@@ -13,7 +13,7 @@
 <script src="./fade-slide.vue.ts" />
 
 <style lang="scss" scoped>
-$animation-duration: 1s;
+$animation-duration: .8s;
 
 .fade-slider {
     position: relative;
@@ -24,11 +24,11 @@ $animation-duration: 1s;
     .fade-slide-enter-active {
         transition: opacity $animation-duration;
         position: relative;
-        pointer-events: none;
         z-index: 0;  
     }
     .fade-slide-leave-active {
         position: fixed !important;
+        pointer-events: none;
     }
     .fade-slide-enter {
         opacity: 0;
