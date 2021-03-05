@@ -21,7 +21,7 @@
             </template>
             <!-- uiType normal case -->
             <template v-else-if="getElementType(inf)">
-                <element :is="getElementType(inf)" :ref="inf.name" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
+                <element :is="getElementType(inf)" :ref="inf.name" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" @keyup.native.enter="doEnter" />
             </template>
             <template v-else>
                 <template v-for="type in parsedType(inf.type) || []">
@@ -40,6 +40,7 @@
                         :interface="type.data.result"
                         :value="innateValue[inf.name]"
                         @update:*="emitUpdate(inf.name+'.'+$event.key, $event.value)"
+                        @submit="doSubmit()"
                         >
                         <template v-for="slot in relatedSlots(inf.name, false)" :slot="slot.name">
                             <slot :name="slot.originalName" />

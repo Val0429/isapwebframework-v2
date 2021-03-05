@@ -512,6 +512,11 @@ export class Form extends Vue {
         );
     }
 
+    /// Enter-Submit handler
+    doEnter() {
+        this.validateFull() && this.doSubmit();
+    }
+
     /// Submit / Reset buttons
     /// united emitter
     public get submitBindings() {
@@ -521,7 +526,7 @@ export class Form extends Vue {
                 disabled: !this.validate()
             },
             $listeners: {
-                click: () => this.validateFull() && this.doSubmit()
+                click: () => this.doEnter()
             }
         }
     }
