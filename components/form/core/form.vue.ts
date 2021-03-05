@@ -233,6 +233,12 @@ export class Form extends Vue {
             input: (event) => {
                 this.innateValue[inf.name] = event;
                 this.emitUpdate(inf.name, event);
+            },
+            "keyup": (e) => {
+                /// handle enter
+                if (e.keyCode === 13) {
+                    this.doEnter();
+                }
             }
         };
     }
@@ -514,7 +520,7 @@ export class Form extends Vue {
 
     /// Enter-Submit handler
     doEnter() {
-        this.validateFull() && this.doSubmit();
+        this.validate() && this.validateFull() && this.doSubmit();
     }
 
     /// Submit / Reset buttons

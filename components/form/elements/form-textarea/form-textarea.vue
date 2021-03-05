@@ -9,7 +9,7 @@
             v-bind:id="'input-' + _uid"
             v-bind:value="value"
             v-bind:placeholder="placeholder"
-            v-on:input="$emit('input', $event)"
+            v-on="$listeners"
             v-bind:rows='3'
             v-bind:no-resize='false'
         />

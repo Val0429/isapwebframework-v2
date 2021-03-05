@@ -21,7 +21,7 @@
             </template>
             <!-- uiType normal case -->
             <template v-else-if="getElementType(inf)">
-                <element :is="getElementType(inf)" :ref="inf.name" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" @keyup.native.enter="doEnter" />
+                <element :is="getElementType(inf)" :ref="inf.name" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
             </template>
             <template v-else>
                 <template v-for="type in parsedType(inf.type) || []">

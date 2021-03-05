@@ -3,7 +3,7 @@
         v-bind="$attrs"
         v-bind:label="label"
         v-bind:value="getValue()"
-        v-on:input="$emit('input', +$event)"
+        v-on="$listeners"
         v-bind:type="type"
         v-bind:placeholder="placeholder"
         :invalid="invalid"

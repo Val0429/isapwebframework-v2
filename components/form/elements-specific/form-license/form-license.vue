@@ -6,6 +6,7 @@
         v-bind:placeholder="placeholder"
         :invalid="invalid"
         v-licensefilter
+        v-on="$listeners"
     />    
 </template>
 
