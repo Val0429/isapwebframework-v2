@@ -1,6 +1,25 @@
 <template>
     <li v-if="$slots.default" :class="{ 'nav-item': true, 'nav-dropdown': true, open: innateOpen }" :to="url" disabled>
-        <div class="nav-link nav-dropdown-toggle" style="cursor: pointer" @click="handleClick"><i :class="classIcon"></i> {{getLabel()}}</div>
+        <div class="nav-link nav-dropdown-toggle" style="cursor: pointer">
+            <div class="row dropdown-container">
+                <!-- <div style="flex: 1">
+                    <i :class="classIcon"></i> {{getLabel()}}
+                </div> -->
+                <div v-if="!hasComponent" style="flex: 1" :class="classList()" @click="handleClick">
+                    <i :class="classIcon"></i> {{getLabel()}}
+                </div>
+                <element v-else
+                    style="flex: 1"
+                    :is="isExternalLink ? 'a' : 'router-link'"
+                    :href="url" :to="url"
+                    :class="classList()"
+                    >
+                    <i :class="classIcon"></i> {{getLabel()}}
+                </element>
+
+                <div class="dropdown-btn" @click="handleClick" />
+            </div>
+        </div>
         <ul class="nav-dropdown-items">
             <slot></slot>
         </ul>
@@ -106,6 +125,25 @@ export default class SidebarNavItem extends Vue {
         classes.push(icon);
         return classes;
     }
+
+    private get hasComponent () {
+      /// function: has component
+      /// object: router
+      let routers = FindRouter({ path: this.url });
+      if (routers.length === 0) return false;
+      let router = routers[0];
+      return router.component != undefined;
+    }
+
+    private get isExternalLink() {
+        return Boolean(/^http/.test(this.url));
+    }
+
+    private classList() {
+        return [
+            'nav-link'
+        ];
+    }
 }
 </script>
 
@@ -115,5 +153,16 @@ export default class SidebarNavItem extends Vue {
 }
 /deep/ .nav-icon {
     min-width: 1.3rem;
+}
+.dropdown-container {
+    margin-top: -12px;
+    margin-bottom: -12px;
+    .dropdown-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 45px;
+        height: 45px;
+    }
 }
 </style>
