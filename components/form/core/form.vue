@@ -2,10 +2,13 @@
     <div :class="{ row: true, 'col-md-12': inner ? true : false, inner: inner ? true : false }">
 
         <template v-for="(inf, index) in this.parsedInterface">
+            <!-- hidden case -->
             <template v-if="(inf.attrs||{}).uiHidden === 'true'" />
+            <!-- template# custom case -->
             <template v-else-if="$slots[inf.name] || $scopedSlots[inf.name]">
                 <slot :name="inf.name" :$attrs="bindAttrs(inf, index)" :$listeners="bindListeners(inf, index)" :data="innateValue" />
             </template>
+            <!-- form-multiple case -->
             <template v-else-if="isSimpleArrayType(inf)">
                 <iv-form-multiple :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" :elementType="getMultipleElementType(inf)">
                     <template v-for="slot in relatedSlots(inf.name, false)" :slot="slot.name">
@@ -16,17 +19,20 @@
                     </template>
                 </iv-form-multiple>
             </template>
+            <!-- uiType normal case -->
             <template v-else-if="getElementType(inf)">
                 <element :is="getElementType(inf)" :ref="inf.name" :key="inf.name" v-bind="bindAttrs(inf, index)" v-on="bindListeners(inf, index)" />
             </template>
             <template v-else>
                 <template v-for="type in parsedType(inf.type) || []">
+                    <!-- enum case -->
                     <iv-form-selection
                         v-if="type.type === 'enum'"
                         :key="inf.name"
                         v-bind="bindAttrs(inf, index, type)"
                         v-on="bindListeners(inf, index)"
                     />
+                    <!-- nested form case -->
                     <iv-form v-else
                         :ref="inf.name"
                         :key="inf.name"
@@ -41,13 +47,6 @@
                         <template v-for="slot in relatedSlots(inf.name, true)" v-slot:[slot.name]="scope">
                             <slot :name="slot.originalName" v-bind="scope" />
                         </template>
-
-                        <!-- <template v-for="(_, slot) of $slots">
-                            <slot :name="slot" />
-                        </template>
-                        <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
-                            <slot :name="slot" v-bind="scope" />
-                        </template> -->
                     </iv-form>
 
                 </template>
