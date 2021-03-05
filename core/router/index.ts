@@ -12,6 +12,7 @@ import { observeOn, filter, first } from 'rxjs/operators';
 import { AuthPluginData } from './../private/plugins/authentication';
 import { isObjectEmpty } from './../utilities';
 import config from '@/config/default/container';
+import RouteTransition from '@/../components/transitions/route-transition/route-transition.vue';
 
 Vue.use(Router);
 
@@ -100,6 +101,14 @@ export function FindRouter(options: Partial<IRegisterRouterInput>): IRegisterRou
 }
 //////////////////////////////////////
 const defComponent = { render: (c) => c('router-view') };
+const autoRouteComponent = (path, comp) => {
+    return { render: (c) => {
+        let element = c(RouteTransition, { props: {path} }, [
+            c('div', {key: 'main'}, [c(comp)])
+        ]);
+        return element;
+    }}
+}
 function resolveRoute(config: IRegisterRouterInput) {
     let { path, name, component, redirect, meta } = config;
     // bind redirect function
@@ -107,8 +116,11 @@ function resolveRoute(config: IRegisterRouterInput) {
 
     let insertRoute = (routes: RouteConfig[], paths: string[], level: number = 0) => {
         if (paths.length === 0) return;
-        let last = paths.length === 1;
-        let path = paths[0];
+        let last = paths.length === level+1;
+        let path = paths[level];
+        /// find the component
+        let routers = FindRouter({ path: paths.slice(0, level+1).join("") });
+        let component = routers.length === 0 ? null : routers[0].component;
         /// find the route
         let idx = routes.findIndex( value => value.path === path || value.path === path.replace(/^\//, '') );
         if (last) {
@@ -127,22 +139,23 @@ function resolveRoute(config: IRegisterRouterInput) {
                 path: level === 0 ? `${path}` : path.replace(/^\//, ''),
                 name: path,
                 redirect,
-                component: defComponent,
+                component: component ? autoRouteComponent(path, component) : defComponent,
                 children: []
             }
             let route: RouteConfig = data;
             if (idx === -1) routes.push(data);
             else {
                 route = routes[idx];
+                Object.assign(route, { component: data.component });
                 if (!route.children) route.children = [];
             }
-            paths.shift();
+
+            if (paths.length <= level+1) return;
             insertRoute(route.children, paths, level+1);
         }
     }
 
     /// 1) split paths
-    //let paths = path.split('/').filter(v => v);
     let paths = path.match(/\/([^\/]+|$)/g);
     insertRoute(routes, paths);
 

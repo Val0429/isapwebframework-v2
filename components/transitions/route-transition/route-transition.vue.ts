@@ -11,6 +11,12 @@ import { FindRouter } from '@/../core/router';
 export class RouteTransition extends Vue {
     /// public ///////////////////////////////////////////////////////////////////////////
     /// direct props ////////////////////////////
+    /// if path being set, use this one rather than take from $parent
+    @Prop({
+        type: String,
+        required: false
+    })
+    path: string;
     //////////////////////////////////////////////////////////////////////////////////////
 
     /// private //////////////////////////////////////////////////////////////////////////
@@ -24,19 +30,19 @@ export class RouteTransition extends Vue {
 
 
     isChildRoute() {
-        let router = FindRouter({
-          component: this.$parent.constructor
+        let router = FindRouter( this.path ? {
+            path: this.path
+        } : {
+            component: this.$parent.constructor
         });
         if (router.length === 0) return false;
 
         let path = this.$parent.$route.path;
-        // console.log('child route?', path, router);
         let result = router.reduce( (final, route) => {
             if (final) return final;
             if (path.indexOf(route.path) === 0 && path.length > route.path.length) return true;
             return final;
         }, false);
-        // console.log('result?', result);
         return result;
     }
     //////////////////////////////////////////////////////////////////////////////////////

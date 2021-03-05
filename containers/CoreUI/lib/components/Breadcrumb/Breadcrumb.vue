@@ -14,6 +14,8 @@
 </style>
 
 <script>
+import { FindRouter } from '@/../core/router';
+
 export default {
   props: {
     list: {
@@ -39,7 +41,10 @@ export default {
     hasComponent (item) {
       /// function: has component
       /// object: router
-      return typeof(item.components.default) === "function";
+      let routers = FindRouter({ path: item.path });
+      if (routers.length === 0) return false;
+      let router = routers[0];
+      return !!router.component;
     },
     isLast (index) {
       return index === this.list.length - 1
