@@ -1,5 +1,8 @@
 <template>
-    <transition-group :name="animeName" class="fade-slider" tag="div" @before-enter="beforeEnter" @before-leave="beforeLeave">
+    <transition v-if="type === 'single'" :name="animeName" class="fade-slider" @before-enter="beforeEnter" @before-leave="beforeLeave">
+        <slot />
+    </transition>
+    <transition-group v-else :name="animeName" class="fade-slider" tag="div" @before-enter="beforeEnter" @before-leave="beforeLeave">
         <template v-for="(_, slot) of $slots">
             <slot :name="slot" />
         </template>
@@ -9,29 +12,28 @@
 
 <script src="./fade-slide.vue.ts" />
 
-<style lang="scss">
-$animation-duration: .5s;
+<style lang="scss" scoped>
+$animation-duration: 1s;
 
-/// direction slider ////////////////
 .fade-slider {
     position: relative;
+}
 
-    > .fade-slide-leave-active,
-    > .fade-slide-enter-active {
-        transition: $animation-duration;
+*, /deep/ {
+    .fade-slide-leave-active,
+    .fade-slide-enter-active {
+        transition: opacity $animation-duration;
         position: relative;
         pointer-events: none;
         z-index: 0;  
     }
-    > .fade-slide-leave-active {
-        position: absolute !important;
-        left: 0; top: 0;
-        z-index: 10000;
+    .fade-slide-leave-active {
+        position: fixed !important;
     }
-    > .fade-slide-enter {
+    .fade-slide-enter {
         opacity: 0;
     }
-    > .fade-slide-leave-to {
+    .fade-slide-leave-to {
         opacity: 0;
     }
 }

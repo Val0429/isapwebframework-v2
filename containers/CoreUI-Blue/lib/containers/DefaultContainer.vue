@@ -61,7 +61,9 @@
         <Breadcrumb class="bread-crumb" :list="list"/>
           <iv-scrollbar ref="scrollbar" class="scroll-area" :settings="psSettings">
             <div class="container-fluid">
-              <router-view></router-view>
+              <iv-fade-slide>
+                <router-view></router-view>
+              </iv-fade-slide>
             </div>
           </iv-scrollbar>
       </main>
@@ -159,6 +161,7 @@ export default {
   height: calc(100vh - 35px - 45px);
 }
 .container-fluid {
+  position: relative;
   box-sizing: border-box;
   margin-top: 4rem;
   margin-bottom: 50px;

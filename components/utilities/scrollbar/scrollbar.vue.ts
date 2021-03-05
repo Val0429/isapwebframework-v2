@@ -50,6 +50,7 @@ export class Scrollbar extends Vue {
                 await new Promise((resolve) => setTimeout(resolve, 100));
                 if (++count > 50) {
                     console.warn("<iv-scrollbar> warning: updating too frequently. please call Val to fix this issue.", scrollbar.$el, container, scrollHeight, containerHeight, "count:", count);
+                    console.warn(`<iv-scrollbar> info: scrollHeight: ${scrollHeight}, containerHeight: ${containerHeight}, scrollMinHeight: ${scrollMinHeight}`);
                     break;
                 }
             }

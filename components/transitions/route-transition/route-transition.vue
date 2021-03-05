@@ -1,7 +1,9 @@
 <template>
-    <iv-auto-transition :step="step">
+    <iv-auto-transition :step="step" type="iv-direction-slide">
         <div v-if="isChildRoute()" key="route">
-            <router-view />
+            <iv-fade-slide>
+                <router-view />
+            </iv-fade-slide>
         </div>
 
         <template v-else>

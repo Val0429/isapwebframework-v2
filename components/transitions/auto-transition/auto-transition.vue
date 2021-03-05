@@ -1,5 +1,5 @@
 <template>
-    <element :is="type" :step="step">
+    <element :is="type" :step="step" type="group">
         <template v-for="(_, slot) of $slots">
             <slot :name="slot" />
         </template>

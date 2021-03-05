@@ -4,11 +4,14 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
+import { first } from "rxjs/operators";
 import { Vue, Component, Prop, Model, Emit, Watch, Inject } from "vue-property-decorator";
 
 enum AnimationDirection {
     RTL, LTR
 }
+
+type AnimationMode = "single" | "group";
 
 @Component
 export class DirectionSlide extends Vue {
@@ -19,6 +22,13 @@ export class DirectionSlide extends Vue {
         default: 0
     })
     step: number;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: "single"
+    })
+    type: AnimationMode;
     //////////////////////////////////////////////////////////////////////////////////////
 
     /// private //////////////////////////////////////////////////////////////////////////
@@ -29,12 +39,10 @@ export class DirectionSlide extends Vue {
     }
 
     /// handle animation
-    private beforeEnter() {
-        let el = arguments[0];
+    private beforeEnter(el) {
         el.style.width = 'inherit';
     }
-    private beforeLeave() {
-        let el = arguments[0];
+    private beforeLeave(el) {
         el.style.width = `${el.offsetWidth}px`;
     }
     private animeDirection: AnimationDirection = AnimationDirection.LTR;

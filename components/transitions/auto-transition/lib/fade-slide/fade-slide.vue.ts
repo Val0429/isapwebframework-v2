@@ -10,6 +10,8 @@ enum AnimationDirection {
     RTL, LTR
 }
 
+type AnimationMode = "single" | "group";
+
 @Component
 export class FadeSlide extends Vue {
     /// public ///////////////////////////////////////////////////////////////////////////
@@ -19,6 +21,13 @@ export class FadeSlide extends Vue {
         default: 0
     })
     step: number;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: "single"
+    })
+    type: AnimationMode;
     //////////////////////////////////////////////////////////////////////////////////////
 
     /// private //////////////////////////////////////////////////////////////////////////
@@ -29,12 +38,10 @@ export class FadeSlide extends Vue {
     }
 
     /// handle animation
-    private beforeEnter() {
-        let el = arguments[0];
+    private beforeEnter(el) {
         el.style.width = 'inherit';
     }
-    private beforeLeave() {
-        let el = arguments[0];
+    private beforeLeave(el) {
         el.style.width = `${el.offsetWidth}px`;
     }
     private animeDirection: AnimationDirection = AnimationDirection.LTR;
