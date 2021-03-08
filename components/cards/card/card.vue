@@ -77,7 +77,7 @@
 .footer {
     text-align: right;
 
-    /deep/ * {
+    ::v-deep > * {
         margin: 0 .2rem;
     }
 }

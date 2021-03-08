@@ -5,15 +5,10 @@
  */
 
 import { Vue, Component, Prop, Emit } from "vue-property-decorator";
+import { generateIcon } from "@/../core/utilities";
 
 @Component
-export class Button extends Vue {
-    @Prop({
-        type: String,
-        required: false
-    })
-    label: string;
-
+export default class Icon extends Vue {
     @Prop({
         type: String,
         required: false,
@@ -31,13 +26,8 @@ export class Button extends Vue {
     @Prop({ type: String, required: false })
     icon: string;
 
-    @Emit('click')
-    private doClick(e) { return e; }
-
     /// private helper
-    private get classWithIcon() {
-        if (!this.icon) return "";
-        return `with-icon-${this.size}`;
+    private get classIcon() {
+        return `${generateIcon(this.icon)} icon-${this.size} ${this.variant}-yiq`;
     }
 }
-export default Button;

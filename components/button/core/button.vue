@@ -3,7 +3,7 @@
         v-bind="{ ...$attrs }"
         v-on:click="$emit('click', $event)"
         >
-        <i v-if="icon" :class="classIcon" />
+        <iv-icon v-if="icon" :variant="variant" :size="size" :icon="icon" />
 
         <template v-if="$slots.default">
             <slot />

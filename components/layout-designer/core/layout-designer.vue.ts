@@ -5,7 +5,6 @@
  */
 
 import { Vue, Component, Prop, Model, Watch } from "vue-property-decorator";
-import { generateIcon } from "@/../core/utilities";
 
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
