@@ -6,7 +6,6 @@
 
 import { Vue, Component, Prop, Model, Emit, Watch } from "vue-property-decorator";
 import { FindRouter } from '@/../core/router';
-import { generateIcon } from '@/../core/utilities';
 
 @Component
 export class ToolboxCustom extends Vue {
@@ -58,11 +57,5 @@ export class ToolboxCustom extends Vue {
 
     @Emit()
     click(event) { return; }
-
-    /// private helper
-    private get classIcon() {
-        if (!this.icon) return;
-        return generateIcon(this.icon);
-    }
 }
 export default ToolboxCustom;

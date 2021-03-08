@@ -3,7 +3,7 @@
     <iv-toolbox-element-base
         v-bind="$attrs"
         :title="label"
-        :icon="classIcon"
+        :icon="icon"
         v-show="visible"
         :variant="variant"
         :size="size"

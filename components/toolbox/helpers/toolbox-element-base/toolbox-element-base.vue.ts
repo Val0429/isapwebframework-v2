@@ -57,13 +57,12 @@ export class ToolboxElementBase extends Vue {
 
     @Emit()
     click(event) { event.stopPropagation(); return; }
+    @Emit()
+    dblclick(event) { event.stopPropagation(); return; }
 
     constructor() {
         super();
         this.doHide = this.doHide.bind(this);
-    }
-    private classIcon(icon: string) {
-        return `${icon} btn-${this.size}`;
     }
     private mounted() {
         $('body').on('click', this.doHide);

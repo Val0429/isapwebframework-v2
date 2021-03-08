@@ -1,15 +1,16 @@
 <template>
     <b-button :variant="variant" :size="size" :class="classWithIcon"
         v-bind="{ ...$attrs }"
-        v-on:click="$emit('click', $event)"
+        @click="click"
+        @dblclick="dblclick"
         >
         <iv-icon v-if="icon" :variant="variant" :size="size" :icon="icon" />
 
         <template v-if="$slots.default">
-            <slot />
+            <span><slot /></span>
         </template>
-        <fragment v-else>
-            {{ label }}
+        <fragment v-else-if="label">
+            <span>{{ label }}</span>
         </fragment>
     </b-button>
 </template>
@@ -18,7 +19,7 @@
 <script lang="ts" src="./button.vue.ts" />
 
 <style lang="scss" scoped>
-i {
+i:not(:last-child) {
     margin-right: 0.5rem !important;
 }
 .btn {

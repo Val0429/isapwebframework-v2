@@ -31,8 +31,11 @@ export class Button extends Vue {
     @Prop({ type: String, required: false })
     icon: string;
 
-    @Emit('click')
-    private doClick(e) { return e; }
+    @Emit()
+    private click(e) { return e; }
+
+    @Emit()
+    private dblclick(e) { return e; }
 
     /// private helper
     private get classWithIcon() {

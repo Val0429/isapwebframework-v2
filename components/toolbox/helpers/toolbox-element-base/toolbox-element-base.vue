@@ -5,9 +5,10 @@
             <slot name="layout" :title="title" :icon="icon" :$listeners="{ click }" />
         </template>
         <template v-else>
-            <b-button
+            <iv-button
                 :id="'target-'+_uid"
-                :class="icon"
+                :icon="icon"
+                :label="!icon ? title : undefined"
                 :pressed="active"
                 v-show="visible"
                 v-bind="$attrs"
@@ -15,7 +16,8 @@
                 :size="size"
                 :disabled="disabled"
                 @click="click"
-                >{{ !icon ? title : '' }}</b-button>
+                @dblclick="dblclick"
+                />
 
             <b-tooltip :target="'target-'+_uid" :title="title" />
 
@@ -35,7 +37,7 @@
                         </template>
                         <template #layout="{ title, icon, $listeners }">
                             <b-list-group-item class="d-flex align-items-center" v-on="$listeners" v-show="visible" :disabled="disabled">
-                                <i :class="classIcon(icon)" />
+                                <iv-icon :icon="icon" :variant="variant" :size="size" />
                                 <span class="item-title">{{ title }}</span>
                             </b-list-group-item>
                         </template>
@@ -92,8 +94,23 @@
         margin-left: 1rem; white-space: nowrap; min-width: 5.5rem;
     }
 
-    .btn {
-        padding: 0.15rem 0.38rem;
+    .btn, .btn-md {
+        padding: 0 0 0 3px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+
+    .btn-lg {
+        padding: 0 0 0 5px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .btn-sm {
+        padding: 0 0 0 0px;
+        width: 24px;
+        height: 24px;
     }
 }
 </style>
