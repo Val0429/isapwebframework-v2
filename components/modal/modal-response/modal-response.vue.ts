@@ -5,7 +5,6 @@
  */
 
 import { Vue, Component, Prop, Model, Watch, Emit } from "vue-property-decorator";
-import { ServerName } from '@/../core/server';
 
 interface IResponse {
     body: string;
@@ -38,7 +37,6 @@ export class ModalResponse extends Vue {
     doUpdateVisible(value: boolean) { return value; }
     
     /// private helpers //////////////////////////////
-    private serverName: string = ServerName;
     private get Code() {
         return (this.value as any).response.res ? (this.value as any).response.res.statusCode : 0;
     }

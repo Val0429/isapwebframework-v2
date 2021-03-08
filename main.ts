@@ -52,6 +52,10 @@ Vue.use(ModalPlugin);
 import { AuthPlugin } from './core/private/plugins/authentication';
 Vue.use(AuthPlugin);
 
+/// install info support
+import { InfoPlugin } from './core/private/plugins/info';
+Vue.use(InfoPlugin);
+
 /// install fragment support
 let Fragment = require('vue-fragment');
 Vue.use(Fragment.Plugin);

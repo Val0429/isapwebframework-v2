@@ -9,7 +9,7 @@
                                 <div class="card-body">
                                     <h1>{{ _("wb_Login") }}</h1>
 
-                                    <p class="text-muted">{{ version }}</p>
+                                    <p class="text-muted">{{ $info.server.name }} v{{$info.server.version}}</p>
 
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
