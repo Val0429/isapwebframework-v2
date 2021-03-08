@@ -6,6 +6,8 @@
 
 import { Vue, Component, Prop, Model, Watch, Inject } from "vue-property-decorator";
 import $ from 'jquery';
+import lang from '@/../core/i18n';
+import { Subscription } from "rxjs";
 
 interface FormSelectionOption {
     id: string | number;
@@ -66,8 +68,23 @@ export class FormSelection extends Vue {
     /// private helpers
     @Inject({ default: null }) modalParent: any;
 
+    private subsLangChange: Subscription;
     private created() {
         this.doMount = this.doMount.bind(this);
+
+        this.subsLangChange = lang.getObservable()
+            .subscribe(() => {
+                let me = $(`#${this.id}`) as any;
+                /// make sure the two object is really changed
+                setTimeout(() => {
+                    me.select2().off('change', this.doOnChange);
+                    me.select2("destroy");
+                    this.doMount();
+                }, 0);
+            });
+    }
+    private beforeDestroy() {
+        this.subsLangChange && this.subsLangChange.unsubscribe();
     }
     private doMount(data?: FormSelectionOption[]) {
         let me = $(`#${this.id}`) as any;
@@ -75,7 +92,10 @@ export class FormSelection extends Vue {
             theme: "bootstrap",
             placeholder: this.placeholder || this._("mb_PleaseSelect"),
             allowClear: this.multiple ? false : true,
-            dropdownParent: !this.modalParent ? null : $(this.modalParent.$el)
+            dropdownParent: !this.modalParent ? null : $(this.modalParent.$el),
+            language: {
+                noResults: () => this._("mb_FormSelectionNoResult")
+            }
         })
             .on('change', this.doOnChange)
             /// prevent dialog open when clear

@@ -50,6 +50,7 @@ export default class LangObject {
     mb_ShowCurrentEntries = 'Showing {curStart} to {curEnd} of {total} entries';
     mb_PleaseSelect = 'Please Select';
     mb_ConfirmDelete = 'Are you sure to delete?';
+    mb_FormSelectionNoResult = 'No Results Found';
 
     mb_0 = 'Request Failed';
     mb_0_message = 'No response from server. Generally happened because of ip / port error or server down.';

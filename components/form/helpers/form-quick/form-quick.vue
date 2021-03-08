@@ -51,7 +51,7 @@
                 </template>
                 <template v-for="slot in relatedSlots('add', true)" v-slot:[slot.name]="scope">
                     <slot :name="slot.originalName" v-bind="scope" />
-                </template>            
+                </template>
             </CustomAdd>
 
         </iv-auto-transition>

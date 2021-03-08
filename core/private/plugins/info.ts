@@ -63,7 +63,6 @@ export const InfoPlugin = {
             async created() {
                 try {
                     await mtxInfo.acquire();
-                    console.log("done?", done);
                     if (done) return;
                     done = true;
                     let info = sjInfo.getValue();
