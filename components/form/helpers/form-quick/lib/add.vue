@@ -2,7 +2,7 @@
     <div>
         <iv-auto-transition :step="type === 'preview' ? 2 : 1" type="iv-fade-slide">
             <iv-auto-card
-                v-show="type === 'add' || type === 'edit'"
+                v-if="type === 'add' || type === 'edit'"
                 key="edit"
                 :label="type === 'add' ? tAddText() : type==='edit' ? tEditText() : tPreviewText()"
             >
