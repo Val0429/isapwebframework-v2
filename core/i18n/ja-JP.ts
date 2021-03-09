@@ -52,6 +52,7 @@ export default class LangObject implements IBaseLang {
     mb_PleaseSelect = '選択してください';
     mb_ConfirmDelete = '本当に削除しますか？';
     mb_FormSelectionNoResult = '検索結果はありません';
+    mb_NoFileChosen = "ファイルが選択されていません";
 
     mb_0 = 'リクエストが失敗しました';
     mb_0_message = 'サーバーから応答がありません。 一般的にはIP /ポートエラーまたはサーバーのダウンが原因で発生しました。';

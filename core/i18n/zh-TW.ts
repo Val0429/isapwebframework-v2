@@ -52,6 +52,7 @@ export default class LangObject implements IBaseLang {
     mb_PleaseSelect = '請選擇';
     mb_ConfirmDelete = '是否確定刪除?';
     mb_FormSelectionNoResult = '找不到資料';
+    mb_NoFileChosen = "沒有選擇檔案";
 
     mb_0 = '請求失敗';
     mb_0_message = '伺服器沒有回應。一般發生於ip / port錯誤，或是伺服器離線。';

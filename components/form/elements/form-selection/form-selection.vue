@@ -1,6 +1,6 @@
 <template>
     <b-form-group
-        v-bind:id="'form-group-' + _uid"
+        v-bind:id="groupid"
         v-bind:label="label"
         v-bind:label-for="id"
         :class="{ 'form-selection': true, 'is-invalid': $attrs.state === false }"

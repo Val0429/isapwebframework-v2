@@ -8,7 +8,7 @@
             :accept="accept"
             v-bind="$attrs"
             v-bind:value="innateValue"
-            v-bind:placeholder="placeholder"
+            v-bind:placeholder="placeholder || _('mb_NoFileChosen')"
             v-bind:drop-placeholder="dropPlaceholder"
             v-bind:multiple="multiple"
             v-on:input="$emit('input', $event)"

@@ -83,12 +83,33 @@ export class FormSelection extends Vue {
                 }, 0);
             });
     }
-    private beforeDestroy() {
-        this.subsLangChange && this.subsLangChange.unsubscribe();
+    private headElement: HTMLHeadElement;
+    private styleElement: HTMLStyleElement;
+    private doUnmount() {
+        this.headElement.removeChild(this.styleElement);
     }
     private doMount(data?: FormSelectionOption[]) {
         let me = $(`#${this.id}`) as any;
-        me.select2({
+
+        let megroup = $(`#${this.groupid}`)[0];
+        /// apply scale
+        if (megroup && !this.styleElement) {
+            let trans = window.getComputedStyle(megroup).transform;
+            let matches = trans.match(/[0-9]+(\.[0-9]+)?/g);
+            if (matches) {
+                let match = matches.reduce((final, value) => {
+                    let num = +value;
+                    if (num > final) return num;
+                    return final;
+                }, 0);
+                this.headElement = document.getElementsByTagName("head")[0];
+                this.styleElement = document.createElement("style");
+                this.headElement.appendChild(this.styleElement);
+                (this.styleElement.sheet as any).insertRule(`.${this.popupclass} { transform: scale(1.3); }`);
+            }
+        }
+        
+        let element = me.select2({
             theme: "bootstrap",
             placeholder: this.placeholder || this._("mb_PleaseSelect"),
             allowClear: this.multiple ? false : true,
@@ -97,10 +118,12 @@ export class FormSelection extends Vue {
                 noResults: () => this._("mb_FormSelectionNoResult")
             }
         })
-            .on('change', this.doOnChange)
-            /// prevent dialog open when clear
-            .on('select2:unselecting', () => me.data('unselecting', true))
-            .on('select2:opening', (e) => { if (me.data('unselecting')) { me.removeData('unselecting'); e.preventDefault(); } });
+        .on('change', this.doOnChange)
+        /// prevent dialog open when clear
+        .on('select2:unselecting', () => me.data('unselecting', true))
+        .on('select2:opening', (e) => { if (me.data('unselecting')) { me.removeData('unselecting'); e.preventDefault(); } });
+
+        element.data('select2').$dropdown.addClass(this.popupclass);
     }
     private doOnChange() {
         let me = $(`#${this.id}`) as any;
@@ -129,7 +152,13 @@ export class FormSelection extends Vue {
     private mounted() {
         this.doMount();
     }
+    private beforeDestroy() {
+        this.subsLangChange && this.subsLangChange.unsubscribe();
+        this.doUnmount();
+    }
 
+    private get popupclass(): string { return `popup-${(this as any)._uid}` }
+    private get groupid(): string { return `form-group-${(this as any)._uid}` }
     private get id(): string { return `input-${(this as any)._uid}` }
 }
 export default FormSelection;
