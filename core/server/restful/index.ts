@@ -16,6 +16,7 @@ const debug = require('@/config/default/debug');
 
 /// bridge Log /////////////////////
 import * as Print from './../../utilities/print';
+import { Url } from '@/../core/utilities/url-join';
 let Log = {
     Info: (title: string, message: string) => Print.Message(title, message, 'info'),
     Error: (title: string, message: string) => Print.Message(title, message, 'error'),
@@ -266,7 +267,7 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
         let { ip, port, ssl, cgiPath } = this.config;
         let protocol = ws ? 'ws' : 'http';
         if (ssl) protocol += "s";
-        return `${protocol}://${ip}:${port}${cgiPath?("/"+cgiPath):""}${uri}`;
+        return Url.join(`${protocol}://${ip}:${port}`, cgiPath, uri);
     }
 
     /// caches of result / errors //////////////////////////////////
