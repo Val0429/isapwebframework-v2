@@ -41,9 +41,11 @@ export class DirectionSlide extends Vue {
     /// handle animation
     private beforeEnter(el) {
         el.style.width = 'inherit';
+        el.style.height = 'inherit';
     }
     private beforeLeave(el) {
         el.style.width = `${el.offsetWidth}px`;
+        el.style.height = `${el.offsetHeight}px`;
     }
     private animeDirection: AnimationDirection = AnimationDirection.LTR;
     private get animeName() {
