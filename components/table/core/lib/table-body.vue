@@ -217,7 +217,18 @@ export class TableBody extends Vue {
         let item = this.result.results[this.indexOfRows];
         return {
             input: event => {
-                item[inf.name] = event;
+                let me: Vue = this;
+                let metas = [];
+                do {
+                    metas.unshift((me as any).meta);
+                } while (((me = me.$parent), (me as any).meta));
+                for (let i=0, o=item; i<metas.length; ++i) {
+                    let last=(i==metas.length-1);
+                    let meta = metas[i];
+                    if (!o) break;
+                    if (!last) o = o[meta.name];
+                    else o[meta.name] = event;
+                }
             }
         };
     }

@@ -86,6 +86,9 @@ export class FormQuick extends Vue {
         this.view = EFormQuick.View;
         (this.$refs.view as any).reload();
     }
+    public reload() {
+        (this.$refs.view as any).reload();
+    }
     private doAdd(data) {
         (async () => {
             let parent = this.$parent as any;

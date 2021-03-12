@@ -6,7 +6,7 @@
     >
         <div class="content" v-html="Content" />
 
-        <blockquote :cite="serverName">
+        <blockquote :cite="$info.server.name">
             <pre>
 {{ value.response.body || value.response.err.message }}
             </pre>

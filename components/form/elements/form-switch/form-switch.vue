@@ -5,10 +5,12 @@
         v-bind:label-for="'input-' + _uid"
         >
 
-        <c-switch class="mx-1" color="primary" variant="3d"
+        <iv-cell-switch class="mx-1"
             v-bind="$attrs"
-            :modelChecked="value"
-            v-on:change="$emit('input', $event)"
+            v-on="$listeners"
+            :value="value"
+            :size="size"
+            :variant="variant"
             />
 
         <b-form-invalid-feedback v-if="this.invalid">

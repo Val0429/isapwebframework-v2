@@ -110,7 +110,7 @@ export class List extends Vue {
     }
     private tViewText(): string { return this.textParser(this.tView) };
 
-    private reload() {
+    public reload() {
         (this.$refs.table as any).reload();
     }
     private doDelete(rows) {

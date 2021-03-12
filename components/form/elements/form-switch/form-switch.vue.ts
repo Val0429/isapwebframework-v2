@@ -5,12 +5,9 @@
  */
 
 import { Vue, Component, Prop, Model } from "vue-property-decorator";
-import { Switch as cSwitch } from '@coreui/vue';
 
-@Component({
-    components: { cSwitch }
-})
-export class FormSwitch extends Vue {
+@Component
+export default class FormSwitch extends Vue {
     @Prop({
         type: String,
         required: false
@@ -28,5 +25,18 @@ export class FormSwitch extends Vue {
         required: false
     })
     value!: string;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: 'primary'
+    })
+    variant: string;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: 'md'
+    })
+    size: string;
 }
-export default FormSwitch;
