@@ -4,16 +4,46 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop } from "vue-property-decorator";
-import { Switch as cSwitch } from '@coreui/vue';
+import { Vue, Component, Prop, Model } from "vue-property-decorator";
 
-@Component({
-    components: { cSwitch }
-})
-export class CellSwitch extends Vue {
-    @Prop({
-        required: true
-    })
-    value!: any;
+export interface ISwitchData {
+    "label-on"?: string;
+    "label-off"?: string;
 }
-export default CellSwitch;
+
+@Component
+export default class CellSwitch extends Vue {
+    @Model('input', {
+        type: Boolean,
+        required: false
+    })
+    value: string;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: 'primary'
+    })
+    variant: string;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: 'md'
+    })
+    size: string;
+
+    @Prop({ type: Object as () => ISwitchData, required: false, default: () => ({}) })
+    data!: ISwitchData;
+
+    private get classList() {
+        return [
+            "switch",
+            this.data['label-on'] || this.data['label-off'] ? "switch-label" : "",
+            this.size ? `switch-${this.size}` : "",
+            this.variant ? `switch-${this.variant}` : "",
+            "switch-3d",
+            "form-check-label"
+        ];
+    }
+}

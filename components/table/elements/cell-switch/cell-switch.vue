@@ -1,7 +1,23 @@
 <template>
-    <c-switch v-if="value !== null && value !== undefined" class="mx-1" color="primary" variant="3d"
-        :modelChecked="value" disabled
+    <label :class="classList">
+        <input
+            type="checkbox"
+            class="switch-input form-check-input"
+            v-bind="{ ...$attrs, class: undefined }" 
+            :checked="value"
+            @change="$emit('input', $event.target.checked)"
         />
+        <template v-if="data['label-on'] || data['label-off']">
+            <span
+                :data-checked="data['label-on']"
+                :data-unchecked="data['label-off']"
+                class="switch-slider">
+            </span>
+        </template>
+        <template v-else>
+            <span class="switch-slider"></span>
+        </template>
+    </label>
 </template>
 
 
@@ -9,9 +25,6 @@
 
 
 <style lang="css" scoped>
-/deep/ .switch-input:disabled ~ .switch-slider {
-    cursor: default;
-}
 label {
     vertical-align: middle;
 }
