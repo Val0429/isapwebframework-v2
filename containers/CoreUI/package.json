@@ -14,7 +14,7 @@
         "test:e2e": "vue-cli-service test:e2e"
     },
     "dependencies": {
-        "@coreui/coreui": "git+http://isap-dev-server:3000/iSAP-AP-Team/val-coreui.git#e2c1cfbe8f",
+        "@val/coreui": "^2.1.9",
         "@coreui/coreui-plugin-chartjs-custom-tooltips": "1.2.0",
         "@coreui/icons": "0.3.0",
         "@coreui/vue": "2.1.2",
