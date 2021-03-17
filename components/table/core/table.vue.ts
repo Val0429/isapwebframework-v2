@@ -28,7 +28,7 @@ const uiSortable = "uiSortable";
 /// can search
 const uiSearchable = "uiSearchable";
 /// null value
-const uiNull = "uiNull";
+export const uiDefault = "uiDefault";
 
 /// For Convenience - use for conditionally uiType switch
 export const UI_TYPE_DEFAULT = "default";

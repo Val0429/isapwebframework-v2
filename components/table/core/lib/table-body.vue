@@ -18,8 +18,8 @@
         </template>
         <template v-else>
             <!-- null case -->
-            <template v-if="getIsNull() && (meta.attrs||{}).uiNull">
-                <element :is="getUINullType()" :value="(meta.attrs||{}).uiNull" />
+            <template v-if="getIsDefault(meta)">
+                <element v-bind="getUIDefaultValue(meta)" />
             </template>
             <!-- original type -->
             <template v-else>
@@ -74,7 +74,7 @@
  */
 
 import { Vue, IMetaResult, Prop, Component, Inject } from "@/../core";
-import { UI_TYPE_DEFAULT } from "../table.vue";
+import { uiDefault, UI_TYPE_DEFAULT } from "../table.vue";
 import { IGetResult } from "./core";
 @Component
 export class TableBody extends Vue {
@@ -126,8 +126,9 @@ export class TableBody extends Vue {
         let multiple = (inf.attrs||{})["uiMultiple"];
         return multiple ? (multiple === "true" ? true : false) : inf.isArray;
     }
-
-    private getIsNull(): boolean {
+    private getIsDefault(inf: IMetaResult): boolean {
+        let def = (inf.attrs||{})["uiDefault"];
+        if (!def) return false;
         let value = (this.row||{})[this.meta.name];
         let typeOfValue = typeof(value);
         return value == null ? true :
@@ -135,9 +136,22 @@ export class TableBody extends Vue {
                typeOfValue === "number" && value === 0 ? true :
                false;
     }
-    private getUINullType(): string {
-        let value = (this.meta.attrs||{}).uiNull;
-        return value[0] === "<" ? "iv-cell-html-string" : "iv-cell-string";
+
+    private getUIDefaultValue(inf: IMetaResult): { is: string, value: string } {
+        /// handle uiDefault
+        let def = (inf.attrs || {})[uiDefault];
+        const defRegex = /^\(/;
+        let value = def;
+        if (defRegex.test(def)) {
+            /// lambda function case
+            value = (function(value, all) {
+                return eval(def)(value, all);
+            }).call(parent, undefined, this.bindAttrs());
+        }
+        return {
+            is: value[0] === "<" ? "iv-cell-html-string" : "iv-cell-string",
+            value
+        }
     }
 
     private bindAttrs() {
