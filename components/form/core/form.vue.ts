@@ -20,6 +20,8 @@ const uiInvalidMessage = "uiInvalidMessage";
 const uiColumnGroup = "uiColumnGroup"; /// custom element supported
 /// will return array
 const uiMultiple = "uiMultiple";
+/// text string or lambda function (return any type)
+const uiDefault = "uiDefault";
 
 /// For Convenience - use for conditionally uiType switch
 const UI_TYPE_DEFAULT = "default";
@@ -150,7 +152,7 @@ export class Form extends Vue {
         (this.$observables.result as any).next(obj);
     }
 
-    /// reset button
+    /// reset button / initial innateValue
     private restore(value?) {
         value = value || this.value;
         /// clean
@@ -165,7 +167,29 @@ export class Form extends Vue {
                     /// handle iv-form-multiple
                     if (this.getIsMultiple(inf)) Vue.set(this.innateValue, inf.name, undefined);
                     else Vue.set(this.innateValue, inf.name, {});
-                } else Vue.set(this.innateValue, inf.name, undefined);
+                } else {
+                    /// handle uiDefault
+                    let def = (inf.attrs || {})[uiDefault];
+                    if (def) {
+                        const defRegex = /^\(/;
+                        if (defRegex.test(def)) {
+                            /// lambda function case
+                            Vue.set(this.innateValue, inf.name,
+                                (function(value, all) {
+                                    return eval(def)(value, all);
+                                }).call(parent, undefined, this.innateValue)
+                                );
+
+                        } else {
+                            /// string case
+                            Vue.set(this.innateValue, inf.name, def);
+                        }
+
+                    } else {
+                        /// otherwise, set undefined
+                        Vue.set(this.innateValue, inf.name, undefined);
+                    }
+                }
             }
         }
         this.resetState();
