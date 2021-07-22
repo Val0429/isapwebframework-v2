@@ -22,6 +22,7 @@ declare module 'vue/types/vue' {
 interface IInfoServer {
     name: string;
     version: string;
+    copyright: string;
 }
 
 interface IInfoWeb {
@@ -37,7 +38,8 @@ interface IInfo {
 const info: IInfo = {
     server: {
         name: null,
-        version: null
+        version: null,
+        copyright: null
     },
     web: {
         name: data.name,
@@ -73,7 +75,8 @@ export const InfoPlugin = {
                         ...info,
                         server: {
                             name: apis.serverName,
-                            version: apis.serverVersion
+                            version: apis.serverVersion,
+                            copyright: apis.copyright
                         }
                     });
                 } finally {
