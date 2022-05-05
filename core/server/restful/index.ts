@@ -365,7 +365,6 @@ export class iSAPServerBase<T extends ApisRequestBase, W extends IiSAPServerBase
         /// resolve cache
         let promise: Promise<V> = this.getCache(spec, key as string, data);
         if (promise) return promise;
-
         promise = new Promise<V>((resolve, reject) => {
             request(
                 {

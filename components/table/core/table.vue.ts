@@ -4,7 +4,7 @@
  * Copyright (c) 2019, iSAP Solution
  */
 
-import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult, IInputSortingBaseUnit, ESort } from "@/../core";
+import { Vue, Component, Prop, Watch, Mixins, Emit, iSAPServerBase, MetaParser, IMetaResult, IInputSortingBaseUnit, ESort, ObjectHelper } from "@/../core";
 import { Observable, Subject, BehaviorSubject, Subscription } from 'rxjs';
 import lang from '@/../core/i18n';
 import { IServer } from 'components/interfaces';
@@ -214,9 +214,9 @@ export class Table extends Vue {
     }
 
     /// params watcher
-    @Watch('params', {immediate: true})
+    @Watch('params', {immediate: false})
     private async onParamsChanged(value: any, oldValue: any) {
-        if (value) {
+        if (value && !ObjectHelper.equals(value, oldValue)) {
             /// params change will refresh data from server
             this.fetchGetResult();
         }

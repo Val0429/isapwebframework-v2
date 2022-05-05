@@ -86,7 +86,7 @@ export class FormSelection extends Vue {
     private headElement: HTMLHeadElement;
     private styleElement: HTMLStyleElement;
     private doUnmount() {
-        this.headElement.removeChild(this.styleElement);
+        this.headElement && this.headElement.removeChild(this.styleElement);
     }
     private doMount(data?: FormSelectionOption[]) {
         let me = $(`#${this.id}`) as any;
