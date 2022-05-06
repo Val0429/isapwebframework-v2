@@ -50,5 +50,6 @@ module.exports = {
         open: config.autoOpen,
         https: config.https,
         historyApiFallback: config.historyApiFallback,
+        disableHostCheck: true,
     },
 };
