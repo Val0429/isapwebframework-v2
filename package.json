@@ -13,6 +13,8 @@
     "@coreui/coreui": "2.1.4",
     "@coreui/vue": "2.1.2",
     "@valuis0429/rotate-exi-image": "^1.0.0",
+    "@valuis0429/vue-coreui-blue": "^1.0.8",
+    "@valuis0429/vue-coreui-white": "^1.0.7",
     "bootstrap": "4.3.1",
     "bootstrap-vue": "2.7.0",
     "core-js": "2.6.5",
