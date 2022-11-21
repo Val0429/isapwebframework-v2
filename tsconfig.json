@@ -13,6 +13,7 @@
     "sourceMap": true,
     "strictNullChecks": false,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "types": [
       "webpack-env"

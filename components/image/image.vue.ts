@@ -7,7 +7,7 @@
 import { Vue, Component, Prop, Model, Watch } from "vue-property-decorator";
 
 // Core
-import { generateEXIFrontImage } from "@/../core/utilities";
+import { generateEXIFrontImage } from "@valuis0429/rotate-exi-image";
 
 @Component
 export class IVImage extends Vue {

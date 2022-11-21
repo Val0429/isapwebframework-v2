@@ -163,10 +163,13 @@ export class Form extends Vue {
         /// initialize key/value
         for (let inf of this.parsedInterface) {
             if (this.innateValue[inf.name] === undefined) {
-                if (inf.type instanceof MetaParser) {
-                    /// handle iv-form-multiple
-                    if (this.getIsMultiple(inf)) Vue.set(this.innateValue, inf.name, undefined);
-                    else Vue.set(this.innateValue, inf.name, {});
+                // if (inf.type instanceof MetaParser) {
+                //     /// handle iv-form-multiple
+                //     if (this.getIsMultiple(inf)) Vue.set(this.innateValue, inf.name, undefined);
+                //     else Vue.set(this.innateValue, inf.name, {});
+                // } else {
+                if (inf.type instanceof MetaParser && !this.getIsMultiple(inf)) {
+                    Vue.set(this.innateValue, inf.name, {});
                 } else {
                     /// handle uiDefault
                     let def = (inf.attrs || {})[uiDefault];

@@ -126,6 +126,13 @@ export class Table extends Vue {
     // }
     /// fetched result
     result: IGetResult = { paging: {page:0, pageSize:0, total: 0, totalPages: 0}, results: [] };
+    @Emit('update:result')
+    doUpdateResult(value: IGetResult) {
+        this.result = value;
+        return value;
+    }
+
+
     private subscription: Subscription;
     private destroyed() {
         this.subscription && this.subscription.unsubscribe();
@@ -184,7 +191,7 @@ export class Table extends Vue {
     @Watch('data', {immediate: true})
     private onDataChanged(value: IGetResult) {
         if (!value) return;
-        this.result = value;
+        this.doUpdateResult(value);
     }
 
     /// page watcher
@@ -278,7 +285,7 @@ export class Table extends Vue {
                 },
                 ...(this.params || {})
             }) as any;
-            this.result = result;
+            this.doUpdateResult(result);
         } catch(e) { throw e }
         finally { this.fetching = false; }
     }

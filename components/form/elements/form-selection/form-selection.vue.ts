@@ -16,6 +16,7 @@ interface FormSelectionOption {
 
 export interface IFormSelection {
     "always-array"?: boolean;
+    "allow-clear"?: boolean;
 }
 
 @Component
@@ -112,7 +113,7 @@ export class FormSelection extends Vue {
         let element = me.select2({
             theme: "bootstrap",
             placeholder: this.placeholder || this._("mb_PleaseSelect"),
-            allowClear: this.multiple ? false : true,
+            allowClear: this.multiple ? false : !this.data["allow-clear"] ? false : true,
             dropdownParent: !this.modalParent ? null : $(this.modalParent.$el),
             language: {
                 noResults: () => this._("mb_FormSelectionNoResult")
