@@ -31,7 +31,8 @@ $animation-duration: .5s;
     }
     .direction-slide-first-leave-active,
     .direction-slide-second-leave-active {
-        position: fixed !important;
+        /// Val: todo check the possibility
+        position: sticky !important;
         pointer-events: none;
     }
     .direction-slide-first-enter {
