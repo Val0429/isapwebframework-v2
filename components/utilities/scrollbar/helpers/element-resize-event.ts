@@ -7,7 +7,7 @@ export function elementResizeEvents(element, fn) {
     }
   
     var requestFrame = (function() {
-        var raf = window.requestAnimationFrame || (window as any).mozRequestAnimationFrame || window.webkitRequestAnimationFrame || function(fn) {
+        var raf = window.requestAnimationFrame || (window as any).mozRequestAnimationFrame || (window as any).webkitRequestAnimationFrame || function(fn) {
             return window.setTimeout(fn, 20);
         };
         return function(fn) {
@@ -16,7 +16,7 @@ export function elementResizeEvents(element, fn) {
     })();
   
     var cancelFrame = (function() {
-        var cancel = window.cancelAnimationFrame || (window as any).mozCancelAnimationFrame || window.webkitCancelAnimationFrame ||
+        var cancel = window.cancelAnimationFrame || (window as any).mozCancelAnimationFrame || (window as any).webkitCancelAnimationFrame ||
             window.clearTimeout;
         return function(id) {
             return cancel(id);

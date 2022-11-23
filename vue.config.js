@@ -4,6 +4,7 @@ let CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
 
 module.exports = {
+    publicPath: "/",
     pages: {
         index: {
             entry: 'main.ts',
