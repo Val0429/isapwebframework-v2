@@ -34,15 +34,15 @@ i:not(:last-child) {
 .icon-sm {
     font-size: 0.76563rem;
 }
-.with-icon-lg::after {
+.has-content.with-icon-lg::after {
     content: "";
     margin-left: 0.4rem;
 }
-.with-icon-md::after {
+.has-content.with-icon-md::after {
     content: "";
     margin-left: 0.3rem;
 }
-.with-icon-sm::after {
+.has-content.with-icon-sm::after {
     content: "";
     margin-left: 0.2rem;
 }

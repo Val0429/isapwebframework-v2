@@ -39,8 +39,15 @@ export class Button extends Vue {
 
     /// private helper
     private get classWithIcon() {
-        if (!this.icon) return "";
-        return `with-icon-${this.size}`;
+        let classes = [];
+        do {
+            if (!this.icon) break;
+            classes.push( `with-icon-${this.size}` );
+            if (this.$slots.default || this.label) {
+                classes.push("has-content");
+            }
+        } while(0);
+        return classes.join(" ");
     }
 }
 export default Button;

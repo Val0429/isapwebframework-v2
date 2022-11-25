@@ -16,7 +16,7 @@
     "@valuis0429/vue-coreui-blue": "^1.0.8",
     "@valuis0429/vue-coreui-white": "^1.0.7",
     "bootstrap": "4.3.1",
-    "bootstrap-vue": "2.7.0",
+    "bootstrap-vue": "^2.23.0",
     "core-js": "2.6.5",
     "font-awesome": "4.7.0",
     "isomorphic-ws": "4.0.1",
