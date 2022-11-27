@@ -61,7 +61,7 @@ export class Form extends Vue {
 
     /// united emitter
     @Emit("submit")
-    private doSubmit() {
+    public doSubmit() {
         return this.getResult();
     }
 

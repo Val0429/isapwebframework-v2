@@ -124,7 +124,8 @@ export class FormSelection extends Vue {
         .on('select2:unselecting', () => me.data('unselecting', true))
         .on('select2:opening', (e) => { if (me.data('unselecting')) { me.removeData('unselecting'); e.preventDefault(); } });
 
-        element.data('select2').$dropdown.addClass(this.popupclass);
+        let elesel2 = element.data('select2');
+        if (elesel2) elesel2.$dropdown.addClass(this.popupclass);
     }
     private doOnChange() {
         let me = $(`#${this.id}`) as any;

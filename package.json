@@ -15,6 +15,7 @@
     "@valuis0429/rotate-exi-image": "^1.0.0",
     "@valuis0429/vue-coreui-blue": "^1.0.8",
     "@valuis0429/vue-coreui-white": "^1.0.7",
+    "@valuis0429/vue-rx": "^10.0.0",
     "bootstrap": "4.3.1",
     "bootstrap-vue": "^2.23.0",
     "core-js": "2.6.5",
@@ -35,7 +36,6 @@
     "vue-perfect-scrollbar": "0.1.0",
     "vue-property-decorator": "8.1.0",
     "vue-router": "3.0.3",
-    "vue-rx": "6.2.0",
     "vuedraggable": "^2.23.0"
   },
   "devDependencies": {

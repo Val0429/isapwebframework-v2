@@ -25,7 +25,7 @@ import "@/components";
 
 /// plugins /////////////////////////////////
 /// install vuerx support
-import VueRx from 'vue-rx';
+import VueRx from '@valuis0429/vue-rx';
 Vue.use(VueRx);
 
 /// install theme support
@@ -72,10 +72,15 @@ Vue.use(BootstrapVue);
 import '@/../core/private/shells';
 /////////////////////////////////////////////
 
+/// install global support //////////////////
+import { GlobalPlugin } from '@/config/default/global';
+Vue.use(GlobalPlugin);
+/////////////////////////////////////////////
 
 import '@/main';
 /// make sure `views` are imported for route
 import '@/views';
+
 
 /// load config
 import MainApp from '@/../core/private/main-app/index.vue';

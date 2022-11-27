@@ -28,6 +28,6 @@ export default class Icon extends Vue {
 
     /// private helper
     private get classIcon() {
-        return `${generateIcon(this.icon)} icon-${this.size} ${this.variant}-yiq`;
+        return `d-inline-block ${generateIcon(this.icon)} icon-${this.size} ${this.variant}`;
     }
 }

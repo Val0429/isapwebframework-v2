@@ -83,5 +83,15 @@ export namespace ObjectHelper {
         }
         delete val[lastKey];
     }
+
+    export function ObjectVueEmpty(o: object | object[]): boolean {
+        if (Array.isArray(o)) {
+            for (let v of o) {
+                if (ObjectVueEmpty(v)) return true;
+            }
+            return false;
+        }
+        return Object.entries(o).length === 0;
+    }
 }
 
