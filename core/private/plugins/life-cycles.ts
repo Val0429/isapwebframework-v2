@@ -13,10 +13,13 @@ export const LifeCyclesPlugin = {
 
         Vue.mixin({
             created() {
-                this.$emit('created', true);
+                this.$emit('created', this);
             },
             mounted() {
-                this.$emit('mounted', true);
+                this.$emit('mounted', this);
+            },
+            unmounted() {
+                this.$emit('unmounted', this);
             }
         })
     }

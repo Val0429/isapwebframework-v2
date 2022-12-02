@@ -1,5 +1,5 @@
 <template>
-    <i v-bind="{ ...$attrs }" :class="classIcon" />
+    <i v-bind="{ ...$attrs }" :class="classIcon" @click="click" />
 </template>
 
 

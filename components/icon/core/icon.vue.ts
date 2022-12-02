@@ -26,6 +26,9 @@ export default class Icon extends Vue {
     @Prop({ type: String, required: false })
     icon: string;
 
+    @Emit()
+    private click(e) { return e; }
+
     /// private helper
     private get classIcon() {
         return `d-inline-block ${generateIcon(this.icon)} icon-${this.size} ${this.variant}`;
