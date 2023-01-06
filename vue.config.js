@@ -47,6 +47,7 @@ module.exports = {
         },
     },
     devServer: {
+        host: "localhost",
         port: config.port,
         open: config.autoOpen,
         https: config.https,
